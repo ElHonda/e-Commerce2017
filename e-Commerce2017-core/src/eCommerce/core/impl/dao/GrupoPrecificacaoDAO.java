@@ -11,36 +11,43 @@ import java.util.List;
 import java.util.Map;
 
 import eCommerce.core.utils.SqlBuilder;
-import eCommerce.dominio.Editora;
 import eCommerce.dominio.EntidadeDominio;
+import eCommerce.dominio.GrupoPrecificacao;
 
-public class EditoraDAO extends AbstractJdbcDAO {
+public class GrupoPrecificacaoDAO extends AbstractJdbcDAO {
+
 	
-	public EditoraDAO(){
-		super("tb_editora");
+	public GrupoPrecificacaoDAO(){
+		super("tb_grupopreco");
 	}
 
-	public EditoraDAO(Connection conexao ){
-		super(conexao, "tb_editora");
+	public GrupoPrecificacaoDAO(Connection conexao ){
+		super(conexao, "tb_grupopreco");
 	}
 	
 	@Override
+	public void initColumns() {
+		addColunas( "descricao"   );
+		addColunas( "margemlucro" );
+	}
+
+	@Override
 	public void salvar_pre(EntidadeDominio entidade) throws SQLException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
 		
-		Editora editora = (Editora)entidade;
+		GrupoPrecificacao grupo = (GrupoPrecificacao)entidade;
 		SqlBuilder sb = new SqlBuilder(this.table, colunas);
 	    Map<Integer,Object> hsWhere = new HashMap<Integer,Object>();
 		Integer lni = 1;
@@ -48,16 +55,16 @@ public class EditoraDAO extends AbstractJdbcDAO {
 		try {
 			openConnection();
 			
-		    if ( editora != null ){
-		    	if ( editora.getId() != null && editora.getId() > 0 ) {
+		    if ( grupo != null ){
+		    	if ( grupo.getId() != null && grupo.getId() > 0 ) {
 		    		sb.addWhere("id = ?" );
-		    		hsWhere.put(lni, editora.getId());
+		    		hsWhere.put(lni, grupo.getId());
 		    		lni++;
 		    	}
 		    	
-		    	if ( editora.getNome() != null && editora.getNome().length() > 0 ) {
-		    		sb.addWhere("nome = ?");
-		    		hsWhere.put(lni, "%" + editora.getNome() + "%");
+		    	if ( grupo.getDescricao() != null && grupo.getDescricao().length() > 0 ) {
+		    		sb.addWhere("descricao = ?");
+		    		hsWhere.put(lni, "%" + grupo.getDescricao() + "%");
 		    		lni++;
 		    	}
 			}
@@ -70,31 +77,34 @@ public class EditoraDAO extends AbstractJdbcDAO {
 		    }
 			
 			ResultSet rs = pst.executeQuery();
-			List<EntidadeDominio> editoras = new ArrayList<EntidadeDominio>();
+			List<EntidadeDominio> grupos = new ArrayList<EntidadeDominio>();
 			while (rs.next()) {
-				Editora e = new Editora();
-				e.setId(rs.getInt("id"));
-				e.setNome(rs.getString("nome"));
+				GrupoPrecificacao g = new GrupoPrecificacao();
+				g.setId(rs.getInt("id"));
+				g.setDescricao(rs.getString("descricao"));
+				g.setMargemLucro(rs.getDouble("margemlucro"));
 				
 				java.sql.Date dtCadastroEmLong = rs.getDate("dtcadastro");
 				if( dtCadastroEmLong != null ) {
 					Date dtCadastro = new Date(dtCadastroEmLong.getTime());				
-					e.setDtCadastro(dtCadastro);
+					g.setDtCadastro(dtCadastro);
 				}
-				editoras.add(e);
+				grupos.add(g);
 			}
-			return editoras;
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+			return grupos;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
 
 	@Override
 	public Integer setPreparedStatement(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
-		Editora e = (Editora)entidade;
+		GrupoPrecificacao g = (GrupoPrecificacao)entidade;
 		try {
-			pst.setString(nPst, e.getNome());
+			pst.setString(nPst, g.getDescricao());
+			nPst++;
+			pst.setDouble(nPst, g.getMargemLucro() );
 			nPst++;
 		} catch (SQLException x) {
 			// TODO Auto-generated catch block
@@ -103,16 +113,11 @@ public class EditoraDAO extends AbstractJdbcDAO {
 		return nPst;
 	}
 
-
 	@Override
 	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
-		return nPst;
-	}
-
-	@Override
-	public void initColumns() {
 		// TODO Auto-generated method stub
-		addColunas( 0 , "nome" );
+		return null;
 	}
+	
 
 }

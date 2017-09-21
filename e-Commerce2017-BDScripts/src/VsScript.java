@@ -12,10 +12,11 @@ public class VsScript {
 
 		// Sempre adicionar script abaixo do último para não dar problema na execução
 		// O índice da lista será tratado como versão do banco.
-		lista.add( new TbAutor()	 );
-		lista.add( new TbCategoria() );
-		lista.add( new TbDimensao()  );
-		lista.add( new TbEditora()    );
+		lista.add( new TbAutor()	 		 );
+		lista.add( new TbCategoria() 		 );
+		lista.add( new TbDimensao() 		 );
+		lista.add( new TbEditora()   	 	 );
+		lista.add( new TbGrupoPrecificacao() );
 		
 		Connection conn= null ;
 		try {

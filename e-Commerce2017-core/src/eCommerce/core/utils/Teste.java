@@ -2,25 +2,21 @@ package eCommerce.core.utils;
 
 import java.sql.SQLException;
 
-import eCommerce.core.impl.dao.DimensaoDAO;
+import eCommerce.core.impl.dao.GrupoPrecificacaoDAO;
 import eCommerce.dominio.Autor;
-import eCommerce.dominio.Dimensao;
+import eCommerce.dominio.GrupoPrecificacao;
 
 public class Teste {
 	public static void main(String[] args) throws SQLException {
-		Dimensao d = new Dimensao();
-		DimensaoDAO dDAO = new DimensaoDAO();
+		GrupoPrecificacao gp = new GrupoPrecificacao();
+		GrupoPrecificacaoDAO dDAO = new GrupoPrecificacaoDAO();
 		
-		Autor a = new Autor();
-		a.setId(15);
+		gp.setDescricao("TESTE");
+		gp.setMargemLucro(15.20);
 		
-		d.setAltura(1.75);
-		d.setLargura(2.21);
-		d.setPeso(2.50);
-		d.setProfundidade(0.50);
-		d.setDimensionavel(a);
+
 		try {
-			dDAO.salvar(d);
+			dDAO.salvar(gp);
 			
 			System.out.println("CERTO");
 		} catch (Exception c) {
