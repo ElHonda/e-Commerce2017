@@ -11,6 +11,8 @@ public class TbDimensao implements IScript{
 				+ " largura numeric(12,4),\n"
 				+ " peso numeric(12,4),\n"
 				+ " profundidade numeric(12,4),\n"
+				+ " dimensionavel_id integer,\n"
+				+ " dimensionavel_class varchar(50),\n"
 				+ " dtcadastro date\n"
 				+ ")";
 

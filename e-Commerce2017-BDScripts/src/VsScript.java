@@ -15,6 +15,7 @@ public class VsScript {
 		lista.add( new TbAutor()	 );
 		lista.add( new TbCategoria() );
 		lista.add( new TbDimensao()  );
+		lista.add( new TbEditora()   );
 		
 		Connection conn= null ;
 		try {
