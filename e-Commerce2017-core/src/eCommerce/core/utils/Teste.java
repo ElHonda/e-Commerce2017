@@ -2,20 +2,28 @@ package eCommerce.core.utils;
 
 import java.sql.SQLException;
 
-import eCommerce.core.impl.dao.CategoriaDAO;
-import eCommerce.dominio.Categoria;
+import eCommerce.core.impl.dao.DimensaoDAO;
+import eCommerce.dominio.Autor;
+import eCommerce.dominio.Dimensao;
 
 public class Teste {
 	public static void main(String[] args) throws SQLException {
-		Categoria c = new Categoria();
-		CategoriaDAO cDAO = new CategoriaDAO();
+		Dimensao d = new Dimensao();
+		DimensaoDAO dDAO = new DimensaoDAO();
 		
-		c.setDescricao("TESTE DE CATEGORIA");
+		Autor a = new Autor();
+		a.setId(15);
+		
+		d.setAltura(1.75);
+		d.setLargura(2.21);
+		d.setPeso(2.50);
+		d.setProfundidade(0.50);
+		d.setDimensionavel(a);
 		try {
-			cDAO.salvar(c);
+			dDAO.salvar(d);
 			
 			System.out.println("CERTO");
-		} catch (Exception e) {
+		} catch (Exception c) {
 			// TODO: handle exception
 			System.out.println("DEU ERRO");
 		}
