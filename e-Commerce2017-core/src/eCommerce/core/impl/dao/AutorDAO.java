@@ -26,14 +26,10 @@ public class AutorDAO extends AbstractJdbcDAO {
 	
 	@Override
 	public void salvar_pre(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -106,7 +102,6 @@ public class AutorDAO extends AbstractJdbcDAO {
 			pst.setString(nPst, a.getSobrenome());
 			nPst++;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return nPst;
@@ -120,7 +115,6 @@ public class AutorDAO extends AbstractJdbcDAO {
 
 	@Override
 	public void initColumns() {
-		// TODO Auto-generated method stub
 		addColunas( 0 , "nome"      );
 		addColunas( 1 , "sobrenome" );
 	}

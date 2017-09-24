@@ -26,7 +26,6 @@ public class VsProject {
 				pst = conn.prepareStatement(str);
 				pst.executeUpdate();
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -48,7 +47,6 @@ public class VsProject {
 			pst.executeUpdate();
 			retorno = version;
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		return retorno;

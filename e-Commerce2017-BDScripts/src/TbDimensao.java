@@ -3,7 +3,6 @@ public class TbDimensao implements IScript{
 
 	@Override
 	public String getScript() {
-		// TODO Auto-generated method stub
 		String str = "CREATE TABLE tb_dimensao\n"
 				+ "(\n"
 				+ " id serial not null primary key,\n"

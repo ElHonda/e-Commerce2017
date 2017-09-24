@@ -3,7 +3,6 @@ package eCommerce.core.utils;
 import java.sql.SQLException;
 
 import eCommerce.core.impl.dao.GrupoPrecificacaoDAO;
-import eCommerce.dominio.Autor;
 import eCommerce.dominio.GrupoPrecificacao;
 
 public class Teste {
@@ -20,7 +19,6 @@ public class Teste {
 			
 			System.out.println("CERTO");
 		} catch (Exception c) {
-			// TODO: handle exception
 			System.out.println("DEU ERRO");
 		}
 		
@@ -40,22 +38,16 @@ public class Teste {
 			
 			System.out.println(retorno.toString());
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}*/
 		

@@ -27,20 +27,15 @@ public class CategoriaDAO extends AbstractJdbcDAO{
 	
 	@Override
 	public void initColumns() {
-		// TODO Auto-generated method stub
 		addColunas( 0 , "descricao" );
 	}
 
 	@Override
-	public void salvar_pre(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
-		
+	public void salvar_pre(EntidadeDominio entidade) throws SQLException {	
 	}
 
 	@Override
-	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
-		
+	public void salvar_pos(EntidadeDominio entidade) throws SQLException {		
 	}
 
 	@Override
@@ -111,7 +106,6 @@ public class CategoriaDAO extends AbstractJdbcDAO{
 
 	@Override
 	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
-		// TODO Auto-generated method stub
 		return nPst;
 	}
 

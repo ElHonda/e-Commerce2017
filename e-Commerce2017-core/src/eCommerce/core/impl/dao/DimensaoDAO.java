@@ -28,7 +28,6 @@ public class DimensaoDAO extends AbstractJdbcDAO{
 	
 	@Override
 	public void initColumns() {
-		// TODO Auto-generated method stub
 		addColunas("altura"				 );
 		addColunas("largura"			 );
 		addColunas("peso"				 );
@@ -39,14 +38,10 @@ public class DimensaoDAO extends AbstractJdbcDAO{
 
 	@Override
 	public void salvar_pre(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -130,7 +125,6 @@ public class DimensaoDAO extends AbstractJdbcDAO{
 			pst.setString(nPst, dimensao.getDimensionavel().getClass().getName() );
 			nPst++;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		};
 		return nPst;
@@ -138,7 +132,6 @@ public class DimensaoDAO extends AbstractJdbcDAO{
 
 	@Override
 	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
-		// TODO Auto-generated method stub
 		return nPst;
 	}
 

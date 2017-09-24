@@ -33,14 +33,10 @@ public class GrupoPrecificacaoDAO extends AbstractJdbcDAO {
 
 	@Override
 	public void salvar_pre(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -107,7 +103,6 @@ public class GrupoPrecificacaoDAO extends AbstractJdbcDAO {
 			pst.setDouble(nPst, g.getMargemLucro() );
 			nPst++;
 		} catch (SQLException x) {
-			// TODO Auto-generated catch block
 			x.printStackTrace();
 		}
 		return nPst;
@@ -115,7 +110,6 @@ public class GrupoPrecificacaoDAO extends AbstractJdbcDAO {
 
 	@Override
 	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

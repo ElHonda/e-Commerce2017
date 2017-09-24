@@ -235,7 +235,6 @@ public abstract class AbstractJdbcDAO implements IDAO{
 				pst.setTimestamp(nPst, time);
 				nPst++;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
