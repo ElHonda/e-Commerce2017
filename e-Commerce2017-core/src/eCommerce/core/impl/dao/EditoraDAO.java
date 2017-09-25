@@ -109,4 +109,46 @@ public class EditoraDAO extends AbstractJdbcDAO {
 		addColunas( 0 , "nome" );
 	}
 
+	@Override
+	public EntidadeDominio consulta_id(EntidadeDominio entidade) throws SQLException {
+		PreparedStatement pst = null;
+		
+		Editora editora = (Editora)entidade;
+		SqlBuilder sb = new SqlBuilder(this.table, colunas);
+	    Map<Integer,Object> hsWhere = new HashMap<Integer,Object>();
+		Integer lni = 1;
+
+		try {
+			openConnection();
+			
+    		sb.addWhere("id = ?" );
+    		hsWhere.put(lni, editora.getId());
+    		lni++;
+	    
+			pst = connection.prepareStatement(sb.getQuery(null));
+		
+		    for (Map.Entry<Integer, Object> entry : hsWhere.entrySet())
+		    {
+		    	pst.setObject(entry.getKey(), entry.getValue());
+		    }
+			
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				Editora e = new Editora();
+				e.setId(rs.getInt("id"));
+				e.setNome(rs.getString("nome"));
+				
+				java.sql.Date dtCadastroEmLong = rs.getDate("dtcadastro");
+				if( dtCadastroEmLong != null ) {
+					Date dtCadastro = new Date(dtCadastroEmLong.getTime());				
+					e.setDtCadastro(dtCadastro);
+				}
+				return e;
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		return null;
+	}
+
 }

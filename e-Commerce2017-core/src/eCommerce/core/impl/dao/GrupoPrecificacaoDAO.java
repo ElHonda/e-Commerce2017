@@ -112,6 +112,48 @@ public class GrupoPrecificacaoDAO extends AbstractJdbcDAO {
 	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
 		return null;
 	}
-	
+
+	@Override
+	public EntidadeDominio consulta_id(EntidadeDominio entidade) throws SQLException {
+		PreparedStatement pst = null;
+		
+		GrupoPrecificacao grupo = (GrupoPrecificacao)entidade;
+		SqlBuilder sb = new SqlBuilder(this.table, colunas);
+	    Map<Integer,Object> hsWhere = new HashMap<Integer,Object>();
+		Integer lni = 1;
+
+		try {
+			openConnection();
+
+    		sb.addWhere("id = ?" );
+    		hsWhere.put(lni, grupo.getId());
+    		lni++;
+
+			pst = connection.prepareStatement(sb.getQuery(null));
+		
+		    for (Map.Entry<Integer, Object> entry : hsWhere.entrySet())
+		    {
+		    	pst.setObject(entry.getKey(), entry.getValue());
+		    }
+			
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				GrupoPrecificacao g = new GrupoPrecificacao();
+				g.setId(rs.getInt("id"));
+				g.setDescricao(rs.getString("descricao"));
+				g.setMargemLucro(rs.getDouble("margemlucro"));
+				
+				java.sql.Date dtCadastroEmLong = rs.getDate("dtcadastro");
+				if( dtCadastroEmLong != null ) {
+					Date dtCadastro = new Date(dtCadastroEmLong.getTime());				
+					g.setDtCadastro(dtCadastro);
+				}
+				return g;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

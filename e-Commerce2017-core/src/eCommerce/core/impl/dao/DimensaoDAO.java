@@ -135,4 +135,53 @@ public class DimensaoDAO extends AbstractJdbcDAO{
 		return nPst;
 	}
 
+	@Override
+	public EntidadeDominio consulta_id(EntidadeDominio entidade) throws SQLException {
+		PreparedStatement pst = null;
+		Dimensao dimensao = (Dimensao)entidade;
+		SqlBuilder sb = new SqlBuilder(this.table, colunas);
+	    Map<Integer,Object> hsWhere = new HashMap<Integer,Object>();
+		Integer lni = 1;
+
+		try {
+			openConnection();
+			
+    		sb.addWhere("id = ?" );
+    		hsWhere.put(lni, dimensao.getId());
+    		lni++;
+
+			pst = connection.prepareStatement(sb.getQuery(null));
+		
+		    for (Map.Entry<Integer, Object> entry : hsWhere.entrySet())
+		    {
+		    	pst.setObject(entry.getKey(), entry.getValue());
+		    }
+			
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				Dimensao d = new Dimensao();
+				d.setId(rs.getInt("id"));
+				d.setAltura(rs.getDouble("altura"));
+				d.setLargura(rs.getDouble("largura"));
+				d.setPeso(rs.getDouble("peso"));
+				d.setProfundidade(rs.getDouble("profundidade"));
+
+			    EntidadeDominio entity = (EntidadeDominio)Class.forName(rs.getString("dimensionavel_class")).newInstance();
+			    entity.setId(rs.getInt("dimensionavel_id"));
+			    
+			    d.setDimensionavel(entity);
+				java.sql.Date dtCadastroEmLong = rs.getDate("dtcadastro");
+				if( dtCadastroEmLong != null ) {
+					Date dtCadastro = new Date(dtCadastroEmLong.getTime());				
+					d.setDtCadastro(dtCadastro);
+				}
+
+				return d;
+			}
+		} catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

@@ -109,4 +109,46 @@ public class CategoriaDAO extends AbstractJdbcDAO{
 		return nPst;
 	}
 
+	@Override
+	public EntidadeDominio consulta_id(EntidadeDominio entidade) throws SQLException {
+		PreparedStatement pst = null;
+		
+		Categoria categoria = (Categoria)entidade;
+		SqlBuilder sb = new SqlBuilder(this.table, colunas);
+	    Map<Integer,Object> hsWhere = new HashMap<Integer,Object>();
+		Integer lni = 1;
+
+		try {
+			openConnection();
+
+    		sb.addWhere("id = ?" );
+    		hsWhere.put(lni, categoria.getId());
+    		lni++;
+
+			pst = connection.prepareStatement(sb.getQuery(null));
+		
+		    for (Map.Entry<Integer, Object> entry : hsWhere.entrySet())
+		    {
+		    	pst.setObject(entry.getKey(), entry.getValue());
+		    }
+			
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				Categoria c = new Categoria();
+				c.setId(rs.getInt("id"));
+				c.setDescricao(rs.getString("descricao"));
+				
+				java.sql.Date dtCadastroEmLong = rs.getDate("dtcadastro");
+				if( dtCadastroEmLong != null ) {
+					Date dtCadastro = new Date(dtCadastroEmLong.getTime());				
+					c.setDtCadastro(dtCadastro);
+				}
+				return c;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

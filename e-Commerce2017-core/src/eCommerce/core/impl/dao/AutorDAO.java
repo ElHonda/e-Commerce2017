@@ -119,4 +119,47 @@ public class AutorDAO extends AbstractJdbcDAO {
 		addColunas( 1 , "sobrenome" );
 	}
 
+	@Override
+	public EntidadeDominio consulta_id(EntidadeDominio entidade) throws SQLException {
+		PreparedStatement pst = null;
+		
+		Autor autor = (Autor)entidade;
+		SqlBuilder sb = new SqlBuilder(this.table, colunas);
+	    Map<Integer,Object> hsWhere = new HashMap<Integer,Object>();
+		Integer lni = 1;
+
+		try {
+			openConnection();
+
+    		sb.addWhere("id = ?" );
+    		hsWhere.put(lni, autor.getId());
+    		lni++;
+	    
+			pst = connection.prepareStatement(sb.getQuery(null));
+		
+		    for (Map.Entry<Integer, Object> entry : hsWhere.entrySet())
+		    {
+		    	pst.setObject(entry.getKey(), entry.getValue());
+		    }
+			
+			ResultSet rs = pst.executeQuery();
+			while (rs.next()) {
+				Autor a = new Autor();
+				a.setId(rs.getInt("id"));
+				a.setNome(rs.getString("nome"));
+				a.setSobrenome(rs.getString("sobrenome"));
+				
+				java.sql.Date dtCadastroEmLong = rs.getDate("dtcadastro");
+				if( dtCadastroEmLong != null ) {
+					Date dtCadastro = new Date(dtCadastroEmLong.getTime());				
+					a.setDtCadastro(dtCadastro);
+				}
+				return a;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
