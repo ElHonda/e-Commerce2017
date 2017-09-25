@@ -14,7 +14,7 @@ public class Livro extends EntidadeDominio {
 	private String sinopse;
 	private Dimensao dimensao;
 	private List<Categoria> categorias;
-	private List<Categoria> subcategorias;
+	private List<SubCategoria> subcategorias;
 
 	public Autor getAutor() {
 		return autor;
@@ -33,11 +33,11 @@ public class Livro extends EntidadeDominio {
 	public void setCategorias(List<Categoria> categorias) {
 		this.categorias = categorias;
 	}
-	public List<Categoria> getSubcategorias() {
+	public List<SubCategoria> getSubcategorias() {
 		return subcategorias;
 	}
 	
-	public void setSubcategorias(List<Categoria> subcategorias) {
+	public void setSubcategorias(List<SubCategoria> subcategorias) {
 		this.subcategorias = subcategorias;
 	}
 	public Integer getAno() {

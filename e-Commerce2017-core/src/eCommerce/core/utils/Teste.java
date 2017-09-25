@@ -2,22 +2,24 @@ package eCommerce.core.utils;
 
 import java.sql.SQLException;
 
-import eCommerce.core.impl.dao.GrupoPrecificacaoDAO;
-import eCommerce.dominio.GrupoPrecificacao;
+import eCommerce.core.impl.dao.SubCategoriaDAO;
+import eCommerce.dominio.EntidadeDominio;
+import eCommerce.dominio.SubCategoria;
 
 public class Teste {
 	public static void main(String[] args) throws SQLException {
-		GrupoPrecificacao gp = new GrupoPrecificacao();
-		GrupoPrecificacaoDAO dDAO = new GrupoPrecificacaoDAO();
+		SubCategoria sc = new SubCategoria();
+		SubCategoriaDAO dDAO = new SubCategoriaDAO();
 		
-		gp.setDescricao("TESTE");
-		gp.setMargemLucro(15.20);
+		sc.setId(2);
 		
 
 		try {
-			dDAO.salvar(gp);
+			for( EntidadeDominio ed : dDAO.consultar(sc) ) {
+				SubCategoria sub = (SubCategoria)ed;
+				System.out.println(	sub.getDescricao());
+			}
 			
-			System.out.println("CERTO");
 		} catch (Exception c) {
 			System.out.println("DEU ERRO");
 		}
