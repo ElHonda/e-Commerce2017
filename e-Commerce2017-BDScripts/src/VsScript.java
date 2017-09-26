@@ -18,6 +18,9 @@ public class VsScript {
 		lista.add( new TbEditora()   	 	 );
 		lista.add( new TbGrupoPrecificacao() );
 		lista.add( new TbSubCategoria()      );
+		lista.add( new TbLivroCategoria()    );
+		lista.add( new TbLivroSubCategoria() );
+		lista.add( new TbLivro() 			 );
 		
 		Connection conn= null ;
 		try {

@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Livro extends EntidadeDominio {
-	private Autor autor;
 	private Integer ano;
 	private String titulo;
 	private String edicao;
-	private Editora editora;
 	private String isbn;
-	private Integer numeroPaginas;
 	private String sinopse;
+	private Integer numeroPaginas;
+
+	private Autor autor;
+	private Editora editora;
 	private Dimensao dimensao;
 	private List<Categoria> categorias;
 	private List<SubCategoria> subcategorias;
@@ -21,6 +22,11 @@ public class Livro extends EntidadeDominio {
 	}
 	public void setAutor(Autor autor) {
 		this.autor = autor;
+	}
+	public void addSubCategoria( SubCategoria subcategoria ) {
+		if( subcategorias == null )
+			subcategorias = new ArrayList<>();
+		subcategorias.add(subcategoria);
 	}
 	public void addCategoria( Categoria categoria ) {
 		if( categorias == null )
