@@ -58,7 +58,7 @@ public class SubCategoriaDAO extends AbstractJdbcDAO{
 		    	}
 		    	
 		    	if ( subcategoria.getDescricao() != null && subcategoria.getDescricao().length() > 0 ) {
-		    		sb.addWhere("descricao = ?");
+		    		sb.addWhere("descricao like ?");
 		    		hsWhere.put(lni, "%" + subcategoria.getDescricao() + "%");
 		    		lni++;
 		    	}

@@ -96,7 +96,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 		    	}
 		    	
 		    	if ( livro.getTitulo() != null && livro.getTitulo().length() > 0 ) {
-		    		sb.addWhere("titulo = ?");
+		    		sb.addWhere("titulo like ?");
 		    		hsWhere.put(lni, "%" + livro.getTitulo() + "%");
 		    		lni++;
 		    	}
@@ -156,8 +156,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			    	SubCategoria subCat = ((LivroSubCategoria)ed).getSubcategoria();
 			    	l.addSubCategoria(subCat);
 			    }
-			    
-			    
+
 				java.sql.Date dtCadastroEmLong = rs.getDate("dtcadastro");
 				if( dtCadastroEmLong != null ) {
 					Date dtCadastro = new Date(dtCadastroEmLong.getTime());				
@@ -224,8 +223,8 @@ public class LivroDAO extends AbstractJdbcDAO {
 				// Faz a busca das Dimensões
 				Dimensao dimensao = new Dimensao();
 				DimensaoDAO dDAO = new DimensaoDAO(this.connection);
-				dimensao.setId(rs.getInt("dimensao_id"));
-				l.setDimensao((Dimensao)dDAO.consulta_id(dimensao));
+				dimensao.setDimensionavel(l);
+				l.setDimensao((Dimensao)dDAO.consultar(dimensao).get(0));
 
 				// Recupera as categorias
 			    LivroCategoria lc = new LivroCategoria();

@@ -52,7 +52,7 @@ public class EditoraDAO extends AbstractJdbcDAO {
 		    	}
 		    	
 		    	if ( editora.getNome() != null && editora.getNome().length() > 0 ) {
-		    		sb.addWhere("nome = ?");
+		    		sb.addWhere("nome like ?");
 		    		hsWhere.put(lni, "%" + editora.getNome() + "%");
 		    		lni++;
 		    	}

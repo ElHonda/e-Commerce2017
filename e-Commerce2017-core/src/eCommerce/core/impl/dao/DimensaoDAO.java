@@ -66,7 +66,7 @@ public class DimensaoDAO extends AbstractJdbcDAO{
 		    		sb.addWhere("dimensionavel_id = ?");
 		    		hsWhere.put(lni, dimensao.getDimensionavel().getId() );
 		    		lni++;
-		    		sb.addWhere("dimensaionavel_class = ?");
+		    		sb.addWhere("dimensionavel_class = ?");
 		    		hsWhere.put( lni , dimensao.getDimensionavel().getClass().getName() );
 		    		lni++;
 		    	}

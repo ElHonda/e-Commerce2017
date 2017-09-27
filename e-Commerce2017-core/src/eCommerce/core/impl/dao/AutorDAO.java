@@ -52,7 +52,7 @@ public class AutorDAO extends AbstractJdbcDAO {
 		    	}
 		    	
 		    	if ( autor.getNome() != null && autor.getNome().length() > 0 ) {
-		    		sb.addWhere("nome = ?");
+		    		sb.addWhere("nome like ?");
 		    		hsWhere.put(lni, "%" + autor.getNome() + "%");
 		    		lni++;
 		    	}

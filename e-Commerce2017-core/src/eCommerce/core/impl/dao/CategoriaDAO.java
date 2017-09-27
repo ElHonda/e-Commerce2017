@@ -58,7 +58,7 @@ public class CategoriaDAO extends AbstractJdbcDAO{
 		    	}
 		    	
 		    	if ( categoria.getDescricao() != null && categoria.getDescricao().length() > 0 ) {
-		    		sb.addWhere("descricao = ?");
+		    		sb.addWhere("descricao like ?");
 		    		hsWhere.put(lni, "%" + categoria.getDescricao() + "%");
 		    		lni++;
 		    	}

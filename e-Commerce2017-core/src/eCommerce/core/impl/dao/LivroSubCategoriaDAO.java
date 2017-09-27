@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import eCommerce.core.utils.SqlBuilder;
-import eCommerce.dominio.Categoria;
 import eCommerce.dominio.EntidadeDominio;
 import eCommerce.dominio.Livro;
 import eCommerce.dominio.LivroSubCategoria;
@@ -90,10 +89,10 @@ public class LivroSubCategoriaDAO extends AbstractJdbcDAO{
 
 				if( livroCat.getSubcategoria() == null) {
 					// Faz a busca da Categoria
-					Categoria categoria = new Categoria();
-					CategoriaDAO eDAO = new CategoriaDAO(this.connection);
-					categoria.setId(rs.getInt("editora_id"));
-					lc.setSubcategoria((SubCategoria)eDAO.consulta_id(categoria));
+					SubCategoria subcategoria = new SubCategoria();
+					SubCategoriaDAO eDAO = new SubCategoriaDAO(this.connection);
+					subcategoria.setId(rs.getInt("subcategoria_id"));
+					lc.setSubcategoria((SubCategoria)eDAO.consulta_id(subcategoria));
 				}else {
 					lc.setSubcategoria(livroCat.getSubcategoria());
 				}
@@ -146,8 +145,8 @@ public class LivroSubCategoriaDAO extends AbstractJdbcDAO{
 
 				// Faz a busca da Categoria
 				SubCategoria subcategoria = new SubCategoria();
-				CategoriaDAO eDAO = new CategoriaDAO(this.connection);
-				subcategoria.setId(rs.getInt("editora_id"));
+				SubCategoriaDAO eDAO = new SubCategoriaDAO(this.connection);
+				subcategoria.setId(rs.getInt("subcategoria_id"));
 				lc.setSubcategoria((SubCategoria)eDAO.consulta_id(subcategoria));
 		
 				

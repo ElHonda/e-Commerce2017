@@ -91,7 +91,7 @@ public class LivroCategoriaDAO extends AbstractJdbcDAO{
 					// Faz a busca da Categoria
 					Categoria categoria = new Categoria();
 					CategoriaDAO eDAO = new CategoriaDAO(this.connection);
-					categoria.setId(rs.getInt("editora_id"));
+					categoria.setId(rs.getInt("categoria_id"));
 					lc.setCategoria((Categoria)eDAO.consulta_id(categoria));
 				}else {
 					lc.setCategoria(livroCat.getCategoria());

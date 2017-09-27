@@ -59,7 +59,7 @@ public class GrupoPrecificacaoDAO extends AbstractJdbcDAO {
 		    	}
 		    	
 		    	if ( grupo.getDescricao() != null && grupo.getDescricao().length() > 0 ) {
-		    		sb.addWhere("descricao = ?");
+		    		sb.addWhere("descricao like ?");
 		    		hsWhere.put(lni, "%" + grupo.getDescricao() + "%");
 		    		lni++;
 		    	}
