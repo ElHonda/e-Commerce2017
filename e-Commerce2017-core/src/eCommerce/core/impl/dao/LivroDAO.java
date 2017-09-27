@@ -34,22 +34,46 @@ public class LivroDAO extends AbstractJdbcDAO {
 	
 	@Override
 	public void initColumns() {
-		addColunas( "autor_id"     );
-		addColunas( "ano" 		   );
-		addColunas( "titulo"       );
-		addColunas( "edicao"       );
-		addColunas( "editora_id"   );
-		addColunas( "isbn"         );
-		addColunas( "numerPaginas" );
-		addColunas( "sinopse"	   );
+		addColunas( "autor_id"      );
+		addColunas( "ano" 		    );
+		addColunas( "titulo"        );
+		addColunas( "edicao"        );
+		addColunas( "editora_id"    );
+		addColunas( "isbn"          );
+		addColunas( "numeroPaginas" );
+		addColunas( "sinopse"	    );
 	}
 
 	@Override
-	public void salvar_pre(EntidadeDominio entidade) throws SQLException {		
+	public void salvar_pre(EntidadeDominio entidade) throws SQLException {
 	}
 
 	@Override
-	public void salvar_pos(EntidadeDominio entidade) throws SQLException {		
+	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
+		Livro livro = (Livro)entidade;
+
+		// Faz a gravação das Dimensões
+		livro.getDimensao().setDimensionavel(livro);
+		DimensaoDAO dDAO = new DimensaoDAO(this.connection);
+		dDAO.salvar(livro.getDimensao());
+		
+		// Faz a gravação das Categorias para o livro
+		LivroCategoriaDAO lcDAO = new LivroCategoriaDAO(this.connection);
+		for( Categoria c : livro.getCategorias() ) {
+			LivroCategoria lc = new LivroCategoria();
+			lc.setLivro(livro);
+			lc.setCategoria(c);
+			lcDAO.salvar(lc);
+		}
+		
+		// Faz a gravação das SubCategorias para o livro
+		LivroSubCategoriaDAO lcsDAO = new LivroSubCategoriaDAO(this.connection);
+		for( SubCategoria s : livro.getSubcategorias() ) {
+			LivroSubCategoria lcs = new LivroSubCategoria();
+			lcs.setLivro(livro);
+			lcs.setSubcategoria(s);
+			lcsDAO.salvar(lcs);
+		}
 	}
 
 	@Override
@@ -112,7 +136,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 				// Faz a busca das Dimensões
 				Dimensao dimensao = new Dimensao();
 				DimensaoDAO dDAO = new DimensaoDAO(this.connection);
-				dimensao.setId(rs.getInt("dimensao_id"));
+				dimensao.setDimensionavel(l);
 				l.setDimensao((Dimensao)dDAO.consulta_id(dimensao));
 
 				// Recupera as categorias
