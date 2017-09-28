@@ -180,7 +180,6 @@ public class LivroCategoriaDAO extends AbstractJdbcDAO{
 
 	@Override
 	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

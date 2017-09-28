@@ -280,7 +280,6 @@ public class LivroDAO extends AbstractJdbcDAO {
 			nPst++;
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return nPst;
@@ -288,7 +287,6 @@ public class LivroDAO extends AbstractJdbcDAO {
 
 	@Override
 	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

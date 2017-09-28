@@ -35,7 +35,7 @@ public abstract class AbstractJdbcDAO implements IDAO{
 		this.ctrlTransaction = false;
 		this.table = table;
 		this.connection = connection;
-		this.pks = new ArrayList<>();
+		this.pks = new ArrayList<String>();
 		this.pks.add( "id" );
 		initColumns();
 	}
@@ -214,13 +214,13 @@ public abstract class AbstractJdbcDAO implements IDAO{
 	}
 	public void addColunas( String coluna ) {
 		if( colunas == null ) {
-			colunas = new ArrayList<>();
+			colunas = new ArrayList<String>();
 		}
 		colunas.add( coluna );
 	}
 	public void addColunas( Integer index , String coluna) {
 		if( colunas == null ) {
-			colunas = new ArrayList<>();
+			colunas = new ArrayList<String>();
 		}
 		colunas.add( index , coluna );
 	}

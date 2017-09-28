@@ -25,12 +25,12 @@ public class Livro extends EntidadeDominio {
 	}
 	public void addSubCategoria( SubCategoria subcategoria ) {
 		if( subcategorias == null )
-			subcategorias = new ArrayList<>();
+			subcategorias = new ArrayList<SubCategoria>();
 		subcategorias.add(subcategoria);
 	}
 	public void addCategoria( Categoria categoria ) {
 		if( categorias == null )
-			categorias = new ArrayList<>();
+			categorias = new ArrayList<Categoria>();
 		categorias.add(categoria);
 	}
 	public List<Categoria> getCategorias() {
