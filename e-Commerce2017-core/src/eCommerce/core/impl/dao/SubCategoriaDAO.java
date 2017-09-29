@@ -110,7 +110,7 @@ public class SubCategoriaDAO extends AbstractJdbcDAO{
 	}
 
 	@Override
-	public EntidadeDominio consulta_id(EntidadeDominio entidade) throws SQLException {
+	public EntidadeDominio consultar_id(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
 		
 		SubCategoria subcategoria = (SubCategoria)entidade;

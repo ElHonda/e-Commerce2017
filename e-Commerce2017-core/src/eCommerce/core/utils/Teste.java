@@ -6,18 +6,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import eCommerce.core.impl.dao.AutorDAO;
-import eCommerce.core.impl.dao.CategoriaDAO;
-import eCommerce.core.impl.dao.EditoraDAO;
-import eCommerce.core.impl.dao.GrupoPrecificacaoDAO;
-import eCommerce.core.impl.dao.LivroDAO;
-import eCommerce.core.impl.dao.SubCategoriaDAO;
+import eCommerce.core.IFachada;
+import eCommerce.core.aplicacao.Resultado;
+import eCommerce.core.impl.controle.Fachada;
 import eCommerce.dominio.Autor;
 import eCommerce.dominio.Categoria;
 import eCommerce.dominio.Dimensao;
 import eCommerce.dominio.Editora;
 import eCommerce.dominio.GrupoPrecificacao;
 import eCommerce.dominio.Livro;
+import eCommerce.dominio.LivroCategoria;
+import eCommerce.dominio.LivroSubCategoria;
 import eCommerce.dominio.SubCategoria;
 
 public class Teste {
@@ -28,84 +27,80 @@ public class Teste {
 	}
 
 	private static void TesteConsulta() throws SQLException {
+		IFachada fachada = new Fachada();
+
 		// Autor
 		System.out.println(":::Consultando Autor:::");
-		AutorDAO autoDAO = new AutorDAO();
 		Autor autor = new Autor();
 		System.out.println("Autor consulta Rapida...");
 		autor.setId(1);
-		autor = (Autor)autoDAO.consulta_id(autor);
+		autor = (Autor)fachada.consultar_id(autor).getEntidades().get(0);
 		System.out.println(autor.getNome());
 		System.out.println("Autor consulta avançada..");
 		autor = new Autor();
 		autor.setNome("utor");
-		autor = (Autor)autoDAO.consultar(autor).get(0);
+		autor = (Autor)fachada.consultar(autor).getEntidades().get(0);
 		System.out.println(autor.getSobrenome());
 		
 		// Categoria
 		System.out.println(":::Consultando Categoria:::");
-		CategoriaDAO CategoriaDAO = new CategoriaDAO();
 		Categoria categoria = new Categoria();
 		System.out.println("Categoria consulta Rapida...");
 		categoria.setId(1);
-		categoria = (Categoria)CategoriaDAO.consulta_id(categoria);
+		categoria = (Categoria)fachada.consultar_id(categoria).getEntidades().get(0);
 		System.out.println(categoria.getDescricao());
 		System.out.println("Categoria consulta avançada..");
 		categoria = new Categoria();
 		categoria.setDescricao("imeira");
-		categoria = (Categoria)CategoriaDAO.consultar(categoria).get(0);
+		categoria = (Categoria)fachada.consultar(categoria).getEntidades().get(0);
 		System.out.println(categoria.getDescricao());
 
 		// SubCategoria
 		System.out.println(":::Consultando Subcategoria:::");
-		SubCategoriaDAO subcategoriaDAO = new SubCategoriaDAO();
 		SubCategoria subcategoria = new SubCategoria();
 		System.out.println("Subcategoria consulta Rapida...");
 		subcategoria.setId(1);
-		subcategoria = (SubCategoria)subcategoriaDAO.consulta_id(subcategoria);
+		subcategoria = (SubCategoria)fachada.consultar_id(subcategoria).getEntidades().get(0);
 		System.out.println(subcategoria.getDescricao());
 		System.out.println("Subcategoria consulta avançada..");
 		subcategoria = new SubCategoria();
 		subcategoria.setDescricao("imeira");
-		subcategoria = (SubCategoria)subcategoriaDAO.consultar(subcategoria).get(0);
+		subcategoria = (SubCategoria)fachada.consultar(subcategoria).getEntidades().get(0);
 		System.out.println(subcategoria.getDescricao());
 		
 		// Editora
 		System.out.println(":::Consultando Editora:::");
-		EditoraDAO editoraDAO = new EditoraDAO();
 		Editora editora = new Editora();
 		System.out.println("Editora consulta Rapida...");
 		editora.setId(1);
-		editora = (Editora)editoraDAO.consulta_id(editora);
+		editora = (Editora)fachada.consultar_id(editora).getEntidades().get(0);
 		System.out.println(editora.getNome());
 		System.out.println("Editora consulta avançada..");
 		editora = new Editora();
 		editora.setNome("imeira");
-		editora = (Editora)editoraDAO.consultar(editora).get(0);
+		editora = (Editora)fachada.consultar(editora).getEntidades().get(0);
 		System.out.println(editora.getNome());
 		
 		// Editora
 		System.out.println(":::Consultando Grupo de Precificação:::");
-		GrupoPrecificacaoDAO grupoDAO = new GrupoPrecificacaoDAO();
 		GrupoPrecificacao grupo = new GrupoPrecificacao();
 		System.out.println("Grupo consulta Rapida...");
 		grupo.setId(1);
-		grupo = (GrupoPrecificacao)grupoDAO.consulta_id(grupo);
+		grupo = (GrupoPrecificacao)fachada.consultar_id(grupo).getEntidades().get(0);
 		System.out.println(grupo.getDescricao());
 		System.out.println("Grupo consulta avançada..");
 		grupo = new GrupoPrecificacao();
 		grupo.setDescricao("imeiro");
-		grupo = (GrupoPrecificacao)grupoDAO.consultar(grupo).get(0);
+		grupo = (GrupoPrecificacao)fachada.consultar(grupo).getEntidades().get(0);
 		System.out.println(grupo.getDescricao());
 		
 		
 		// Livro
 		System.out.println(":::Consultando Livros:::");
-		LivroDAO livroDAO = new LivroDAO();
 		Livro livro = new Livro();
 		System.out.println("Livro consulta Rápida...");
 		livro.setId(1);
-		livro = (Livro)livroDAO.consulta_id(livro);
+		livro = (Livro)fachada.consultar_id(livro).getEntidades().get(0);
 		System.out.println("Título: " + livro.getTitulo());
 		System.out.println("Edição: " + livro.getEdicao());
 		System.out.println("ISBN: " + livro.getIsbn());
@@ -113,12 +108,12 @@ public class Teste {
 		System.out.println("Ano: " + livro.getAno().toString());
 		System.out.println("Páginas: " + livro.getNumeroPaginas());
 		System.out.println("Categorias vinculadas: ");
-		for( Categoria cat : livro.getCategorias() ) {
-			System.out.print( cat.getDescricao() + "," );
+		for( LivroCategoria cat : livro.getCategorias() ) {
+			System.out.print( cat.getCategoria().getDescricao() + "," );
 		}
 		System.out.println("\nSubcategorias vinculadas: ");
-		for( SubCategoria subcat : livro.getSubcategorias() ) {
-			System.out.print( subcat.getDescricao() + "," );
+		for( LivroSubCategoria subcat : livro.getSubcategorias() ) {
+			System.out.print( subcat.getSubcategoria().getDescricao() + "," );
 		}
 		System.out.println("\nEditora: " + livro.getEditora().getNome() );
 		System.out.println("Autor: " + livro.getAutor().getNome() );
@@ -129,47 +124,60 @@ public class Teste {
 		System.out.println( "- Profundidade: " + livro.getDimensao().getProfundidade().toString() );
 	}
 	private static void TesteInclusao() {
-
+		Resultado resultado;
+		
+		IFachada fachada = new Fachada();
 		System.out.println("Gerando primeiro autor");
 		// Primeiro Autor
-		AutorDAO autoDAO = new AutorDAO();
 		Autor autor = new Autor();
 		autor.setNome("Autor");
 		autor.setSobrenome("de Primeiro");
-		autoDAO.salvar(autor);
+		resultado = fachada.salvar(autor);
+		if( resultado.getEntidades() == null || resultado.getEntidades().size() == 0 ) {
+			System.out.println("Problema na inclusão: " + resultado.getMsg() );
+		}
+
 		
 		System.out.println("Gerando primeira categoria");
 		// Primeira Categoria
-		CategoriaDAO categoriaDAO = new CategoriaDAO();
 		Categoria categoria = new Categoria();
 		categoria.setDescricao("Primeira Categoria");
-		categoriaDAO.salvar(categoria);
+
+		resultado = fachada.salvar(categoria);
+		if( resultado.getEntidades() == null || resultado.getEntidades().size() == 0 ) {
+			System.out.println("Problema na inclusão: " + resultado.getMsg() );
+		}
 
 		System.out.println("Gerando primeira subcategoria");
 		// Primeira SubCategoria
-		SubCategoriaDAO subcategoriaDAO = new SubCategoriaDAO();
 		SubCategoria subcategoria = new SubCategoria();
 		subcategoria.setDescricao("Primeira Subcategoria");
-		subcategoriaDAO.salvar(subcategoria);
+		resultado = fachada.salvar(subcategoria);
+		if( resultado.getEntidades() == null || resultado.getEntidades().size() == 0 ) {
+			System.out.println("Problema na inclusão: " + resultado.getMsg() );
+		}
 
 		System.out.println("Gerando primeira Editora");
 		// Primeria Editora
-		EditoraDAO editoraDAO = new EditoraDAO();
 		Editora editora = new Editora();
 		editora.setNome("Editora Primeira");
-		editoraDAO.salvar(editora);
+		resultado = fachada.salvar(editora);
+		if( resultado.getEntidades() == null || resultado.getEntidades().size() == 0 ) {
+			System.out.println("Problema na inclusão: " + resultado.getMsg() );
+		}
 		
 		System.out.println("Gerando grupo de precificação");
 		// Grupo de Precificação
-		GrupoPrecificacaoDAO grupoDAO = new GrupoPrecificacaoDAO();
 		GrupoPrecificacao grupo = new GrupoPrecificacao();
 		grupo.setDescricao("Primeiro grupo");
 		grupo.setMargemLucro(15d);
-		grupoDAO.salvar(grupo);
-
+		resultado = fachada.salvar(grupo);
+		if( resultado.getEntidades() == null || resultado.getEntidades().size() == 0 ) {
+			System.out.println("Problema na inclusão: " + resultado.getMsg() );
+		}
+		
 		System.out.println("Gerando primeiro livro");
 		// Cadastro do Livro
-		LivroDAO livroDAO = new LivroDAO();
 		Livro livro = new Livro();
 		livro.setAno(2016);
 		livro.setAutor(autor);
@@ -181,25 +189,39 @@ public class Teste {
 		livro.setTitulo( "PRIMEIRO TÍTULO" );
 		
 		System.out.println("Vinculando primeira categoria ao livro");
-		livro.addCategoria(categoria);
+		LivroCategoria lc = new LivroCategoria();
+		lc.setCategoria(categoria);
+		livro.addCategoria(lc);
 		for( Integer i = 0 ; i < 3 ; i++ ) {
 			System.out.println("Criando categorias e associando ao livro: " + i.toString() );
 
 			Categoria cat = new Categoria();
 			cat.setDescricao("Categoria " + i.toString() );
-		    categoriaDAO.salvar(cat);
-		    livro.addCategoria(cat);
+			resultado = fachada.salvar(cat);
+			if( resultado.getEntidades() == null || resultado.getEntidades().size() == 0 ) {
+				System.out.println("Problema na inclusão: " + resultado.getMsg() );
+			}
+			lc = new LivroCategoria();
+			lc.setCategoria(cat);
+		    livro.addCategoria(lc);
 		}
 		
 		System.out.println("Vinculando primeira subcategoria ao livro");
-		livro.addSubCategoria(subcategoria);
+		LivroSubCategoria lcs = new LivroSubCategoria();
+		lcs.setSubcategoria(subcategoria);
+		livro.addSubCategoria(lcs);
 		for( Integer i = 0 ; i < 3 ; i++ ) {
 			System.out.println("Criando subcategorias e associando ao livro: " + i.toString() );
 
 			SubCategoria subcat = new SubCategoria();
 			subcat.setDescricao("Subcategoria " + i.toString() );
-		    subcategoriaDAO.salvar(subcat);
-		    livro.addSubCategoria(subcat);
+			resultado = fachada.salvar(subcat);
+			if( resultado.getEntidades() == null || resultado.getEntidades().size() == 0 ) {
+				System.out.println("Problema na inclusão: " + resultado.getMsg() );
+			}
+			lcs = new LivroSubCategoria();
+			lcs.setSubcategoria(subcat);
+		    livro.addSubCategoria(lcs);
 		}
 		
 		System.out.println("Gerando Dimensão e vinculando ao livro");
@@ -211,23 +233,24 @@ public class Teste {
 		dimensao.setProfundidade(0.75);
 		dimensao.setDimensionavel(livro);
 		livro.setDimensao(dimensao);
-		
-		livroDAO.salvar(livro);
+		resultado = fachada.salvar(livro);
+		if( resultado.getEntidades() == null || resultado.getEntidades().size() == 0 ) {
+			System.out.println("Problema na inclusão: " + resultado.getMsg() );
+		}
 	}
 	
 	
 	private static void HardResetDatabase() {
 		List<String> tables = new ArrayList<>();
-		tables.add( "tb_autor"			    );
-		tables.add( "tb_autor"              );
-		tables.add( "tb_categoria"          );
-		tables.add( "tb_dimensao"           );
-		tables.add( "tb_editora"            );
-		tables.add( "tb_grupopreco"         );
-		tables.add( "tb_livro"              );
-		tables.add( "tb_livro_categoria"    );
 		tables.add( "tb_livro_subcategoria" );
+		tables.add( "tb_livro_categoria"    );
+		tables.add( "tb_livro"              );
 		tables.add( "tb_subcategoria"       );
+		tables.add( "tb_grupopreco"         );
+		tables.add( "tb_editora"            );
+		tables.add( "tb_dimensao"           );
+		tables.add( "tb_categoria"          );
+		tables.add( "tb_autor"			    );
 
 		List<String> sequences = new ArrayList<>();
 		sequences.add("tb_autor_id_seq"              );

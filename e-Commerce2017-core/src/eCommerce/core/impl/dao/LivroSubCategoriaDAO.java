@@ -31,16 +31,6 @@ public class LivroSubCategoriaDAO extends AbstractJdbcDAO{
 		addColunas( "livro_id"     );
 		addColunas( "subcategoria_id" );
 	}
-
-	@Override
-	public void salvar_pre(EntidadeDominio entidade) throws SQLException {
-		
-	}
-
-	@Override
-	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
-	}
-
 	@Override
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
@@ -83,7 +73,7 @@ public class LivroSubCategoriaDAO extends AbstractJdbcDAO{
 					Livro livro = new Livro();
 					LivroDAO aDAO = new LivroDAO(this.connection);
 					livro.setId(rs.getInt("livro_id"));
-					lc.setLivro((Livro)aDAO.consulta_id(livro));
+					lc.setLivro((Livro)aDAO.consultar_id(livro));
 				}else
 					lc.setLivro(livroCat.getLivro());
 
@@ -92,7 +82,7 @@ public class LivroSubCategoriaDAO extends AbstractJdbcDAO{
 					SubCategoria subcategoria = new SubCategoria();
 					SubCategoriaDAO eDAO = new SubCategoriaDAO(this.connection);
 					subcategoria.setId(rs.getInt("subcategoria_id"));
-					lc.setSubcategoria((SubCategoria)eDAO.consulta_id(subcategoria));
+					lc.setSubcategoria((SubCategoria)eDAO.consultar_id(subcategoria));
 				}else {
 					lc.setSubcategoria(livroCat.getSubcategoria());
 				}
@@ -112,7 +102,7 @@ public class LivroSubCategoriaDAO extends AbstractJdbcDAO{
 	}
 
 	@Override
-	public EntidadeDominio consulta_id(EntidadeDominio entidade) throws SQLException {
+	public EntidadeDominio consultar_id(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
 		
 		LivroSubCategoria lc = (LivroSubCategoria)entidade;
@@ -140,14 +130,14 @@ public class LivroSubCategoriaDAO extends AbstractJdbcDAO{
 				Livro livro = new Livro();
 				LivroDAO aDAO = new LivroDAO(this.connection);
 				livro.setId(rs.getInt("livro_id"));
-				lc.setLivro((Livro)aDAO.consulta_id(livro));
+				lc.setLivro((Livro)aDAO.consultar_id(livro));
 
 
 				// Faz a busca da Categoria
 				SubCategoria subcategoria = new SubCategoria();
 				SubCategoriaDAO eDAO = new SubCategoriaDAO(this.connection);
 				subcategoria.setId(rs.getInt("subcategoria_id"));
-				lc.setSubcategoria((SubCategoria)eDAO.consulta_id(subcategoria));
+				lc.setSubcategoria((SubCategoria)eDAO.consultar_id(subcategoria));
 		
 				
 				java.sql.Date dtCadastroEmLong = rs.getDate("dtcadastro");

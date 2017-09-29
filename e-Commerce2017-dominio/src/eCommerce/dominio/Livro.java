@@ -10,12 +10,13 @@ public class Livro extends EntidadeDominio {
 	private String isbn;
 	private String sinopse;
 	private Integer numeroPaginas;
+	private Boolean ativo;
 
 	private Autor autor;
 	private Editora editora;
 	private Dimensao dimensao;
-	private List<Categoria> categorias;
-	private List<SubCategoria> subcategorias;
+	private List<LivroCategoria> categorias;
+	private List<LivroSubCategoria> subcategorias;
 
 	public Autor getAutor() {
 		return autor;
@@ -23,27 +24,29 @@ public class Livro extends EntidadeDominio {
 	public void setAutor(Autor autor) {
 		this.autor = autor;
 	}
-	public void addSubCategoria( SubCategoria subcategoria ) {
+	public void addSubCategoria( LivroSubCategoria subcategoria ) {
 		if( subcategorias == null )
-			subcategorias = new ArrayList<SubCategoria>();
+			subcategorias = new ArrayList<LivroSubCategoria>();
+		subcategoria.setLivro(this);
 		subcategorias.add(subcategoria);
 	}
-	public void addCategoria( Categoria categoria ) {
+	public void addCategoria( LivroCategoria categoria ) {
 		if( categorias == null )
-			categorias = new ArrayList<Categoria>();
+			categorias = new ArrayList<LivroCategoria>();
+		categoria.setLivro(this);
 		categorias.add(categoria);
 	}
-	public List<Categoria> getCategorias() {
+	public List<LivroCategoria> getCategorias() {
 		return categorias;
 	}
-	public void setCategorias(List<Categoria> categorias) {
+	public void setCategorias(List<LivroCategoria> categorias) {
 		this.categorias = categorias;
 	}
-	public List<SubCategoria> getSubcategorias() {
+	public List<LivroSubCategoria> getSubcategorias() {
 		return subcategorias;
 	}
 	
-	public void setSubcategorias(List<SubCategoria> subcategorias) {
+	public void setSubcategorias(List<LivroSubCategoria> subcategorias) {
 		this.subcategorias = subcategorias;
 	}
 	public Integer getAno() {
@@ -93,5 +96,11 @@ public class Livro extends EntidadeDominio {
 	}
 	public void setDimensao(Dimensao dimensao) {
 		this.dimensao = dimensao;
+	}
+	public Boolean getAtivo() {
+		return ativo;
+	}
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
 	}
 }

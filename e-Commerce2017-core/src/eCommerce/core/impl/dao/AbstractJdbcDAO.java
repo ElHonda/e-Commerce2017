@@ -172,6 +172,7 @@ public abstract class AbstractJdbcDAO implements IDAO{
 		PreparedStatement pst=null;
 		Integer nPst = 1;
 		try {
+			alterar_pre(entidade);
 			connection.setAutoCommit(false);	
 			SqlBuilder sql = new SqlBuilder(this.table, this.colunas);
 			pst = connection.prepareStatement(sql.getSqlUpdate());
@@ -179,6 +180,7 @@ public abstract class AbstractJdbcDAO implements IDAO{
 			nPst = setPreparedStatement( entidade , pst, nPst);
 			nPst = setPreparedStatementOnlyUpdate(entidade, pst , nPst);
 			pst.executeUpdate();
+			alterar_pos(entidade);
 			connection.commit();
 		} catch (SQLException e) {
 			try {
@@ -240,5 +242,8 @@ public abstract class AbstractJdbcDAO implements IDAO{
 		}
 		return nPst;
 	}
-
+	public void salvar_pre( EntidadeDominio entidade ) throws SQLException{};
+	public void salvar_pos( EntidadeDominio entidade ) throws SQLException{};
+	public void alterar_pre( EntidadeDominio entidade ) throws SQLException{};
+	public void alterar_pos( EntidadeDominio entidade ) throws SQLException{};
 }

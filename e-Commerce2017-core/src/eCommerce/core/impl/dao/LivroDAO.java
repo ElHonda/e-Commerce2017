@@ -12,26 +12,21 @@ import java.util.Map;
 
 import eCommerce.core.utils.SqlBuilder;
 import eCommerce.dominio.Autor;
-import eCommerce.dominio.Categoria;
 import eCommerce.dominio.Dimensao;
 import eCommerce.dominio.Editora;
 import eCommerce.dominio.EntidadeDominio;
 import eCommerce.dominio.Livro;
 import eCommerce.dominio.LivroCategoria;
 import eCommerce.dominio.LivroSubCategoria;
-import eCommerce.dominio.SubCategoria;
 
 public class LivroDAO extends AbstractJdbcDAO {
 
 	public LivroDAO(){
 		super("tb_livro");
 	}
-
 	public LivroDAO(Connection conexao ){
 		super(conexao, "tb_livro");
 	}
-	
-	
 	@Override
 	public void initColumns() {
 		addColunas( "autor_id"      );
@@ -42,13 +37,8 @@ public class LivroDAO extends AbstractJdbcDAO {
 		addColunas( "isbn"          );
 		addColunas( "numeroPaginas" );
 		addColunas( "sinopse"	    );
+		addColunas( "ativo"         );
 	}
-
-	@Override
-	public void salvar_pre(EntidadeDominio entidade) throws SQLException {
-	}
-
-	@Override
 	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
 		Livro livro = (Livro)entidade;
 
@@ -59,24 +49,16 @@ public class LivroDAO extends AbstractJdbcDAO {
 		
 		// Faz a gravação das Categorias para o livro
 		LivroCategoriaDAO lcDAO = new LivroCategoriaDAO(this.connection);
-		for( Categoria c : livro.getCategorias() ) {
-			LivroCategoria lc = new LivroCategoria();
-			lc.setLivro(livro);
-			lc.setCategoria(c);
-			lcDAO.salvar(lc);
+		for( LivroCategoria livroCat : livro.getCategorias() ) {
+			lcDAO.salvar(livroCat);
 		}
 		
 		// Faz a gravação das SubCategorias para o livro
 		LivroSubCategoriaDAO lcsDAO = new LivroSubCategoriaDAO(this.connection);
-		for( SubCategoria s : livro.getSubcategorias() ) {
-			LivroSubCategoria lcs = new LivroSubCategoria();
-			lcs.setLivro(livro);
-			lcs.setSubcategoria(s);
-			lcsDAO.salvar(lcs);
+		for( LivroSubCategoria livroSubCat : livro.getSubcategorias() ) {
+			lcsDAO.salvar(livroSubCat);
 		}
 	}
-
-	@Override
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
 		
@@ -100,6 +82,48 @@ public class LivroDAO extends AbstractJdbcDAO {
 		    		hsWhere.put(lni, "%" + livro.getTitulo() + "%");
 		    		lni++;
 		    	}
+		    	if( livro.getAutor() != null && livro.getAutor().getId() > 0 ) {
+		    		sb.addWhere("autor_id = ? ");
+		    		hsWhere.put(lni, livro.getAutor().getId() );
+		    		lni++;
+		    	}
+				if( livro.getAno() != null && livro.getAno() > 0 ) {
+					sb.addWhere("ano = ?" );
+					hsWhere.put(lni, livro.getAno() );
+					lni++;
+				}
+				if( livro.getEdicao() != null && livro.getEdicao().length() > 0 ) {
+					sb.addWhere("edicao = ? ");
+					hsWhere.put(lni, "%" + livro.getEdicao() + "%" );
+					lni++;
+				}
+		    	if( livro.getEditora() != null && livro.getEditora().getId() > 0 ) {
+		    		sb.addWhere("editora_id = ? ");
+		    		hsWhere.put(lni, livro.getEditora().getId() );
+		    		lni++;
+		    	}
+				if( livro.getIsbn() != null && livro.getIsbn().length() > 0 ) {
+					sb.addWhere("isbn = ? ");
+					hsWhere.put(lni, "%" + livro.getIsbn() + "%" );
+					lni++;
+				}
+				if( livro.getNumeroPaginas() != null && livro.getNumeroPaginas() > 0 ) {
+					sb.addWhere("numeropaginas = ?" );
+					hsWhere.put(lni, livro.getNumeroPaginas() );
+					lni++;
+				}
+				if( livro.getSinopse() != null && livro.getSinopse().length() > 0 ) {
+					sb.addWhere("sinopse = ? ");
+					hsWhere.put(lni, "%" + livro.getSinopse() + "%" );
+					lni++;
+				}
+				if( livro.getAtivo() != null ) {
+					if( livro.getAtivo() ) {
+						sb.addWhere("ativo");
+					}else {
+						sb.addWhere("not ativo");
+					}
+				}
 			}
 	    
 			pst = connection.prepareStatement(sb.getQuery(null));
@@ -120,41 +144,40 @@ public class LivroDAO extends AbstractJdbcDAO {
 				l.setIsbn(rs.getString("isbn"));
 				l.setSinopse(rs.getString("sinopse"));
 				l.setNumeroPaginas(rs.getInt("numeropaginas"));
+				l.setAtivo(rs.getBoolean("ativo"));
 				
 				// Faz a Busca do Autor
 				Autor autor = new Autor();
 				AutorDAO aDAO = new AutorDAO(this.connection);
 				autor.setId(rs.getInt("autor_id"));
-				l.setAutor((Autor)aDAO.consulta_id(autor));
+				l.setAutor((Autor)aDAO.consultar_id(autor));
 
 				// Faz a busca da Editora
 				Editora editora = new Editora();
 				EditoraDAO eDAO = new EditoraDAO(this.connection);
 				editora.setId(rs.getInt("editora_id"));
-				l.setEditora((Editora)eDAO.consulta_id(editora));
+				l.setEditora((Editora)eDAO.consultar_id(editora));
 
 				// Faz a busca das Dimensões
 				Dimensao dimensao = new Dimensao();
 				DimensaoDAO dDAO = new DimensaoDAO(this.connection);
 				dimensao.setDimensionavel(l);
-				l.setDimensao((Dimensao)dDAO.consulta_id(dimensao));
+				l.setDimensao((Dimensao)dDAO.consultar_id(dimensao));
 
 				// Recupera as categorias
 			    LivroCategoria lc = new LivroCategoria();
 			    LivroCategoriaDAO lcDAO = new LivroCategoriaDAO(this.connection);
 			    lc.setLivro(l);
-			    for( EntidadeDominio ed : lcDAO.consultar(lc) ) {
-			    	Categoria cat = ((LivroCategoria)ed).getCategoria();
-			    	l.addCategoria(cat);
+			    for( EntidadeDominio livroCategoria : lcDAO.consultar(lc) ) {
+			    	l.addCategoria((LivroCategoria)livroCategoria);
 			    }
 			    
 				// Recupera as sub categorias
 			    LivroSubCategoria lsc = new LivroSubCategoria();
 			    LivroSubCategoriaDAO lcsDAO = new LivroSubCategoriaDAO(this.connection);
 			    lsc.setLivro(l);
-			    for( EntidadeDominio ed : lcsDAO.consultar(lsc) ) {
-			    	SubCategoria subCat = ((LivroSubCategoria)ed).getSubcategoria();
-			    	l.addSubCategoria(subCat);
+			    for( EntidadeDominio livroSubCategoria : lcsDAO.consultar(lsc) ) {
+			    	l.addSubCategoria((LivroSubCategoria)livroSubCategoria);
 			    }
 
 				java.sql.Date dtCadastroEmLong = rs.getDate("dtcadastro");
@@ -172,7 +195,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 	}
 
 	@Override
-	public EntidadeDominio consulta_id(EntidadeDominio entidade) throws SQLException {
+	public EntidadeDominio consultar_id(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
 		
 		Livro livro = (Livro)entidade;
@@ -212,13 +235,13 @@ public class LivroDAO extends AbstractJdbcDAO {
 				Autor autor = new Autor();
 				AutorDAO aDAO = new AutorDAO(this.connection);
 				autor.setId(rs.getInt("autor_id"));
-				l.setAutor((Autor)aDAO.consulta_id(autor));
+				l.setAutor((Autor)aDAO.consultar_id(autor));
 
 				// Faz a busca da Editora
 				Editora editora = new Editora();
 				EditoraDAO eDAO = new EditoraDAO(this.connection);
 				editora.setId(rs.getInt("editora_id"));
-				l.setEditora((Editora)eDAO.consulta_id(editora));
+				l.setEditora((Editora)eDAO.consultar_id(editora));
 
 				// Faz a busca das Dimensões
 				Dimensao dimensao = new Dimensao();
@@ -230,20 +253,17 @@ public class LivroDAO extends AbstractJdbcDAO {
 			    LivroCategoria lc = new LivroCategoria();
 			    LivroCategoriaDAO lcDAO = new LivroCategoriaDAO(this.connection);
 			    lc.setLivro(l);
-			    for( EntidadeDominio ed : lcDAO.consultar(lc) ) {
-			    	Categoria cat = ((LivroCategoria)ed).getCategoria();
-			    	l.addCategoria(cat);
+			    for( EntidadeDominio livroCategoria : lcDAO.consultar(lc) ) {
+			    	l.addCategoria((LivroCategoria)livroCategoria);
 			    }
 			    
 				// Recupera as sub categorias
 			    LivroSubCategoria lsc = new LivroSubCategoria();
 			    LivroSubCategoriaDAO lcsDAO = new LivroSubCategoriaDAO(this.connection);
 			    lsc.setLivro(l);
-			    for( EntidadeDominio ed : lcsDAO.consultar(lsc) ) {
-			    	SubCategoria subCat = ((LivroSubCategoria)ed).getSubcategoria();
-			    	l.addSubCategoria(subCat);
+			    for( EntidadeDominio livroSubCategoria : lcsDAO.consultar(lsc) ) {
+			    	l.addSubCategoria((LivroSubCategoria)livroSubCategoria);
 			    }
-			    
 			    
 				java.sql.Date dtCadastroEmLong = rs.getDate("dtcadastro");
 				if( dtCadastroEmLong != null ) {
@@ -277,6 +297,9 @@ public class LivroDAO extends AbstractJdbcDAO {
 			pst.setInt(nPst, l.getNumeroPaginas() );
 			nPst++;
 			pst.setString(nPst, l.getSinopse() );
+			nPst++;
+			
+			pst.setBoolean(nPst, (l.getAtivo()==null)?false:l.getAtivo() );
 			nPst++;
 			
 		} catch (SQLException e) {

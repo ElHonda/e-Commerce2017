@@ -14,7 +14,8 @@ public class TbLivro implements IScript{
 				+ "numeropaginas integer,\n"
 				+ "autor_id integer references tb_autor ON UPDATE CASCADE ON DELETE RESTRICT,\n"
 				+ "editora_id integer references tb_editora ON UPDATE CASCADE ON DELETE RESTRICT,\n"
-				+ "dtcadastro date"
+				+ "dtcadastro date,\n"
+				+ "ativo boolean not null default true"
 				+ ")";
 		System.out.println(str);
 		return str;

@@ -1,6 +1,7 @@
 
 package eCommerce.core.aplicacao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import eCommerce.dominio.EntidadeDominio;
@@ -43,7 +44,12 @@ public class Resultado extends EntidadeAplicacao {
 		this.entidades = entidades;
 	}
 	
-	
+	public void addEntidade(EntidadeDominio entidade) {
+		if ( this.entidades == null ) {
+			this.entidades = new ArrayList<EntidadeDominio>();
+		}
+		this.entidades.add(entidade);
+	}
 	
 	
 }

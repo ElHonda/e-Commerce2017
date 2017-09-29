@@ -31,16 +31,6 @@ public class LivroCategoriaDAO extends AbstractJdbcDAO{
 		addColunas( "livro_id"     );
 		addColunas( "categoria_id" );
 	}
-
-	@Override
-	public void salvar_pre(EntidadeDominio entidade) throws SQLException {
-		
-	}
-
-	@Override
-	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
-	}
-
 	@Override
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
@@ -83,7 +73,7 @@ public class LivroCategoriaDAO extends AbstractJdbcDAO{
 					Livro livro = new Livro();
 					LivroDAO aDAO = new LivroDAO(this.connection);
 					livro.setId(rs.getInt("livro_id"));
-					lc.setLivro((Livro)aDAO.consulta_id(livro));
+					lc.setLivro((Livro)aDAO.consultar_id(livro));
 				}else
 					lc.setLivro(livroCat.getLivro());
 
@@ -92,7 +82,7 @@ public class LivroCategoriaDAO extends AbstractJdbcDAO{
 					Categoria categoria = new Categoria();
 					CategoriaDAO eDAO = new CategoriaDAO(this.connection);
 					categoria.setId(rs.getInt("categoria_id"));
-					lc.setCategoria((Categoria)eDAO.consulta_id(categoria));
+					lc.setCategoria((Categoria)eDAO.consultar_id(categoria));
 				}else {
 					lc.setCategoria(livroCat.getCategoria());
 				}
@@ -112,7 +102,7 @@ public class LivroCategoriaDAO extends AbstractJdbcDAO{
 	}
 
 	@Override
-	public EntidadeDominio consulta_id(EntidadeDominio entidade) throws SQLException {
+	public EntidadeDominio consultar_id(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
 		
 		LivroCategoria lc = (LivroCategoria)entidade;
@@ -140,14 +130,14 @@ public class LivroCategoriaDAO extends AbstractJdbcDAO{
 				Livro livro = new Livro();
 				LivroDAO aDAO = new LivroDAO(this.connection);
 				livro.setId(rs.getInt("livro_id"));
-				lc.setLivro((Livro)aDAO.consulta_id(livro));
+				lc.setLivro((Livro)aDAO.consultar_id(livro));
 
 
 				// Faz a busca da Categoria
 				Categoria categoria = new Categoria();
 				CategoriaDAO eDAO = new CategoriaDAO(this.connection);
 				categoria.setId(rs.getInt("editora_id"));
-				lc.setCategoria((Categoria)eDAO.consulta_id(categoria));
+				lc.setCategoria((Categoria)eDAO.consultar_id(categoria));
 		
 				
 				java.sql.Date dtCadastroEmLong = rs.getDate("dtcadastro");

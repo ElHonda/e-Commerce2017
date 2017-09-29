@@ -37,14 +37,6 @@ public class DimensaoDAO extends AbstractJdbcDAO{
 	}
 
 	@Override
-	public void salvar_pre(EntidadeDominio entidade) throws SQLException {
-	}
-
-	@Override
-	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
-	}
-
-	@Override
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
 		Dimensao dimensao = (Dimensao)entidade;
@@ -136,7 +128,7 @@ public class DimensaoDAO extends AbstractJdbcDAO{
 	}
 
 	@Override
-	public EntidadeDominio consulta_id(EntidadeDominio entidade) throws SQLException {
+	public EntidadeDominio consultar_id(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
 		Dimensao dimensao = (Dimensao)entidade;
 		SqlBuilder sb = new SqlBuilder(this.table, colunas);

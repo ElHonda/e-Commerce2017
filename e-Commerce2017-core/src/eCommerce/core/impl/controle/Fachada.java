@@ -339,7 +339,32 @@ public class Fachada implements IFachada {
 		return resultado;
 
 	}
-	
+	@Override
+	public Resultado consultar_id(EntidadeDominio entidade) {
+		resultado = new Resultado();
+		String nmClasse = entidade.getClass().getName();	
+		
+		String msg = executarRegras(entidade, "CONSULTAR_ID");
+		
+		
+		if(msg == null){
+			IDAO dao = daos.get(nmClasse);
+			try {
+				
+				resultado.addEntidade(dao.consultar_id(entidade));
+			} catch (SQLException e) {
+				e.printStackTrace();
+				resultado.setMsg("Não foi possível realizar a consulta!");
+				
+			}
+		}else{
+			resultado.setMsg(msg);
+			
+		}
+		
+		return resultado;
+
+	}
 	@Override
 	public Resultado visualizar(EntidadeDominio entidade) {
 		resultado = new Resultado();

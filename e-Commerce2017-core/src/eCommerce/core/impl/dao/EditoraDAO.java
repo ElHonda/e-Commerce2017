@@ -25,14 +25,6 @@ public class EditoraDAO extends AbstractJdbcDAO {
 	}
 	
 	@Override
-	public void salvar_pre(EntidadeDominio entidade) throws SQLException {
-	}
-
-	@Override
-	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
-	}
-
-	@Override
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
 		
@@ -110,7 +102,7 @@ public class EditoraDAO extends AbstractJdbcDAO {
 	}
 
 	@Override
-	public EntidadeDominio consulta_id(EntidadeDominio entidade) throws SQLException {
+	public EntidadeDominio consultar_id(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
 		
 		Editora editora = (Editora)entidade;
