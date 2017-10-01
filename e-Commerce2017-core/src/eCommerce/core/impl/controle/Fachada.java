@@ -17,6 +17,7 @@ import eCommerce.core.impl.dao.GrupoPrecificacaoDAO;
 import eCommerce.core.impl.dao.LivroDAO;
 import eCommerce.core.impl.dao.SubCategoriaDAO;
 import eCommerce.core.impl.negocio.ComplementarDtCadastro;
+import eCommerce.core.impl.negocio.ValidadorDadosObrigatoriosLivro;
 import eCommerce.dominio.Autor;
 import eCommerce.dominio.Categoria;
 import eCommerce.dominio.Editora;
@@ -174,7 +175,7 @@ public class Fachada implements IFachada {
 	private void RegrarLivro() {
 		/* Criando instâncias de regras de negócio a serem utilizados*/
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
-
+		ValidadorDadosObrigatoriosLivro vrDadosObrigatoriosLivro = new ValidadorDadosObrigatoriosLivro();
 		/* Criando uma lista para conter as regras de negócio de Categorias
 	
 		 * quando a operação for salvar
@@ -183,6 +184,7 @@ public class Fachada implements IFachada {
 		/* Adicionando as regras a serem utilizadas na operação salvar do fornecedor
 		 */
 		rnsSalvarLivro.add(cDtCadastro);
+		rnsSalvarLivro.add(vrDadosObrigatoriosLivro);
 
 		/* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
 		 * por operação  do fornecedor
@@ -196,7 +198,7 @@ public class Fachada implements IFachada {
 		/* Adiciona o mapa(criado na linha 79) com as regras indexadas pelas operações no mapa geral indexado 
 		 * pelo nome da entidade
 		 */
-		rns.put(Categoria.class.getName(), rnsLivro);
+		rns.put(Livro.class.getName(), rnsLivro);
 	}	
 	private void RegrarSubCategoria() {
 		/* Criando instâncias de regras de negócio a serem utilizados*/

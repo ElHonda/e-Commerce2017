@@ -95,12 +95,6 @@ public class CategoriaDAO extends AbstractJdbcDAO{
 		}
 		return nPst;
 	}
-
-	@Override
-	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
-		return nPst;
-	}
-
 	@Override
 	public EntidadeDominio consultar_id(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;

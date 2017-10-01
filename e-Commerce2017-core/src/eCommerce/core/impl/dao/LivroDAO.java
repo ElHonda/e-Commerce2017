@@ -15,6 +15,7 @@ import eCommerce.dominio.Autor;
 import eCommerce.dominio.Dimensao;
 import eCommerce.dominio.Editora;
 import eCommerce.dominio.EntidadeDominio;
+import eCommerce.dominio.GrupoPrecificacao;
 import eCommerce.dominio.Livro;
 import eCommerce.dominio.LivroCategoria;
 import eCommerce.dominio.LivroSubCategoria;
@@ -37,6 +38,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 		addColunas( "isbn"          );
 		addColunas( "numeroPaginas" );
 		addColunas( "sinopse"	    );
+		addColunas( "grupopreco_id" );
 		addColunas( "ativo"         );
 	}
 	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
@@ -47,16 +49,63 @@ public class LivroDAO extends AbstractJdbcDAO {
 		DimensaoDAO dDAO = new DimensaoDAO(this.connection);
 		dDAO.salvar(livro.getDimensao());
 		
+		salvarCategorias(livro);
+		salvarSubCategoria(livro);
+
+	}
+	@Override
+	public void alterar_pre(EntidadeDominio entidade) throws SQLException{
+		Livro livro = (Livro)entidade;
+		Livro livroOld = (Livro)consultar_id(livro);
+		
+		LivroCategoriaDAO lcDAO = new LivroCategoriaDAO(this.connection);
+		LivroSubCategoriaDAO lscDAO = new LivroSubCategoriaDAO(this.connection);
+		
+		for( LivroCategoria lc : livroOld.getCategorias() ) {
+			// Se não encontrou no atual, significa que precisa excluir
+			if( !livro.getCategorias().contains(lc) ) {
+				lcDAO.excluir(lc);
+			}
+		}
+		
+		for( LivroSubCategoria lsc : livroOld.getSubcategorias() ) {
+			if( !livro.getSubcategorias().contains(lsc) ) {
+				lscDAO.excluir(lsc);
+			}
+		}
+	}
+	public void alterar_pos(EntidadeDominio entidade) throws SQLException{
+		Livro livro = (Livro)entidade;
+
+		// Atualiza as dimensões
+		livro.getDimensao().setDimensionavel(livro);
+		DimensaoDAO dDAO = new DimensaoDAO(this.connection);
+		dDAO.alterar(livro.getDimensao());
+		
+		salvarCategorias(livro);
+		salvarSubCategoria(livro);
+	}
+	private void salvarCategorias(Livro livro) {
 		// Faz a gravação das Categorias para o livro
 		LivroCategoriaDAO lcDAO = new LivroCategoriaDAO(this.connection);
 		for( LivroCategoria livroCat : livro.getCategorias() ) {
-			lcDAO.salvar(livroCat);
+			if( livroCat.getId() != null && livroCat.getId() > 0 ) {
+				lcDAO.alterar(livroCat);
+			}else {
+				lcDAO.salvar(livroCat);
+			}
+			
 		}
-		
+	}
+	private void salvarSubCategoria(Livro livro) {
 		// Faz a gravação das SubCategorias para o livro
 		LivroSubCategoriaDAO lcsDAO = new LivroSubCategoriaDAO(this.connection);
 		for( LivroSubCategoria livroSubCat : livro.getSubcategorias() ) {
-			lcsDAO.salvar(livroSubCat);
+			if( livroSubCat.getId() != null && livroSubCat.getId() > 0 ) {
+				lcsDAO.alterar(livroSubCat);
+			}else {
+				lcsDAO.salvar(livroSubCat);
+			}
 		}
 	}
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
@@ -117,6 +166,11 @@ public class LivroDAO extends AbstractJdbcDAO {
 					hsWhere.put(lni, "%" + livro.getSinopse() + "%" );
 					lni++;
 				}
+				if( livro.getGrupo() != null && livro.getGrupo().getId() > 0 ) {
+					sb.addWhere("grupopreco_id = ? ");
+					hsWhere.put( lni , livro.getGrupo().getId() );
+					lni++;
+				}
 				if( livro.getAtivo() != null ) {
 					if( livro.getAtivo() ) {
 						sb.addWhere("ativo");
@@ -158,6 +212,12 @@ public class LivroDAO extends AbstractJdbcDAO {
 				editora.setId(rs.getInt("editora_id"));
 				l.setEditora((Editora)eDAO.consultar_id(editora));
 
+				// Faz a busca do Grupo de Precificação
+				GrupoPrecificacao grupo = new GrupoPrecificacao();
+				GrupoPrecificacaoDAO gDAO = new GrupoPrecificacaoDAO(this.connection);
+				grupo.setId(rs.getInt("grupopreco_id"));
+				l.setGrupo((GrupoPrecificacao)gDAO.consultar_id(grupo));
+				
 				// Faz a busca das Dimensões
 				Dimensao dimensao = new Dimensao();
 				DimensaoDAO dDAO = new DimensaoDAO(this.connection);
@@ -243,6 +303,12 @@ public class LivroDAO extends AbstractJdbcDAO {
 				editora.setId(rs.getInt("editora_id"));
 				l.setEditora((Editora)eDAO.consultar_id(editora));
 
+				// Faz a busca do Grupo de Precificação
+				GrupoPrecificacao grupo = new GrupoPrecificacao();
+				GrupoPrecificacaoDAO gDAO = new GrupoPrecificacaoDAO(this.connection);
+				grupo.setId(rs.getInt("grupopreco_id"));
+				l.setGrupo((GrupoPrecificacao)gDAO.consultar_id(grupo));
+				
 				// Faz a busca das Dimensões
 				Dimensao dimensao = new Dimensao();
 				DimensaoDAO dDAO = new DimensaoDAO(this.connection);
@@ -298,7 +364,8 @@ public class LivroDAO extends AbstractJdbcDAO {
 			nPst++;
 			pst.setString(nPst, l.getSinopse() );
 			nPst++;
-			
+			pst.setInt( nPst , l.getGrupo().getId() );
+			nPst++;
 			pst.setBoolean(nPst, (l.getAtivo()==null)?false:l.getAtivo() );
 			nPst++;
 			
@@ -306,11 +373,6 @@ public class LivroDAO extends AbstractJdbcDAO {
 			e.printStackTrace();
 		}
 		return nPst;
-	}
-
-	@Override
-	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
-		return null;
 	}
 
 }

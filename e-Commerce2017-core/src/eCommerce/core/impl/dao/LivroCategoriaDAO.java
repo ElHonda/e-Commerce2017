@@ -67,6 +67,7 @@ public class LivroCategoriaDAO extends AbstractJdbcDAO{
 			List<EntidadeDominio> livroscategorias = new ArrayList<EntidadeDominio>();
 			while (rs.next()) {
 				LivroCategoria lc = new LivroCategoria();
+				lc.setId(rs.getInt("id"));
 
 				if( livroCat.getLivro() == null ) {
 					// Faz a Busca do Livro
@@ -126,6 +127,8 @@ public class LivroCategoriaDAO extends AbstractJdbcDAO{
 			
 			ResultSet rs = pst.executeQuery();
 			while (rs.next()) {
+				lc.setId(rs.getInt("id"));
+
 				// Faz a Busca do Livro
 				Livro livro = new Livro();
 				LivroDAO aDAO = new LivroDAO(this.connection);
@@ -167,10 +170,4 @@ public class LivroCategoriaDAO extends AbstractJdbcDAO{
 		
 		return nPst;
 	}
-
-	@Override
-	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
-		return null;
-	}
-	
 }

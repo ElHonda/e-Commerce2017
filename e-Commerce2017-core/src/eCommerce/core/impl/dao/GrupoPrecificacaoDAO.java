@@ -99,12 +99,6 @@ public class GrupoPrecificacaoDAO extends AbstractJdbcDAO {
 		}
 		return nPst;
 	}
-
-	@Override
-	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
-		return null;
-	}
-
 	@Override
 	public EntidadeDominio consultar_id(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;

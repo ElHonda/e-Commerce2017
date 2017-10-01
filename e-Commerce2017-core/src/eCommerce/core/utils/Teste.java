@@ -24,8 +24,33 @@ public class Teste {
 		HardResetDatabase();
 		TesteInclusao();
 		TesteConsulta();
+		TesteUpdate();
 	}
 
+	private static void TesteUpdate() throws SQLException{
+		IFachada fachada = new Fachada();
+		// Livro
+		Livro livro = new Livro();
+		livro.setId(1);
+		livro = (Livro)fachada.consultar_id(livro).getEntidades().get(0);
+		System.out.println("Categorias vinculadas: ");
+		for( LivroCategoria cat : livro.getCategorias() ) {
+			System.out.print( cat.getCategoria().getDescricao() + "," );
+		}
+		
+		LivroCategoria livroCategoria = livro.getCategorias().get(2);
+		System.out.println("\nQuero remover essa aqui: " + livroCategoria.getCategoria().getDescricao() );
+		livro.removeCategoria(livroCategoria);
+		
+		
+		System.out.println("\nDepois da remoção : ");
+		for( LivroCategoria cat : livro.getCategorias() ) {
+			System.out.print( cat.getCategoria().getDescricao() + "," );
+		}
+		
+		fachada.alterar(livro);
+	
+	}
 	private static void TesteConsulta() throws SQLException {
 		IFachada fachada = new Fachada();
 
@@ -81,7 +106,7 @@ public class Teste {
 		editora = (Editora)fachada.consultar(editora).getEntidades().get(0);
 		System.out.println(editora.getNome());
 		
-		// Editora
+		// Grupo de Precificação
 		System.out.println(":::Consultando Grupo de Precificação:::");
 		GrupoPrecificacao grupo = new GrupoPrecificacao();
 		System.out.println("Grupo consulta Rapida...");
@@ -93,7 +118,6 @@ public class Teste {
 		grupo.setDescricao("imeiro");
 		grupo = (GrupoPrecificacao)fachada.consultar(grupo).getEntidades().get(0);
 		System.out.println(grupo.getDescricao());
-		
 		
 		// Livro
 		System.out.println(":::Consultando Livros:::");
@@ -185,6 +209,7 @@ public class Teste {
 		livro.setEditora(editora);
 		livro.setIsbn("123564987A645");
 		livro.setNumeroPaginas(177);
+		livro.setGrupo(grupo);
 		livro.setSinopse( "SINOPSE BASE PARA GRAVAÇÃO DO CRUD DO LIVRO" );
 		livro.setTitulo( "PRIMEIRO TÍTULO" );
 		

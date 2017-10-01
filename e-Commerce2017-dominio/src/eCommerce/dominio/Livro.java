@@ -12,6 +12,7 @@ public class Livro extends EntidadeDominio {
 	private Integer numeroPaginas;
 	private Boolean ativo;
 
+	private GrupoPrecificacao grupo;
 	private Autor autor;
 	private Editora editora;
 	private Dimensao dimensao;
@@ -35,6 +36,24 @@ public class Livro extends EntidadeDominio {
 			categorias = new ArrayList<LivroCategoria>();
 		categoria.setLivro(this);
 		categorias.add(categoria);
+	}
+	public void removeCategoria( LivroCategoria categoria ) {
+		if( categorias != null ) {
+			for( int i = 0 ; i < categorias.size(); i++ ) {
+				if( categorias.get(i).equals(categoria) ) {
+					categorias.remove(i);
+				}
+			}
+		}
+	}
+	public void removeSubCategoria( LivroSubCategoria subcategoria ) {
+		if( subcategorias != null ) {
+			for( int i = 0 ; i < subcategorias.size(); i++ ) {
+				if( subcategorias.get(i).equals(subcategoria) ) {
+					subcategorias.remove(i);
+				}
+			}
+		}
 	}
 	public List<LivroCategoria> getCategorias() {
 		return categorias;
@@ -102,5 +121,11 @@ public class Livro extends EntidadeDominio {
 	}
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
+	}
+	public GrupoPrecificacao getGrupo() {
+		return grupo;
+	}
+	public void setGrupo(GrupoPrecificacao grupo) {
+		this.grupo = grupo;
 	}
 }

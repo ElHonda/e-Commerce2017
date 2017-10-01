@@ -46,7 +46,7 @@ public abstract class AbstractJdbcDAO implements IDAO{
 	protected AbstractJdbcDAO(String table){
 		this.table = table;
 		this.pks = new ArrayList<String>();
-		this.pks.add("id" );
+		this.pks.add( "id" );
 		initColumns();
 	}
 	/**
@@ -239,6 +239,16 @@ public abstract class AbstractJdbcDAO implements IDAO{
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+		}
+		return nPst;
+	}
+	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
+		try {
+			pst.setInt( nPst, entidade.getId() );
+			nPst++;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return nPst;
 	}

@@ -16,4 +16,9 @@ public class LivroCategoria extends EntidadeDominio {
 	public void setLivro(Livro livro) {
 		this.livro = livro;
 	}
+	public boolean equals(Object obj) {
+		if( obj instanceof LivroCategoria )
+			return ((LivroCategoria) obj).getId() == this.getId();
+		return false;
+	}
 }

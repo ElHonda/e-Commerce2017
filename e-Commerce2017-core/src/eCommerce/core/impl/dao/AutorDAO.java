@@ -97,13 +97,6 @@ public class AutorDAO extends AbstractJdbcDAO {
 		}
 		return nPst;
 	}
-
-
-	@Override
-	public Integer setPreparedStatementOnlyUpdate(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
-		return nPst;
-	}
-
 	@Override
 	public void initColumns() {
 		addColunas( 0 , "nome"      );
