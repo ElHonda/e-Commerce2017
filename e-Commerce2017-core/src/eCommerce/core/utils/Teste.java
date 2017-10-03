@@ -21,6 +21,7 @@ import eCommerce.dominio.SubCategoria;
 
 public class Teste {
 	public static void main(String[] args) throws SQLException {
+		System.out.println( 0 % 4);
 		HardResetDatabase();
 		TesteInclusao();
 		TesteConsulta();

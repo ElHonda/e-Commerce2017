@@ -195,6 +195,7 @@ public class Fachada implements IFachada {
 		 */
 
 		rnsLivro.put("SALVAR", rnsSalvarLivro);	
+		rnsLivro.put("ALTERAR" , rnsSalvarLivro);
 		/* Adiciona o mapa(criado na linha 79) com as regras indexadas pelas operações no mapa geral indexado 
 		 * pelo nome da entidade
 		 */
@@ -277,8 +278,7 @@ public class Fachada implements IFachada {
 			}
 		}else{
 			resultado.setMsg(msg);
-					
-			
+			resultado.addEntidade(entidade);		
 		}
 		
 		return resultado;
@@ -367,6 +367,7 @@ public class Fachada implements IFachada {
 		return resultado;
 
 	}
+	/*
 	@Override
 	public Resultado visualizar(EntidadeDominio entidade) {
 		resultado = new Resultado();
@@ -375,7 +376,7 @@ public class Fachada implements IFachada {
 		return resultado;
 
 	}
-
+   */
 	
 	private String executarRegras(EntidadeDominio entidade, String operacao){
 		String nmClasse = entidade.getClass().getName();		
