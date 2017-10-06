@@ -250,8 +250,7 @@ public class Fachada implements IFachada {
 			}
 		}else{
 			resultado.setMsg(msg);
-					
-			
+			resultado.addEntidade(entidade);
 		}
 		
 		return resultado;
@@ -303,12 +302,12 @@ public class Fachada implements IFachada {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				resultado.setMsg("Não foi possível realizar o registro!");
-				
+				resultado.addEntidade(entidade);		
+
 			}
 		}else{
 			resultado.setMsg(msg);
-					
-			
+			resultado.addEntidade(entidade);
 		}
 		
 		return resultado;
@@ -335,7 +334,7 @@ public class Fachada implements IFachada {
 			}
 		}else{
 			resultado.setMsg(msg);
-			
+			resultado.addEntidade(entidade);
 		}
 		
 		return resultado;
@@ -361,7 +360,7 @@ public class Fachada implements IFachada {
 			}
 		}else{
 			resultado.setMsg(msg);
-			
+			resultado.addEntidade(entidade);
 		}
 		
 		return resultado;

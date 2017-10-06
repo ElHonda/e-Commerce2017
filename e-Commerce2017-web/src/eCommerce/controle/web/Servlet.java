@@ -29,22 +29,22 @@ import eCommerce.dominio.EntidadeDominio;
 public class Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	private static Map<String, ICommand> commands;
+	private static Map<EOperacao, ICommand> commands;
 	private static Map<String, IViewHelper> vhs;
-	
+
     /**
      * Default constructor. 
      */
     public Servlet() {
     	/* Utilizando o command para chamar a fachada e indexando cada command 
     	 * pela operação garantimos que esta servelt atenderá qualquer operação */
-    	commands = new HashMap<String, ICommand>();
+    	commands = new HashMap<EOperacao, ICommand>();
     	
-    	commands.put( "SALVAR"	   , new SalvarCommand()	 );
-    	commands.put( "EXCLUIR"    , new ExcluirCommand()	 );
-    	commands.put( "CONSULTAR"  , new ConsultarCommand()	 );
-    	commands.put( "VISUALIZAR" , new VisualizarCommand() );
-    	commands.put( "ALTERAR"    , new AlterarCommand()	 );
+    	commands.put( EOperacao.SALVAR     , new SalvarCommand()	 );
+    	commands.put( EOperacao.EXCLUIR    , new ExcluirCommand()	 );
+    	commands.put( EOperacao.CONSULTAR  , new ConsultarCommand()	 );
+    	commands.put( EOperacao.VISUALIZAR , new VisualizarCommand() );
+    	commands.put( EOperacao.ALTERAR    , new AlterarCommand()	 );
     	
     	
     	/* Utilizando o ViewHelper para tratar especificações de qualquer tela e indexando 
@@ -98,7 +98,6 @@ public class Servlet extends HttpServlet {
 		String uri = null;
 		JsonBuilder json = new JsonBuilder();
 		EntidadeDominio entidade;
-
 		//Obtêm a operação executada
 		String operacao = request.getParameter("operacao").trim().toUpperCase();
 		
@@ -132,7 +131,7 @@ public class Servlet extends HttpServlet {
 			entidade =  vh.getEntidade(request);
 		}
 		//Obtêm o command para executar a respectiva operação
-		ICommand command = commands.get(operacao);
+		ICommand command = commands.get(EOperacao.valueOf(operacao));
 
 		/*Executa o command que chamará a fachada para executar a operação requisitada
 		 * o retorno é uma instância da classe resultado que pode conter mensagens derro 

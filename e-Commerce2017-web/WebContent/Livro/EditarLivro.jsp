@@ -151,6 +151,8 @@
                         </div>
                    	</div>
 					<div class="row">
+					    <input type="hidden" name="livro_dimensao_id" id="livro_dimensao_id" value="<%= livro.getDimensao().getId() %>">
+					
                         <div class="form-group col-sm-3">
 							<label for="livro_dimensao_altura">Altura</label>
 							<input class="form-control form-control-sm" type="text" id="livro_dimensao_altura" name="livro_dimensao_altura" value="<%= livro.getDimensao().getAltura() %>"/>
@@ -182,6 +184,7 @@
                    	%>
                    		<div class="form-group col-sm-3">
                    		    <label for="livro_categoria">Categoria <%= j+1 %></label>
+                   		    <input type="hidden" name="livro_categoria_id" id="livro_categoria_id" value="<%= livro.getCategorias().get(j).getId() %>">
                    		    <select class="form-control form-control-sm"  name="livro_categoria_<%= j %>" id="livro_categoria_<%= j %>">
                             	<option value="">Selecione</option>
                             	<% 
@@ -212,6 +215,7 @@
                    	%>
                    		<div class="form-group col-sm-3">
                    		    <label for="livro_subcategoria">Sub-categoria <%= j+1 %></label>
+                   		    <input type="hidden" name="livro_subcategoria_id_<%= j %>" id="livro_subcategoria_id_<%= j %>" value="<%= livro.getSubcategorias().get(j).getId() %>">
                    		    <select class="form-control form-control-sm"  name="livro_subcategoria_<%= j %>" id="livro_subcategoria_<%= j %>">
                             	<option value="">Selecione</option>
                             	<% 
