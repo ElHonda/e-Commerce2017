@@ -15,9 +15,6 @@ import eCommerce.core.utils.Conexao;
 import eCommerce.core.utils.SqlBuilder;
 import eCommerce.dominio.EntidadeDominio;
 
-/*
- * TODO ainda não preparada para classes com chave composta
- * */
 public abstract class AbstractJdbcDAO implements IDAO{
 	protected List<String> colunas;
 	protected List<String> pks;
@@ -247,7 +244,6 @@ public abstract class AbstractJdbcDAO implements IDAO{
 			pst.setInt( nPst, entidade.getId() );
 			nPst++;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return nPst;

@@ -19,7 +19,7 @@ import eCommerce.dominio.LivroCategoria;
 import eCommerce.dominio.LivroSubCategoria;
 import eCommerce.dominio.SubCategoria;
 
-public class Teste {
+public class TesteLivro {
 	public static void main(String[] args) throws SQLException {
 		System.out.println( 0 % 4);
 		HardResetDatabase();
