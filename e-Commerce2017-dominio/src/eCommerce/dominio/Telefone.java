@@ -4,7 +4,14 @@ public class Telefone extends EntidadeDominio{
 	private String tipo;
 	private String ddd;
 	private String numero;
+	private EntidadeDominio telefonavel;
 	
+	public EntidadeDominio getTelefonavel() {
+		return telefonavel;
+	}
+	public void setTelefonavel(EntidadeDominio telefonavel) {
+		this.telefonavel = telefonavel;
+	}
 	public String getTipo() {
 		return tipo;
 	}

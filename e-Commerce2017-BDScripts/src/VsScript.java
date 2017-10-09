@@ -21,6 +21,12 @@ public class VsScript {
 		lista.add( new TbLivro() 			 );
 		lista.add( new TbLivroCategoria()    );
 		lista.add( new TbLivroSubCategoria() );
+		lista.add( new TbPais()              );
+		lista.add( new TbEstado()            );
+		lista.add( new TbCidade()            );
+		lista.add( new TbEndereco()          );
+		lista.add( new TbCliente()           );
+		lista.add( new TbTelefone()          );
 		
 		Connection conn= null ;
 		try {
@@ -35,14 +41,23 @@ public class VsScript {
 		}else {
 			System.out.println("Conectado a Base de Dados");
 
+			String script[];
 			VsProject vp = new VsProject(conn);
 			indexList = vp.getIndex();
+
 			for( ; indexList < lista.size(); indexList++  ){
 				System.out.println( "Executando script: " + lista.get(indexList).getClass().getName() );
-				pst = conn.prepareStatement(lista.get(indexList).getScript());
-				pst.executeUpdate();
-				vp.UpVersion(indexList);
+				script = lista.get(indexList).getScript().split(";");
+				
+				for( String str : script ) {
+					pst = conn.prepareStatement(str);
+					pst.executeUpdate();
+				}
+
+				vp.UpVersion(indexList+1);
 			}
+
+			
 		}
 		System.out.println("PROCESSAMENTO CONCLUÍDO!");
 	}

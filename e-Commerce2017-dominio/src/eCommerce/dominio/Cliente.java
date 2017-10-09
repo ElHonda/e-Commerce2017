@@ -8,7 +8,7 @@ public class Cliente extends EntidadeDominio{
 	/**
 	 * TODO Preparar classe para definir endereço preferencial do cliente.
 	 */
-	private boolean ativo;
+	private Boolean ativo;
 	private String email;
 	private String senha;
 	private ESexo sexo;
@@ -33,7 +33,7 @@ public class Cliente extends EntidadeDominio{
 	public void setRanking(Double ranking) {
 		this.ranking = ranking;
 	}
-	public boolean isAtivo() {
+	public Boolean getAtivo() {
 		return ativo;
 	}
 	public String getEmail() {
@@ -57,7 +57,7 @@ public class Cliente extends EntidadeDominio{
 	public Telefone getTelefone() {
 		return telefone;
 	}
-	public void setAtivo(boolean ativo) {
+	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
 	}
 	public void setEmail(String email) {

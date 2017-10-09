@@ -18,7 +18,9 @@ import eCommerce.controle.web.command.impl.ExcluirCommand;
 import eCommerce.controle.web.command.impl.SalvarCommand;
 import eCommerce.controle.web.command.impl.VisualizarCommand;
 import eCommerce.controle.web.vh.IViewHelper;
+import eCommerce.controle.web.vh.impl.ClienteViewHelper;
 import eCommerce.controle.web.vh.impl.LivroViewHelper;
+import eCommerce.core.aplicacao.EOperacao;
 import eCommerce.core.aplicacao.Resultado;
 import eCommerce.core.utils.JsonBuilder;
 import eCommerce.dominio.EntidadeDominio;
@@ -59,6 +61,11 @@ public class Servlet extends HttpServlet {
     	vhs.put("/e-Commerce2017-web/Livro/FormLivro"   , new LivroViewHelper() );
     	vhs.put("/e-Commerce2017-web/Livro/EditarLivro" , new LivroViewHelper() );
     	vhs.put("/e-Commerce2017-web/Livro/ListaLivro"  , new LivroViewHelper() );
+    	
+    	vhs.put("/e-Commerce2017-web/Cliente/CriarCliente", new ClienteViewHelper() );
+    	vhs.put("/e-Commerce2017-web/Cliente/FormCliente", new ClienteViewHelper() );
+    	vhs.put("/e-Commerce2017-web/Cliente/EditarCliente", new ClienteViewHelper() );
+    	vhs.put("/e-Commerce2017-web/Cliente/ListaCliente", new ClienteViewHelper() );
     }
     
     /** 

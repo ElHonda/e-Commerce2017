@@ -9,6 +9,14 @@ public class Endereco extends EntidadeDominio {
 	private String cep;
 	private Cidade cidade;
 	private String observacoes;
+	private EntidadeDominio enderecavel;
+	
+	public EntidadeDominio getEnderecavel() {
+		return enderecavel;
+	}
+	public void setEnderecavel(EntidadeDominio enderecavel) {
+		this.enderecavel = enderecavel;
+	}
 	public String getTipoResidencia() {
 		return tipoResidencia;
 	}

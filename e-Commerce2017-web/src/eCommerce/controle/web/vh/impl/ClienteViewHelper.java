@@ -24,7 +24,7 @@ import eCommerce.dominio.LivroCategoria;
 import eCommerce.dominio.LivroSubCategoria;
 import eCommerce.dominio.SubCategoria;
 
-public class LivroViewHelper implements IViewHelper{
+public class ClienteViewHelper implements IViewHelper{
 	@Override
 	public EntidadeDominio getEntidade(HttpServletRequest request) {
 		String id 		       		= request.getParameter( "livro_id"						);

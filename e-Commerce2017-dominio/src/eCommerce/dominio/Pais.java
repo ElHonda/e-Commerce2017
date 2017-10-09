@@ -2,9 +2,15 @@ package eCommerce.dominio;
 
 public class Pais  extends EntidadeDominio{
 	public String nome;
-
 	public String alphacode;
+	public Boolean ativo;
 	
+	public Boolean getAtivo() {
+		return ativo;
+	}
+	public void setAtivo(Boolean ativo) {
+		this.ativo = ativo;
+	}
 	public String getNome() {
 		return nome;
 	}
