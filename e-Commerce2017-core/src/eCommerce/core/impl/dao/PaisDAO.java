@@ -114,7 +114,7 @@ public class PaisDAO extends AbstractJdbcDAO{
 		addColunas( 0 , "id"        );
 		addColunas( 1 , "nome" 	    );
 		addColunas( 2 , "alphacode" );
-		addColunas( 4 , "ativo"     );
+		addColunas( 3 , "ativo"     );
 	}
 
 	@Override

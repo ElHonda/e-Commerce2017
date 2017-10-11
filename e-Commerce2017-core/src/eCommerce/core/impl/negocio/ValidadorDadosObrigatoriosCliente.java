@@ -7,7 +7,6 @@ public class ValidadorDadosObrigatoriosCliente implements IStrategy{
 
 	@Override
 	public String processar(EntidadeDominio entidade) {
-		// TODO Auto-generated method stub
 		return null;
 		// Gênero
 		// Nome

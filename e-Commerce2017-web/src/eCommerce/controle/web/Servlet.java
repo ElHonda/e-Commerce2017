@@ -153,4 +153,7 @@ public class Servlet extends HttpServlet {
 		vh.setView(resultado, request, response, operacao, ajaxResponse);
 	
 	}
+	public static void toTestando() {
+		
+	}
 }

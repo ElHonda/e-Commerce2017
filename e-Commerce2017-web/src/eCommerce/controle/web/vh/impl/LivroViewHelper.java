@@ -160,6 +160,9 @@ public class LivroViewHelper implements IViewHelper{
 			HttpServletResponse response, String operacao , Boolean ajaxResponse)
 			throws IOException, ServletException {
 
+		System.out.println("====================================");
+		System.out.println("ENTROU NA SERVLET");
+		System.out.println("====================================");
 		StringBuilder sb = new StringBuilder();
 		String redirectPage=null;
 		Livro livro;
@@ -233,6 +236,8 @@ public class LivroViewHelper implements IViewHelper{
 			}
 			break;
 		case CONSULTAR:
+			redirectPage = "ListaLivro.jsp";
+			request.setAttribute( "resultadoConsultar" , resultado );
 			break;
 		default:
 			break;

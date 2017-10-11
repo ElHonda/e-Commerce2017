@@ -1,10 +1,11 @@
+<%@page import="eCommerce.core.aplicacao.Resultado"%>
 <%@page import="eCommerce.dominio.Livro"%>
 <%@page import="eCommerce.dominio.EntidadeDominio"%>
 <%@page import="eCommerce.core.impl.controle.Fachada"%>
 <%@page import="eCommerce.core.IFachada"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,13 +16,8 @@ pageEncoding="utf-8"%>
 <body style="padding-top: 50px;background-color: #455058;padding-bottom: 50px;">
 	<jsp:include page="../public/navbar.jsp"/>
 	<jsp:include page="../public/bodybar.jspf"/>
-
 	<br/>
-	<div class="nav navbar navbar-dark bg-dark">
-	  <a class="navbar-brand" href="<%=request.getContextPath()%>/Livro/FormLivro.jsp">
-	    <img src="<%=request.getContextPath()%>/resources/images/img-cad-new.png" width="30" height="30" alt="">
-	  </a>
-	</div>
+	<jsp:include page="BuscarLivro.jsp"/>
 	<br/>
 	
 	<jsp:include page="../public/messages.jsp"/>
@@ -46,10 +42,11 @@ pageEncoding="utf-8"%>
 		</thead>
 		<tbody>
 	        <% 
-				IFachada fachada = new Fachada();
-	            List<EntidadeDominio> lista = fachada.consultar(new Livro()).getEntidades();
-				for( EntidadeDominio ent : lista ){
-					Livro livro = (Livro)ent;
+	        	if( request.getAttribute( "resultadoConsultar" ) !=  null ){
+					Resultado resultado = (Resultado)request.getAttribute( "resultadoConsultar" );
+	        	
+					for( EntidadeDominio ent : resultado.getEntidades() ){
+						Livro livro = (Livro)ent;
 			%>
 				<tr>
 					<th><%= livro.getId().toString() %></th>
@@ -67,7 +64,8 @@ pageEncoding="utf-8"%>
 					<th><a href="<%=request.getContextPath()%>/Livro/EditarLivro?operacao=excluir&livro_id=<%= livro.getId().toString() %>" onclick="return confirm('Realmente deseja excluir o Livro ?')">Excluir</a></th>
 				</tr>
 			<%
-				}
+					}
+	            }
 			%>
 		</tbody>
 	</table>

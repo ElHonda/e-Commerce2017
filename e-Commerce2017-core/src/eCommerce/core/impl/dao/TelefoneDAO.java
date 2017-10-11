@@ -124,11 +124,11 @@ public class TelefoneDAO extends AbstractJdbcDAO{
 	
 	@Override
 	public void initColumns() {
-		addColunas( 0 , "tipo"   );
-		addColunas( 1 , "ddd"    );
-		addColunas( 2 , "numero" );
-		addColunas( 8 , "enderecavel_id"    );
-		addColunas( 9 , "enderecavel_class" );
+		addColunas( "tipo"   			);
+		addColunas( "ddd"    			);
+		addColunas( "numero" 			);
+		addColunas( "enderecavel_id"    );
+		addColunas( "enderecavel_class" );
 	}
 
 	@Override
