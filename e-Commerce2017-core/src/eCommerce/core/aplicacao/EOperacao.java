@@ -1,5 +1,5 @@
 package eCommerce.core.aplicacao;
 
 public enum EOperacao {
-	SALVAR, EXCLUIR, CONSULTAR, VISUALIZAR, ALTERAR;
+	SALVAR, EXCLUIR, CONSULTAR, VISUALIZAR, ALTERAR, NOVO;
 }

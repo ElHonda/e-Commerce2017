@@ -157,7 +157,7 @@ public class ClienteViewHelper implements IViewHelper{
 	}
 	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, 
-			HttpServletResponse response, String operacao , Boolean ajaxResponse)
+			HttpServletResponse response, EOperacao operacao , Boolean ajaxResponse)
 			throws IOException, ServletException {
 
 		StringBuilder sb = new StringBuilder();
@@ -165,7 +165,7 @@ public class ClienteViewHelper implements IViewHelper{
 		Livro livro;
 		Boolean useDispatch=true;
 
-		switch (EOperacao.valueOf(operacao)) {
+		switch (operacao) {
 		case SALVAR:
 			if( resultado.getMsg() == null || resultado.getMsg().length() == 0 ) {
 				redirectPage = "ListaLivro.jsp";

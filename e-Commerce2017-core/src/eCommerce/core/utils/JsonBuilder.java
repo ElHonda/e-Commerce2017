@@ -16,19 +16,21 @@ public class JsonBuilder {
 		String[] parts;
 		// Faz o tratamento da string para criar objeto semelhante a json
 		// Remove o primeiro e o último caracter ( Chaves {} )
-		string = string.substring(1, string.length()-1);
-		parts = string.split(",");
-		
-		for( String s : parts ) {
-			String[] duo = s.split(":");
-			String str1 = duo[0].trim();
-			String str2 = duo[1].trim();
-			str1 = str1.substring(1);
-			str1 = str1.substring(0, str1.length()-1);
-			str2 = str2.substring(1);
-			str2 = str2.substring(0, str2.length()-1);
-
-			jsonMap.put(str1,str2);
+		if( string != null && string.length() > 0 ) {
+			string = string.substring(1, string.length()-1);
+			parts = string.split(",");
+			
+			for( String s : parts ) {
+				String[] duo = s.split(":");
+				String str1 = duo[0].trim();
+				String str2 = duo[1].trim();
+				str1 = str1.substring(1);
+				str1 = str1.substring(0, str1.length()-1);
+				str2 = str2.substring(1);
+				str2 = str2.substring(0, str2.length()-1);
+	
+				jsonMap.put(str1,str2);
+			}
 		}
 	}
 	

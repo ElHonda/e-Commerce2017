@@ -1,3 +1,4 @@
+<%@page import="eCommerce.core.aplicacao.Resultado"%>
 <%@page import="eCommerce.dominio.Categoria"%>
 <%@page import="eCommerce.dominio.SubCategoria"%>
 <%@page import="eCommerce.dominio.GrupoPrecificacao"%>
@@ -7,7 +8,6 @@
 <%@page import="java.util.Comparator"%>
 <%@page import="java.util.Collections"%>
 <%@page import="eCommerce.core.impl.controle.Fachada"%>
-<%@page import="eCommerce.core.IFachada"%>
 <%@page import="java.util.List" %>
 <%@page import="java.sql.Connection"%>
 <%@page import="eCommerce.core.utils.*"%>
@@ -33,6 +33,7 @@ pageEncoding="utf-8"%>
             <div class="text-center">
                 <div class="card-header">Novo Livro</div>
                 <div class="card-block">
+                	<input type="hidden" name="livro_ativo" id="livro_ativo" value="true">
                     <div class="row">
                         <div class="form-group col-sm-3">
 							<label for="livro_titulo">Título</label>
@@ -51,22 +52,24 @@ pageEncoding="utf-8"%>
                             <select class="form-control form-control-sm" name="livro_autor_id" id="livro_autor_id">
                                 <option value="">Selecione</option>
                           		<% 
-									IFachada fachada = new Fachada();
-                            		List<EntidadeDominio> autores = fachada.consultar(new Autor()).getEntidades();
-									Collections.sort( autores , new Comparator<Object>(){
-										public int compare( Object o1, Object o2 ){
-											Autor a1 = (Autor)o1;
-											Autor a2 = (Autor)o2;
-											return (a1.getSobrenome()+a1.getNome()).compareTo(a2.getSobrenome()+ a2.getNome() );
-										}
-									});
+                    	        	if( request.getAttribute( "listaAutor" ) !=  null ){
+                    					Resultado resultado = (Resultado)request.getAttribute( "listaAutor" );
+                            			List<EntidadeDominio> autores = resultado.getEntidades();
+										Collections.sort( autores , new Comparator<Object>(){
+											public int compare( Object o1, Object o2 ){
+												Autor a1 = (Autor)o1;
+												Autor a2 = (Autor)o2;
+												return (a1.getSobrenome()+a1.getNome()).compareTo(a2.getSobrenome()+ a2.getNome() );
+											}
+										});
 			
-									for( EntidadeDominio ent : autores ){
-										Autor autor = (Autor)ent;
+										for( EntidadeDominio ent : autores ){
+											Autor autor = (Autor)ent;
 								%>
 									<option value="<%= autor.getId().toString() %>"><%= autor.getSobrenome() + ", " + autor.getNome() %> </option>
 								<%
-									}
+										}
+                    	        	}
 								%>
                             </select>
                         </div>
@@ -77,44 +80,50 @@ pageEncoding="utf-8"%>
                             <select class="form-control form-control-sm"  name="livro_editora_id" id="livro_editora_id">
                                 <option value="">Selecione</option>
                           		<% 
-                            		List<EntidadeDominio> editoras = fachada.consultar(new Editora()).getEntidades();
-									Collections.sort( editoras , new Comparator<Object>(){
-										public int compare( Object o1, Object o2 ){
-											Editora e1 = (Editora)o1;
-											Editora e2 = (Editora)o2;
-											return e1.getNome().compareTo(e2.getNome());
-										}
-									});
-			
-									for( EntidadeDominio ent : editoras ){
-										Editora editora = (Editora)ent;
+                	        		if( request.getAttribute( "listaEditora" ) !=  null ){
+                						Resultado resultado = (Resultado)request.getAttribute( "listaEditora" );
+	                            		List<EntidadeDominio> editoras = resultado.getEntidades();
+										Collections.sort( editoras , new Comparator<Object>(){
+											public int compare( Object o1, Object o2 ){
+												Editora e1 = (Editora)o1;
+												Editora e2 = (Editora)o2;
+												return e1.getNome().compareTo(e2.getNome());
+											}
+										});
+				
+										for( EntidadeDominio ent : editoras ){
+											Editora editora = (Editora)ent;
 								%>
 									<option value="<%= editora.getId().toString() %>"><%= editora.getNome() %> </option>
 								<%
-									}
+										}
+                	        		}
 								%>
                             </select>
                         </div>
-                        <div class="form-group col-sm-2">
+                        <div class="form-group col-sm-3">
 							<label for="livro_grupopreco_id">Grupo de Precificação</label>
                             <select class="form-control form-control-sm"  name="livro_grupopreco_id" id="livro_grupopreco_id">
                                 <option value="">Selecione</option>
                           		<% 
-                            		List<EntidadeDominio> grupos = fachada.consultar(new GrupoPrecificacao()).getEntidades();
-									Collections.sort( grupos , new Comparator<Object>(){
-										public int compare( Object o1, Object o2 ){
-											GrupoPrecificacao g1 = (GrupoPrecificacao)o1;
-											GrupoPrecificacao g2 = (GrupoPrecificacao)o2;
-											return g1.getDescricao().compareTo(g2.getDescricao());
-										}
-									});
-			
-									for( EntidadeDominio ent : grupos ){
-										GrupoPrecificacao grupo = (GrupoPrecificacao)ent;
+	            	        		if( request.getAttribute( "listaGrupo" ) !=  null ){
+	            						Resultado resultado = (Resultado)request.getAttribute( "listaGrupo" );
+	                            		List<EntidadeDominio> grupos = resultado.getEntidades();
+										Collections.sort( grupos , new Comparator<Object>(){
+											public int compare( Object o1, Object o2 ){
+												GrupoPrecificacao g1 = (GrupoPrecificacao)o1;
+												GrupoPrecificacao g2 = (GrupoPrecificacao)o2;
+												return g1.getDescricao().compareTo(g2.getDescricao());
+											}
+										});
+				
+										for( EntidadeDominio ent : grupos ){
+											GrupoPrecificacao grupo = (GrupoPrecificacao)ent;
 								%>
 									<option value="<%= grupo.getId().toString() %>"><%= grupo.getDescricao() %> </option>
 								<%
-									}
+										}
+	            	        		}
 								%>
                             </select>
                         </div>
@@ -129,14 +138,6 @@ pageEncoding="utf-8"%>
                         <div class="form-group col-sm-2">
 							<label for="livro_sinopse">Sinopse</label>
 							<input class="form-control form-control-sm" type="text" id="livro_sinopse" name="livro_sinopse"/>
-                        </div>
-                        <div class="form-group col-sm-1">
-                        	<label for="livro_ativo">Ativo</label>
-							<div class="form-check">
-							  <label class="form-check-label">
-							    <input class="form-check-input" type="checkbox" value="" name="livro_ativo" id="livro_ativo">
-							  </label>
-							</div>
                         </div>
                    	</div>
 					<div class="row">
@@ -158,55 +159,57 @@ pageEncoding="utf-8"%>
                         </div>
                    	</div>
 					<div class="row">
-                   	<%
-                   		List<EntidadeDominio> categorias = fachada.consultar( new Categoria()).getEntidades();
-                   		Collections.sort( categorias , new Comparator<Object>(){
-                   			public int compare( Object o1 , Object o2 ){
-                   				Categoria c1 = (Categoria)o1;
-                   				Categoria c2 = (Categoria)o2;
-                   				return c1.getDescricao().compareTo(c2.getDescricao());
-                   			}
-                   		});
-                   	%>
                    		<div class="form-group col-sm-3">
                    		    <label for="livro_categoria_0">Categoria</label>
                    		    <select class="form-control form-control-sm"  name="livro_categoria_0" id="livro_categoria_0">
                             	<option value="">Selecione</option>
-                            	<% 
-                            		for( EntidadeDominio ent : categorias ){
-										Categoria categoria = (Categoria)ent;
+			                    <% 
+						        		if( request.getAttribute( "listaCategoria" ) !=  null ){
+											Resultado resultado = (Resultado)request.getAttribute( "listaCategoria" );
+					                		List<EntidadeDominio> categorias = resultado.getEntidades();
+					                   		Collections.sort( categorias , new Comparator<Object>(){
+					                   			public int compare( Object o1 , Object o2 ){
+					                   				Categoria c1 = (Categoria)o1;
+					                   				Categoria c2 = (Categoria)o2;
+					                   				return c1.getDescricao().compareTo(c2.getDescricao());
+					                   			}
+					                   		});
+					                        for( EntidadeDominio ent : categorias ){
+												Categoria categoria = (Categoria)ent;
 								%>
 								<option value="<%= categoria.getId() %>"><%= categoria.getDescricao() %> </option>
-								<%
-									}
-								%>
+							<%
+										}
+				        			}
+		                    %>
 							</select>
                         </div>
 
                    	</div>
                    	<div class="row">
-                   	<%
-                   		List<EntidadeDominio> subcategorias = fachada.consultar( new SubCategoria()).getEntidades();
-                   		Collections.sort( subcategorias , new Comparator<Object>(){
-                   			public int compare( Object o1 , Object o2 ){
-                   				SubCategoria c1 = (SubCategoria)o1;
-                   				SubCategoria c2 = (SubCategoria)o2;
-                   				return c1.getDescricao().compareTo(c2.getDescricao());
-                   			}
-                   		});
-                   	%>
                    		<div class="form-group col-sm-3">
                    		    <label for="livro_subcategoria_0">Sub-categoria</label>
                    		    <select class="form-control form-control-sm"  name="livro_subcategoria_0" id="livro_subcategoria_0">
                             	<option value="">Selecione</option>
-                            	<% 
-                            		for( EntidadeDominio ent : subcategorias ){
-										SubCategoria subcategoria = (SubCategoria)ent;
+			                    <% 
+						        		if( request.getAttribute( "listaSubCategoria" ) !=  null ){
+											Resultado resultado = (Resultado)request.getAttribute( "listaSubCategoria" );
+					                		List<EntidadeDominio> subcategorias = resultado.getEntidades();
+					                   		Collections.sort( subcategorias , new Comparator<Object>(){
+					                   			public int compare( Object o1 , Object o2 ){
+					                   				SubCategoria c1 = (SubCategoria)o1;
+					                   				SubCategoria c2 = (SubCategoria)o2;
+					                   				return c1.getDescricao().compareTo(c2.getDescricao());
+					                   			}
+					                   		});
+				                       		for( EntidadeDominio ent : subcategorias ){
+												SubCategoria subcategoria = (SubCategoria)ent;
 								%>
 								<option value="<%= subcategoria.getId() %>"><%= subcategoria.getDescricao() %> </option>
 								<%
-									}
-								%>
+				                       		}
+										}
+			                    %>
 							</select>
                         </div>
 

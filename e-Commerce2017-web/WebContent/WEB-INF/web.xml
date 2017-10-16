@@ -35,9 +35,16 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
-  	<url-pattern>/Livro/EditarLivro/*</url-pattern>
+  	<url-pattern>/Livro/AlterarLivro</url-pattern>
   </servlet-mapping>
-  
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Livro/EditarLivro</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Livro/ExcluirLivro</url-pattern>
+  </servlet-mapping>  
     <!-- Clientes -->
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>

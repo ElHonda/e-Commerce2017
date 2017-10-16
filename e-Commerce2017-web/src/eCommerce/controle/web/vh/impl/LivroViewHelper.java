@@ -10,8 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import eCommerce.controle.web.vh.IViewHelper;
+import eCommerce.core.IFachada;
 import eCommerce.core.aplicacao.EOperacao;
 import eCommerce.core.aplicacao.Resultado;
+import eCommerce.core.impl.controle.Fachada;
 import eCommerce.core.utils.JsonBuilder;
 import eCommerce.dominio.Autor;
 import eCommerce.dominio.Categoria;
@@ -157,21 +159,18 @@ public class LivroViewHelper implements IViewHelper{
 	}
 	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, 
-			HttpServletResponse response, String operacao , Boolean ajaxResponse)
+			HttpServletResponse response, EOperacao operacao , Boolean ajaxResponse)
 			throws IOException, ServletException {
-
-		System.out.println("====================================");
-		System.out.println("ENTROU NA SERVLET");
-		System.out.println("====================================");
+		IFachada fachada = new Fachada();
 		StringBuilder sb = new StringBuilder();
 		String redirectPage=null;
 		Livro livro;
 		Boolean useDispatch=true;
 
-		switch (EOperacao.valueOf(operacao)) {
+		switch (operacao) {
 		case SALVAR:
 			if( resultado.getMsg() == null || resultado.getMsg().length() == 0 ) {
-				redirectPage = "ListaLivro.jsp";
+				redirectPage = "ListaLivro";
 
 				livro = (Livro)resultado.getEntidades().get(0);
 				sb.append( "Livro \"" );
@@ -195,7 +194,7 @@ public class LivroViewHelper implements IViewHelper{
 			break;
 		case ALTERAR:
 			if( resultado.getMsg() == null || resultado.getMsg().length() == 0 ) {
-				redirectPage = "ListaLivro.jsp";
+				redirectPage = "ListaLivro";
 
 				livro = (Livro)resultado.getEntidades().get(0);
 				sb.append( "Livro \"" );
@@ -203,6 +202,7 @@ public class LivroViewHelper implements IViewHelper{
 				sb.append( " - " );
 				sb.append( livro.getTitulo().trim() );
 				sb.append( "\" alterado com sucesso !" );
+				useDispatch = false;
 				request.getSession().setAttribute("sucessoMsg", sb.toString() );
 			}else {
 				useDispatch = false;
@@ -215,11 +215,15 @@ public class LivroViewHelper implements IViewHelper{
 		case VISUALIZAR:
 				redirectPage = "EditarLivro.jsp";
 				// Na visualização se espera apenas 1 livro.
-				request.setAttribute("resultadoEditar", resultado.getEntidades().get(0));
-
+				request.setAttribute( "resultadoEditar"	   , resultado.getEntidades().get(0)			  );
+				request.setAttribute( "listaAutor"         , fachada.consultar( new Autor()             ) );
+				request.setAttribute( "listaEditora"       , fachada.consultar( new Editora()           ) );
+				request.setAttribute( "listaGrupo"         , fachada.consultar( new GrupoPrecificacao() ) );
+				request.setAttribute( "listaCategoria"     , fachada.consultar( new Categoria()         ) );
+				request.setAttribute( "listaSubCategoria"  , fachada.consultar( new SubCategoria()      ) );
 			break;
 		case EXCLUIR:
-			redirectPage = "ListaLivro.jsp";
+			redirectPage = "ListaLivro";
 
 			if( resultado.getMsg() == null || resultado.getMsg().length() == 0 ) {
 				
@@ -238,6 +242,20 @@ public class LivroViewHelper implements IViewHelper{
 		case CONSULTAR:
 			redirectPage = "ListaLivro.jsp";
 			request.setAttribute( "resultadoConsultar" , resultado );
+			request.setAttribute( "listaAutor"         , fachada.consultar( new Autor()             ) );
+			request.setAttribute( "listaEditora"       , fachada.consultar( new Editora()           ) );
+			request.setAttribute( "listaGrupo"         , fachada.consultar( new GrupoPrecificacao() ) );
+			request.setAttribute( "listaCategoria"     , fachada.consultar( new Categoria()         ) );
+			request.setAttribute( "listaSubCategoria"  , fachada.consultar( new SubCategoria()      ) );
+			break;
+		case NOVO:
+			redirectPage = "FormLivro.jsp";
+			request.setAttribute( "resultadoConsultar" , resultado );
+			request.setAttribute( "listaAutor"         , fachada.consultar( new Autor()             ) );
+			request.setAttribute( "listaEditora"       , fachada.consultar( new Editora()           ) );
+			request.setAttribute( "listaGrupo"         , fachada.consultar( new GrupoPrecificacao() ) );
+			request.setAttribute( "listaCategoria"     , fachada.consultar( new Categoria()         ) );
+			request.setAttribute( "listaSubCategoria"  , fachada.consultar( new SubCategoria()      ) );
 			break;
 		default:
 			break;

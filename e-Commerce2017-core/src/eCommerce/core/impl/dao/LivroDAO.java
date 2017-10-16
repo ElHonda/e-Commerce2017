@@ -366,7 +366,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			nPst++;
 			pst.setInt( nPst , l.getGrupo().getId() );
 			nPst++;
-			pst.setBoolean(nPst, (l.getAtivo()==null)?false:l.getAtivo() );
+			pst.setBoolean(nPst, (l.getAtivo()==null)?true:l.getAtivo() );
 			nPst++;
 			
 		} catch (SQLException e) {

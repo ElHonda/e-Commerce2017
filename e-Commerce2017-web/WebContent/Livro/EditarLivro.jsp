@@ -1,3 +1,4 @@
+<%@page import="eCommerce.core.aplicacao.Resultado"%>
 <%@page import="eCommerce.dominio.SubCategoria"%>
 <%@page import="eCommerce.dominio.Categoria"%>
 <%@page import="eCommerce.dominio.Livro"%>
@@ -31,18 +32,25 @@
 
 	<% 
 		Livro livro;
+		String header = "Editar Livro";
 		if( request.getAttribute("resultadoEditar") == null ){
 			livro = new Livro();
 		}else{
 			livro = (Livro)request.getAttribute("resultadoEditar");
+			if( livro.getAtivo() != null && livro.getAtivo() ){
+				header = "Editar Livro - " + livro.getId().toString() + " - Ativado";
+			}else{
+				header = "Editar Livro - " + livro.getId().toString() + " - Inativado";
+			}
 		}
 	%>
 
-  	<form action="EditarLivro" method="post"  <%="data-confirm"%>="Realmente deseja alterar o Livro ?">
+  	<form action="AlterarLivro" method="post"  <%="data-confirm"%>="Realmente deseja alterar o Livro ?">
 		<div class="card text-white bg-dark" >
             <div class="text-center">
-                <div class="card-header">Editar Livro - <%= livro.getId() %></div>
+                <div class="card-header"><%= header %></div>
                 <input type="hidden" name="livro_id" id="livro_id" value="<%= livro.getId() %>">
+                <input type="hidden" name="livro_ativo" id="livro_ativo" value="<%= livro.getAtivo() %>">
                 <div class="card-block">
                     <div class="row">
                         <div class="form-group col-sm-3">
@@ -75,7 +83,7 @@
 									for( EntidadeDominio ent : autores ){
 										Autor autor = (Autor)ent;
 								%>
-									<option value="<%= autor.getId() %>" <%= livro.getAutor().getId() == autor.getId() ? "selected=\"selected\"" : "" %>><%= autor.getSobrenome() + ", " + autor.getNome() %></option>
+									<option value="<%= autor.getId().toString() %>"><%= autor.getSobrenome() + ", " + autor.getNome() %> </option>
 								<%
 									}
 								%>
@@ -88,44 +96,50 @@
                             <select class="form-control form-control-sm"  name="livro_editora_id" id="livro_editora_id">
                                 <option value="">Selecione</option>
                           		<% 
-                            		List<EntidadeDominio> editoras = fachada.consultar(new Editora()).getEntidades();
-									Collections.sort( editoras , new Comparator<Object>(){
-										public int compare( Object o1, Object o2 ){
-											Editora e1 = (Editora)o1;
-											Editora e2 = (Editora)o2;
-											return e1.getNome().compareTo(e2.getNome());
-										}
-									});
-			
-									for( EntidadeDominio ent : editoras ){
-										Editora editora = (Editora)ent;
+                	        		if( request.getAttribute( "listaEditora" ) !=  null ){
+                						Resultado resultado = (Resultado)request.getAttribute( "listaEditora" );
+	                            		List<EntidadeDominio> editoras = resultado.getEntidades();
+										Collections.sort( editoras , new Comparator<Object>(){
+											public int compare( Object o1, Object o2 ){
+												Editora e1 = (Editora)o1;
+												Editora e2 = (Editora)o2;
+												return e1.getNome().compareTo(e2.getNome());
+											}
+										});
+				
+										for( EntidadeDominio ent : editoras ){
+											Editora editora = (Editora)ent;
 								%>
 									<option value="<%= editora.getId() %>" <%= livro.getAutor().getId() == editora.getId() ? "selected=\"selected\"" : "" %>><%= editora.getNome() %> </option>
 								<%
-									}
+										}
+                	        		}
 								%>
                             </select>
                         </div>
-                        <div class="form-group col-sm-2">
+                        <div class="form-group col-sm-3">
 							<label for="livro_grupopreco_id">Grupo de Precificação</label>
                             <select class="form-control form-control-sm"  name="livro_grupopreco_id" id="livro_grupopreco_id">
                                 <option value="">Selecione</option>
                           		<% 
-                            		List<EntidadeDominio> grupos = fachada.consultar(new GrupoPrecificacao()).getEntidades();
-									Collections.sort( grupos , new Comparator<Object>(){
-										public int compare( Object o1, Object o2 ){
-											GrupoPrecificacao g1 = (GrupoPrecificacao)o1;
-											GrupoPrecificacao g2 = (GrupoPrecificacao)o2;
-											return g1.getDescricao().compareTo(g2.getDescricao());
-										}
-									});
-			
-									for( EntidadeDominio ent : grupos ){
-										GrupoPrecificacao grupo = (GrupoPrecificacao)ent;
+	            	        		if( request.getAttribute( "listaGrupo" ) !=  null ){
+	            						Resultado resultado = (Resultado)request.getAttribute( "listaGrupo" );
+	                            		List<EntidadeDominio> grupos = resultado.getEntidades();
+										Collections.sort( grupos , new Comparator<Object>(){
+											public int compare( Object o1, Object o2 ){
+												GrupoPrecificacao g1 = (GrupoPrecificacao)o1;
+												GrupoPrecificacao g2 = (GrupoPrecificacao)o2;
+												return g1.getDescricao().compareTo(g2.getDescricao());
+											}
+										});
+				
+										for( EntidadeDominio ent : grupos ){
+											GrupoPrecificacao grupo = (GrupoPrecificacao)ent;
 								%>
 									<option value="<%= grupo.getId() %>" <%= livro.getAutor().getId() == grupo.getId() ? "selected=\"selected\"" : "" %>><%= grupo.getDescricao() %> </option>
 								<%
-									}
+										}
+	            	        		}
 								%>
                             </select>
                         </div>
@@ -140,14 +154,6 @@
                         <div class="form-group col-sm-2">
 							<label for="livro_sinopse">Sinopse</label>
 							<input class="form-control form-control-sm" type="text" id="livro_sinopse" name="livro_sinopse" value="<%= livro. getSinopse() %>"/>
-                        </div>
-                        <div class="form-group col-sm-1">
-                        	<label for="livro_ativo">Ativo</label>
-							<div class="form-check">
-							  <label class="form-check-label">
-							    <input class="form-check-input" type="checkbox" value="<%= livro.getAtivo() %>" name="livro_ativo" id="livro_ativo">
-							  </label>
-							</div>
                         </div>
                    	</div>
 					<div class="row">
@@ -172,65 +178,68 @@
                    	</div>
                    	<div class="row">
                    	<%
-                   		List<EntidadeDominio> categorias = fachada.consultar( new Categoria()).getEntidades();
-                   		Collections.sort( categorias , new Comparator<Object>(){
-                   			public int compare( Object o1 , Object o2 ){
-                   				Categoria c1 = (Categoria)o1;
-                   				Categoria c2 = (Categoria)o2;
-                   				return c1.getDescricao().compareTo(c2.getDescricao());
-                   			}
-                   		});
-                   		for( Integer j = 0 ; j < livro.getCategorias().size(); j++ ){
+                   		for( Integer j = 0 ; j < livro.getCategorias().size() ; j++ ){
                    	%>
                    		<div class="form-group col-sm-3">
                    		    <label for="livro_categoria">Categoria <%= j+1 %></label>
                    		    <input type="hidden" name="livro_categoria_id" id="livro_categoria_id" value="<%= livro.getCategorias().get(j).getId() %>">
                    		    <select class="form-control form-control-sm"  name="livro_categoria_<%= j %>" id="livro_categoria_<%= j %>">
                             	<option value="">Selecione</option>
-                            	<% 
-                            		for( EntidadeDominio ent : categorias ){
-										Categoria categoria = (Categoria)ent;
-								%>
+                    <% 
+			        		if( request.getAttribute( "listaCategoria" ) !=  null ){
+								Resultado resultado = (Resultado)request.getAttribute( "listaCategoria" );
+		                		List<EntidadeDominio> categorias = resultado.getEntidades();
+		                   		Collections.sort( categorias , new Comparator<Object>(){
+		                   			public int compare( Object o1 , Object o2 ){
+		                   				Categoria c1 = (Categoria)o1;
+		                   				Categoria c2 = (Categoria)o2;
+		                   				return c1.getDescricao().compareTo(c2.getDescricao());
+		                   			}
+		                   		});
+		                        for( EntidadeDominio ent : categorias ){
+									Categoria categoria = (Categoria)ent;
+					%>
 								<option value="<%= categoria.getId() %>" <%= livro.getCategorias().get(j).getCategoria().getId() == categoria.getId() ? "selected=\"selected\"" : "" %>><%= categoria.getDescricao() %> </option>
-								<%
-									}
-								%>
+					<%
+								}
+		        			}
+                    %>
 							</select>
                         </div>
-                   	<%
-                   		}
-                   	%>
-                   	</div>
-                   	<div class="row">
-                   	<%
-                   		List<EntidadeDominio> subcategorias = fachada.consultar( new SubCategoria()).getEntidades();
-                   		Collections.sort( subcategorias , new Comparator<Object>(){
-                   			public int compare( Object o1 , Object o2 ){
-                   				SubCategoria c1 = (SubCategoria)o1;
-                   				SubCategoria c2 = (SubCategoria)o2;
-                   				return c1.getDescricao().compareTo(c2.getDescricao());
-                   			}
-                   		});
-                   		for( Integer j = 0 ; j < livro.getSubcategorias().size(); j++ ){
+
+                    <%
+		        		}
+                   		for( Integer j = 0 ; j < livro.getSubcategorias().size() ; j++ ){
                    	%>
                    		<div class="form-group col-sm-3">
                    		    <label for="livro_subcategoria">Sub-categoria <%= j+1 %></label>
                    		    <input type="hidden" name="livro_subcategoria_id_<%= j %>" id="livro_subcategoria_id_<%= j %>" value="<%= livro.getSubcategorias().get(j).getId() %>">
                    		    <select class="form-control form-control-sm"  name="livro_subcategoria_<%= j %>" id="livro_subcategoria_<%= j %>">
                             	<option value="">Selecione</option>
-                            	<% 
-                            		for( EntidadeDominio ent : subcategorias ){
-										SubCategoria subcategoria = (SubCategoria)ent;
-								%>
+                    <% 
+			        		if( request.getAttribute( "listaSubCategoria" ) !=  null ){
+								Resultado resultado = (Resultado)request.getAttribute( "listaSubCategoria" );
+		                		List<EntidadeDominio> subcategorias = resultado.getEntidades();
+		                   		Collections.sort( subcategorias , new Comparator<Object>(){
+		                   			public int compare( Object o1 , Object o2 ){
+		                   				SubCategoria c1 = (SubCategoria)o1;
+		                   				SubCategoria c2 = (SubCategoria)o2;
+		                   				return c1.getDescricao().compareTo(c2.getDescricao());
+		                   			}
+		                   		});
+	                       		for( EntidadeDominio ent : subcategorias ){
+									SubCategoria subcategoria = (SubCategoria)ent;
+					%>
 								<option value="<%= subcategoria.getId() %>" <%= livro.getSubcategorias().get(j).getSubcategoria().getId() == subcategoria.getId() ? "selected=\"selected\"" : "" %>><%= subcategoria.getDescricao() %> </option>
-								<%
-									}
-								%>
+					<%
+	                       		}
+							}
+                    %>
 							</select>
                         </div>
-                   	<%
-                   		}
-                   	%>
+                    <%
+		        		}
+					%>
                    	</div>
                 </div>
                 <input id="operacao" name="operacao" value=" Alterar " class="btn btn-light btn-md" type="submit">

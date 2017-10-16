@@ -4,7 +4,7 @@
 <%@page import="eCommerce.core.impl.controle.Fachada"%>
 <%@page import="eCommerce.core.IFachada"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -60,8 +60,8 @@ pageEncoding="UTF-8"%>
 					<th><%= livro.getNumeroPaginas().toString() %></th>
 					<th><%= livro.getSinopse() %></th>
 					<th><%= livro.getAtivo() ? "SIM" : "NÃO" %></th>
-					<th><a href="<%=request.getContextPath()%>/Livro/EditarLivro?operacao=visualizar&livro_id=<%= livro.getId().toString() %>">Editar</a></th>
-					<th><a href="<%=request.getContextPath()%>/Livro/EditarLivro?operacao=excluir&livro_id=<%= livro.getId().toString() %>" onclick="return confirm('Realmente deseja excluir o Livro ?')">Excluir</a></th>
+					<th><a href="<%=request.getContextPath()%>/Livro/EditarLivro?livro_id=<%= livro.getId().toString() %>">Editar</a></th>
+					<th><a href="<%=request.getContextPath()%>/Livro/ExcluirLivro?livro_id=<%= livro.getId().toString() %>" onclick="return confirm('Realmente deseja excluir o Livro ?')">Excluir</a></th>
 				</tr>
 			<%
 					}

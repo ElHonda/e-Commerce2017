@@ -1,3 +1,4 @@
+<%@page import="eCommerce.dominio.ESexo"%>
 <%@page import="eCommerce.dominio.Categoria"%>
 <%@page import="eCommerce.dominio.SubCategoria"%>
 <%@page import="eCommerce.dominio.GrupoPrecificacao"%>
@@ -29,188 +30,62 @@ pageEncoding="utf-8"%>
 	<jsp:include page="../public/messages.jsp"/>
 
   	<form action="CriarLivro" method="post"  <%="data-confirm"%>="Realmente deseja criar o Livro ?">
-		<div class="card text-white bg-dark" >
+		<div class="card text-white bg-dark w-50 mx-auto" >
             <div class="text-center">
-                <div class="card-header">Novo Livro</div>
+                <div class="card-header">Registrar-se</div>
                 <div class="card-block">
                     <div class="row">
-                        <div class="form-group col-sm-3">
-							<label for="livro_titulo">Título</label>
-							<input class="form-control form-control-sm" type="text" id="livro_titulo" name="livro_titulo"/>
-                        </div>
-                        <div class="form-group col-sm-3">
-							<label for="livro_edicao">Edição</label>
-							<input class="form-control form-control-sm" type="text" id="livro_edicao" name="livro_edicao"/>
-                        </div>
-                        <div class="form-group col-sm-3">
-							<label for="livro_ano">Ano</label>
-							<input class="form-control form-control-sm" type="text" id="livro_ano" name="livro_ano"/>
-                        </div>
-                        <div class="form-group col-sm-3">
-                            <label for="livro_autor_id">Autor</label>
-                            <select class="form-control form-control-sm" name="livro_autor_id" id="livro_autor_id">
-                                <option value="">Selecione</option>
-                          		<% 
-									IFachada fachada = new Fachada();
-                            		List<EntidadeDominio> autores = fachada.consultar(new Autor()).getEntidades();
-									Collections.sort( autores , new Comparator<Object>(){
-										public int compare( Object o1, Object o2 ){
-											Autor a1 = (Autor)o1;
-											Autor a2 = (Autor)o2;
-											return (a1.getSobrenome()+a1.getNome()).compareTo(a2.getSobrenome()+ a2.getNome() );
-										}
-									});
-			
-									for( EntidadeDominio ent : autores ){
-										Autor autor = (Autor)ent;
-								%>
-									<option value="<%= autor.getId().toString() %>"><%= autor.getSobrenome() + ", " + autor.getNome() %> </option>
-								<%
-									}
-								%>
-                            </select>
+                        <div class="form-group col-sm-12">
+							<label for="cliente_email">E-mail</label>
+							<input class="form-control form-control-sm" type="text" id="cliente_email" name="cliente_email"/>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-sm-3">
-                            <label for="livro_editora_id"> Editora </label>
-                            <select class="form-control form-control-sm"  name="livro_editora_id" id="livro_editora_id">
-                                <option value="">Selecione</option>
+                        <div class="form-group col-sm-12">
+							<label for="cliente_senha">Senha</label>
+							<input class="form-control form-control-sm" type="password" id="cliente_senha" name="cliente_senha"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+							<label for="cliente_senha_confirmar">Confirmar Senha</label>
+							<input class="form-control form-control-sm" type="password" id="cliente_senha_confirmar" name="cliente_senha_confirmar"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+							<label for="cliente_nome">Nome</label>
+							<input class="form-control form-control-sm" type="text" id="cliente_nome" name="cliente_nome"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                    		<label for="cliente_sexo">Gênero</label>
+                        	<select class="form-control form-control-sm" name="cliente_sexo" id="cliente_sexo">
                           		<% 
-                            		List<EntidadeDominio> editoras = fachada.consultar(new Editora()).getEntidades();
-									Collections.sort( editoras , new Comparator<Object>(){
-										public int compare( Object o1, Object o2 ){
-											Editora e1 = (Editora)o1;
-											Editora e2 = (Editora)o2;
-											return e1.getNome().compareTo(e2.getNome());
-										}
-									});
-			
-									for( EntidadeDominio ent : editoras ){
-										Editora editora = (Editora)ent;
+									for( ESexo sex: ESexo.values() ){
 								%>
-									<option value="<%= editora.getId().toString() %>"><%= editora.getNome() %> </option>
+										<option value="<%= sex %>"><%= sex %> </option>
 								<%
 									}
 								%>
-                            </select>
+                    		</select>
+                    	</div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+							<label for="cliente_datanasc">Data de Nascimento</label>
+							<input class="form-control form-control-sm" type="text" id="cliente_datanasc" name="cliente_datanasc"/>
                         </div>
-                        <div class="form-group col-sm-2">
-							<label for="livro_grupopreco_id">Grupo de Precificação</label>
-                            <select class="form-control form-control-sm"  name="livro_grupopreco_id" id="livro_grupopreco_id">
-                                <option value="">Selecione</option>
-                          		<% 
-                            		List<EntidadeDominio> grupos = fachada.consultar(new GrupoPrecificacao()).getEntidades();
-									Collections.sort( grupos , new Comparator<Object>(){
-										public int compare( Object o1, Object o2 ){
-											GrupoPrecificacao g1 = (GrupoPrecificacao)o1;
-											GrupoPrecificacao g2 = (GrupoPrecificacao)o2;
-											return g1.getDescricao().compareTo(g2.getDescricao());
-										}
-									});
-			
-									for( EntidadeDominio ent : grupos ){
-										GrupoPrecificacao grupo = (GrupoPrecificacao)ent;
-								%>
-									<option value="<%= grupo.getId().toString() %>"><%= grupo.getDescricao() %> </option>
-								<%
-									}
-								%>
-                            </select>
+                        <div class="form-group col-sm-4">
+							<label for="cliente_cpf">CPF</label>
+							<input class="form-control form-control-sm" type="text" id="cliente_cpf" name="cliente_cpf"/>
                         </div>
-                        <div class="form-group col-sm-2">
-							<label for="livro_isbn">ISBN</label>
-							<input class="form-control form-control-sm" type="text" id="livro_isbn" name="livro_isbn"/>
+                        <div class="form-group col-sm-4">
+							<label for="cliente_telefone">Telefone</label>
+							<input class="form-control form-control-sm" type="text" id="cliente_telefone" name="cliente_telefone"/>
                         </div>
-                        <div class="form-group col-sm-2">
-							<label for="livro_numeropaginas">Número de Páginas</label>
-							<input class="form-control form-control-sm" type="text" id="livro_numeropaginas" name="livro_numeropaginas"/>
-                        </div>
-                        <div class="form-group col-sm-2">
-							<label for="livro_sinopse">Sinopse</label>
-							<input class="form-control form-control-sm" type="text" id="livro_sinopse" name="livro_sinopse"/>
-                        </div>
-                        <div class="form-group col-sm-1">
-                        	<label for="livro_ativo">Ativo</label>
-							<div class="form-check">
-							  <label class="form-check-label">
-							    <input class="form-check-input" type="checkbox" value="" name="livro_ativo" id="livro_ativo">
-							  </label>
-							</div>
-                        </div>
-                   	</div>
-					<div class="row">
-                        <div class="form-group col-sm-3">
-							<label for="livro_dimensao_altura">Altura</label>
-							<input class="form-control form-control-sm" type="text" id="livro_dimensao_altura" name="livro_dimensao_altura"/>
-                        </div>
-                        <div class="form-group col-sm-3">
-							<label for="livro_dimensao_largura">Largura</label>
-							<input class="form-control form-control-sm" type="text" id="livro_dimensao_largura" name="livro_dimensao_largura"/>
-                        </div>
-                        <div class="form-group col-sm-3">
-							<label for="livro_dimensao_peso">Peso</label>
-							<input class="form-control form-control-sm" type="text" id="livro_dimensao_peso" name="livro_dimensao_peso"/>
-                        </div>
-                        <div class="form-group col-sm-3">
-							<label for="livro_dimensao_profundidade">Profundidade</label>
-							<input class="form-control form-control-sm" type="text" id="livro_dimensao_profundidade" name="livro_dimensao_profundidade"/>
-                        </div>
-                   	</div>
-					<div class="row">
-                   	<%
-                   		List<EntidadeDominio> categorias = fachada.consultar( new Categoria()).getEntidades();
-                   		Collections.sort( categorias , new Comparator<Object>(){
-                   			public int compare( Object o1 , Object o2 ){
-                   				Categoria c1 = (Categoria)o1;
-                   				Categoria c2 = (Categoria)o2;
-                   				return c1.getDescricao().compareTo(c2.getDescricao());
-                   			}
-                   		});
-                   	%>
-                   		<div class="form-group col-sm-3">
-                   		    <label for="livro_categoria_0">Categoria</label>
-                   		    <select class="form-control form-control-sm"  name="livro_categoria_0" id="livro_categoria_0">
-                            	<option value="">Selecione</option>
-                            	<% 
-                            		for( EntidadeDominio ent : categorias ){
-										Categoria categoria = (Categoria)ent;
-								%>
-								<option value="<%= categoria.getId() %>"><%= categoria.getDescricao() %> </option>
-								<%
-									}
-								%>
-							</select>
-                        </div>
-
-                   	</div>
-                   	<div class="row">
-                   	<%
-                   		List<EntidadeDominio> subcategorias = fachada.consultar( new SubCategoria()).getEntidades();
-                   		Collections.sort( subcategorias , new Comparator<Object>(){
-                   			public int compare( Object o1 , Object o2 ){
-                   				SubCategoria c1 = (SubCategoria)o1;
-                   				SubCategoria c2 = (SubCategoria)o2;
-                   				return c1.getDescricao().compareTo(c2.getDescricao());
-                   			}
-                   		});
-                   	%>
-                   		<div class="form-group col-sm-3">
-                   		    <label for="livro_subcategoria_0">Sub-categoria</label>
-                   		    <select class="form-control form-control-sm"  name="livro_subcategoria_0" id="livro_subcategoria_0">
-                            	<option value="">Selecione</option>
-                            	<% 
-                            		for( EntidadeDominio ent : subcategorias ){
-										SubCategoria subcategoria = (SubCategoria)ent;
-								%>
-								<option value="<%= subcategoria.getId() %>"><%= subcategoria.getDescricao() %> </option>
-								<%
-									}
-								%>
-							</select>
-                        </div>
-
-                   	</div>
+                    </div>
                 </div>
                 <input id="operacao" name="operacao" value=" Salvar " class="btn btn-light btn-md" type="submit">
             </div>

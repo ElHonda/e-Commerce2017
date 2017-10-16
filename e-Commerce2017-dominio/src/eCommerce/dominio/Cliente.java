@@ -8,12 +8,16 @@ public class Cliente extends EntidadeDominio{
 	/**
 	 * TODO Preparar classe para definir endereço preferencial do cliente.
 	 */
+	private boolean admin=false;
 	private Boolean ativo;
 	private String email;
 	private String senha;
 	private ESexo sexo;
 	private String nome;
 	private Double ranking;
+	private Date dataNasc;
+	private String cpf;
+	private Telefone telefone;
 	private List<Endereco> enderecos;
 	
 	public void addEndereco( Endereco endereco ) {
@@ -81,7 +85,10 @@ public class Cliente extends EntidadeDominio{
 	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
 	}
-	private Date dataNasc;
-	private String cpf;
-	private Telefone telefone;
+	public boolean isAdmin() {
+		return admin;
+	}
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
 }

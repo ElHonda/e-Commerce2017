@@ -18,7 +18,6 @@ import eCommerce.controle.web.command.impl.ExcluirCommand;
 import eCommerce.controle.web.command.impl.SalvarCommand;
 import eCommerce.controle.web.command.impl.VisualizarCommand;
 import eCommerce.controle.web.vh.IViewHelper;
-import eCommerce.controle.web.vh.impl.ClienteViewHelper;
 import eCommerce.controle.web.vh.impl.LivroViewHelper;
 import eCommerce.core.aplicacao.EOperacao;
 import eCommerce.core.aplicacao.Resultado;
@@ -32,7 +31,7 @@ public class Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static Map<EOperacao, ICommand> commands;
-	private static Map<String, IViewHelper> vhs;
+	private static Map<String, FormOperacao> vhs;
 
     /**
      * Default constructor. 
@@ -53,19 +52,24 @@ public class Servlet extends HttpServlet {
     	 * cada viewhelper pela url em que esta servlet é chamada no form
     	 * garantimos que esta servelt atenderá qualquer entidade */
     	
-    	vhs = new HashMap<String, IViewHelper>();
+    	vhs = new HashMap<String, FormOperacao>();
     	/*A chave do mapa é o mapeamento da servlet para cada form que 
     	 * está configurado no web.xml e sendo utilizada no action do html
     	 */
-      	vhs.put("/e-Commerce2017-web/Livro/CriarLivro"  , new LivroViewHelper() );
-    	vhs.put("/e-Commerce2017-web/Livro/FormLivro"   , new LivroViewHelper() );
-    	vhs.put("/e-Commerce2017-web/Livro/EditarLivro" , new LivroViewHelper() );
-    	vhs.put("/e-Commerce2017-web/Livro/ListaLivro"  , new LivroViewHelper() );
     	
-    	vhs.put("/e-Commerce2017-web/Cliente/CriarCliente", new ClienteViewHelper() );
-    	vhs.put("/e-Commerce2017-web/Cliente/FormCliente", new ClienteViewHelper() );
-    	vhs.put("/e-Commerce2017-web/Cliente/EditarCliente", new ClienteViewHelper() );
-    	vhs.put("/e-Commerce2017-web/Cliente/ListaCliente", new ClienteViewHelper() );
+      	vhs.put("/e-Commerce2017-web/Livro/CriarLivro"   , new FormOperacao(new LivroViewHelper() , EOperacao.SALVAR     ) );
+    	vhs.put("/e-Commerce2017-web/Livro/FormLivro"    , new FormOperacao(new LivroViewHelper() , EOperacao.NOVO       ) );
+    	vhs.put("/e-Commerce2017-web/Livro/ListaLivro"   , new FormOperacao(new LivroViewHelper() , EOperacao.CONSULTAR  ) );
+    	vhs.put("/e-Commerce2017-web/Livro/EditarLivro"  , new FormOperacao(new LivroViewHelper() , EOperacao.VISUALIZAR ) );
+    	vhs.put("/e-Commerce2017-web/Livro/AlterarLivro" , new FormOperacao(new LivroViewHelper() , EOperacao.ALTERAR    ) );
+    	vhs.put("/e-Commerce2017-web/Livro/ExcluirLivro" , new FormOperacao(new LivroViewHelper() , EOperacao.EXCLUIR    ) );
+    	
+    	/*
+    	vhs.put("/e-Commerce2017-web/Cliente/CriarCliente"  , new ClienteViewHelper() );
+    	vhs.put("/e-Commerce2017-web/Cliente/FormCliente"   , new ClienteViewHelper() );
+    	vhs.put("/e-Commerce2017-web/Cliente/EditarCliente" , new ClienteViewHelper() );
+    	vhs.put("/e-Commerce2017-web/Cliente/ListaCliente"  , new ClienteViewHelper() );
+    	*/
     }
     
     /** 
@@ -94,8 +98,10 @@ public class Servlet extends HttpServlet {
 	protected void doProcessRequest(HttpServletRequest request, 
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-
-		Boolean ajaxResponse = false;
+		
+		System.out.println("Servlet.doProcessRequest()");
+		System.out.println("Entrou na servlet..." 	   );
+		
 		// Zera as strings de exibição de mensagem
 		request.getSession().setAttribute("errorMsg"   , "" );
 		request.getSession().setAttribute("alertMsg"   , "" );
@@ -106,51 +112,56 @@ public class Servlet extends HttpServlet {
 		JsonBuilder json = new JsonBuilder();
 		EntidadeDominio entidade;
 		//Obtêm a operação executada
-		String operacao = request.getParameter("operacao").trim().toUpperCase();
+
+		uri = request.getRequestURI();
 		
-		
-		if ( operacao == null || operacao.equals("")) {
-			// Tenta recuperar o objeto JSON
+		FormOperacao fo = vhs.get(uri);
+		System.out.println("URI: " + uri );
+		if( fo.isJson() ) {
+			// Verifica se foi feita uma requisição JSON
 			BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
 			StringBuilder sb = new StringBuilder();
 			String line;
 			
 			while( (line=br.readLine()) != null ) {
 				sb.append(line);
+		
 			}
 			json.StringToJson(sb.toString());
-			
-			operacao = json.getValue( "operacao" );
-			
-			ajaxResponse = operacao != null && operacao.length() > 0;
-		}else {
-			//Obtêm a uri que invocou esta servlet (O que foi definido no metodo do form html)
-			uri = request.getRequestURI();
 		}
 		
-		//Obtêm um viewhelper indexado pela uri que invocou esta servlet
-		IViewHelper vh = vhs.get(uri);
 		
-		if( ajaxResponse ) {
+		System.out.println("Operação..." + ( fo.getOperacao() == null ? "NULA" : fo.getOperacao().toString() ) );
+		System.out.println("URI: " + uri );
+		System.out.println("Tipo de Requisição JSON: " + ( fo.isJson() ? "SIM" : "NÃO" ) );
+		
+		//Obtêm um viewhelper indexado pela uri que invocou esta servlet
+		IViewHelper vh = fo.getVh();
+
+		System.out.println( "View Helper: " + vh.getClass().getName() );
+		
+		if( fo.isJson() ) {
 			entidade = vh.getEntidadeJSON(json);
 		}else {
 			//O viewhelper retorna a entidade especifica para a tela que chamou esta servlet
 			entidade =  vh.getEntidade(request);
 		}
 		//Obtêm o command para executar a respectiva operação
-		ICommand command = commands.get(EOperacao.valueOf(operacao));
-
+		ICommand command = commands.get(fo.getOperacao());
+		Resultado resultado = null;
 		/*Executa o command que chamará a fachada para executar a operação requisitada
 		 * o retorno é uma instância da classe resultado que pode conter mensagens derro 
 		 * ou entidades de retorno
 		 */
-		Resultado resultado = command.execute(entidade);
+		if( command != null ) {
+			resultado = command.execute(entidade);
+		}
 		
 		/*
 		 * Executa o método setView do view helper específico para definir como deverá ser apresentado 
 		 * o resultado para o usuário
 		 */
-		vh.setView(resultado, request, response, operacao, ajaxResponse);
+		vh.setView(resultado, request, response, fo.getOperacao(), fo.isJson() );
 	
 	}
 	public static void toTestando() {

@@ -29,7 +29,7 @@
           			Cadastros
         		</a>
 				<div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
-          			<a class="dropdown-item bg-dark text-white" href="<%=request.getContextPath()%>/Livro/ListaLivro.jsp"   >Livros</a>
+          			<a class="dropdown-item bg-dark text-white" href="<%=request.getContextPath()%>/Livro/ListaLivro">Livros</a>
 				</div>
 			</li>
 		</ul>

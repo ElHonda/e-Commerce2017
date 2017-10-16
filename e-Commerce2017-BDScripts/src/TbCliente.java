@@ -14,6 +14,7 @@ public class TbCliente implements IScript{
 				"   cpf CHARACTER(14) NOT NULL," + 
 				"	ranking numeric(12,4),\r\n" + 
 				"	ativo BOOLEAN NOT NULL DEFAULT TRUE,\r\n" +
+				"   admin BOOLEAN NOT NULL DEFAULT FALSE," +
 				"   dtcadastro DATE" +
 				");";
 

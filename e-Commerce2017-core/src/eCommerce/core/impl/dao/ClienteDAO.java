@@ -111,6 +111,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
 				c.setRanking(rs.getDouble("ranking"));
 				c.setAtivo(rs.getBoolean("ativo"));
 				c.setSenha(rs.getString("senha"));
+				c.setAdmin(rs.getBoolean("admin"));
 				
 				// Faz a busca de endereços
 				Endereco endereco = new Endereco();
