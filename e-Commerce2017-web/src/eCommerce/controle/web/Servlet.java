@@ -1,8 +1,6 @@
 package eCommerce.controle.web;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,10 +16,12 @@ import eCommerce.controle.web.command.impl.ExcluirCommand;
 import eCommerce.controle.web.command.impl.SalvarCommand;
 import eCommerce.controle.web.command.impl.VisualizarCommand;
 import eCommerce.controle.web.vh.IViewHelper;
+import eCommerce.controle.web.vh.impl.CidadeViewHelper;
+import eCommerce.controle.web.vh.impl.ClienteViewHelper;
+import eCommerce.controle.web.vh.impl.EstadoViewHelper;
 import eCommerce.controle.web.vh.impl.LivroViewHelper;
 import eCommerce.core.aplicacao.EOperacao;
 import eCommerce.core.aplicacao.Resultado;
-import eCommerce.core.utils.JsonBuilder;
 import eCommerce.dominio.EntidadeDominio;
 
 /**
@@ -64,9 +64,13 @@ public class Servlet extends HttpServlet {
     	vhs.put("/e-Commerce2017-web/Livro/AlterarLivro" , new FormOperacao(new LivroViewHelper() , EOperacao.ALTERAR    ) );
     	vhs.put("/e-Commerce2017-web/Livro/ExcluirLivro" , new FormOperacao(new LivroViewHelper() , EOperacao.EXCLUIR    ) );
     	
+    	vhs.put("/e-Commerce2017-web/Cliente/FormCliente" , new FormOperacao( new ClienteViewHelper() , EOperacao.NOVO ) );
+
+    	vhs.put("/e-Commerce2017-web/Estado/ConsultaEstado" , new FormOperacao( new EstadoViewHelper() , EOperacao.CONSULTAR , true ) );
+    	vhs.put("/e-Commerce2017-web/Cidade/ConsultaCidade" , new FormOperacao( new CidadeViewHelper() , EOperacao.CONSULTAR , true ) );
+
     	/*
     	vhs.put("/e-Commerce2017-web/Cliente/CriarCliente"  , new ClienteViewHelper() );
-    	vhs.put("/e-Commerce2017-web/Cliente/FormCliente"   , new ClienteViewHelper() );
     	vhs.put("/e-Commerce2017-web/Cliente/EditarCliente" , new ClienteViewHelper() );
     	vhs.put("/e-Commerce2017-web/Cliente/ListaCliente"  , new ClienteViewHelper() );
     	*/
@@ -109,7 +113,7 @@ public class Servlet extends HttpServlet {
 		request.getSession().setAttribute("sucessoMsg" , "" );
 		request.getSession().setAttribute("configMsg"  , "" );
 		String uri = null;
-		JsonBuilder json = new JsonBuilder();
+		//JsonBuilder json = new JsonBuilder();
 		EntidadeDominio entidade;
 		//Obtêm a operação executada
 
@@ -117,6 +121,7 @@ public class Servlet extends HttpServlet {
 		
 		FormOperacao fo = vhs.get(uri);
 		System.out.println("URI: " + uri );
+		/*
 		if( fo.isJson() ) {
 			// Verifica se foi feita uma requisição JSON
 			BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
@@ -127,8 +132,9 @@ public class Servlet extends HttpServlet {
 				sb.append(line);
 		
 			}
+			System.out.println(sb.toString());
 			json.StringToJson(sb.toString());
-		}
+		}*/
 		
 		
 		System.out.println("Operação..." + ( fo.getOperacao() == null ? "NULA" : fo.getOperacao().toString() ) );
@@ -140,12 +146,17 @@ public class Servlet extends HttpServlet {
 
 		System.out.println( "View Helper: " + vh.getClass().getName() );
 		
+		
+		entidade =  vh.getEntidade(request);
+
+		/*
 		if( fo.isJson() ) {
 			entidade = vh.getEntidadeJSON(json);
 		}else {
 			//O viewhelper retorna a entidade especifica para a tela que chamou esta servlet
 			entidade =  vh.getEntidade(request);
 		}
+		*/
 		//Obtêm o command para executar a respectiva operação
 		ICommand command = commands.get(fo.getOperacao());
 		Resultado resultado = null;

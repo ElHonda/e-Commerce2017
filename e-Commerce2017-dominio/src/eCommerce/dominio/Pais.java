@@ -3,7 +3,7 @@ package eCommerce.dominio;
 public class Pais  extends EntidadeDominio{
 	public String nome;
 	public String alphacode;
-	public Boolean ativo;
+	public Boolean ativo=true;
 	
 	public Boolean getAtivo() {
 		return ativo;

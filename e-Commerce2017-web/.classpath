@@ -23,7 +23,12 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Work/EclipseProjects/UtilsJava/postgresql-42.1.3.jre7.jar">
+	<classpathentry exported="true" kind="lib" path="C:/Work/EclipseProjects/UtilsJava/postgresql-42.1.3.jre7.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/Work/EclipseProjects/UtilsJava/json-simple-1.1.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>

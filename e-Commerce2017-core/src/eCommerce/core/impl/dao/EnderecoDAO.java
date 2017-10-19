@@ -12,6 +12,8 @@ import java.util.Map;
 
 import eCommerce.core.utils.SqlBuilder;
 import eCommerce.dominio.Cidade;
+import eCommerce.dominio.ETipoLogradouro;
+import eCommerce.dominio.ETipoResidencia;
 import eCommerce.dominio.Endereco;
 import eCommerce.dominio.EntidadeDominio;
 
@@ -89,8 +91,8 @@ public class EnderecoDAO extends AbstractJdbcDAO{
 			while (rs.next()) {
 				Endereco e = new Endereco();
 				e.setId(rs.getInt("id"));
-				e.setTipoResidencia(rs.getString("tiporesidencia"));
-				e.setTipoLogradouro(rs.getString("tipologradouro"));
+				e.setTipoResidencia(ETipoResidencia.valueOf( rs.getString("tiporesidencia") ) );
+				e.setTipoLogradouro(ETipoLogradouro.valueOf( rs.getString("tipologradouro") ) );
 				e.setLogradouro(rs.getString( "logradouro" ));
 				e.setNumero(rs.getString( "numero" ));
 				e.setBairro(rs.getString("bairro"));
@@ -135,9 +137,9 @@ public class EnderecoDAO extends AbstractJdbcDAO{
 	public Integer setPreparedStatement(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
 		Endereco endereco= (Endereco)entidade;
 		try {
-			pst.setString(nPst, endereco.getTipoResidencia());
+			pst.setString(nPst, endereco.getTipoResidencia().toString() );
 			nPst++;
-			pst.setString(nPst, endereco.getTipoLogradouro());
+			pst.setString(nPst, endereco.getTipoLogradouro().toString() );
 			nPst++;
 			pst.setString(nPst, endereco.getLogradouro() );
 			nPst++;
@@ -202,8 +204,8 @@ public class EnderecoDAO extends AbstractJdbcDAO{
 			while (rs.next()) {
 				Endereco e = new Endereco();
 				e.setId(rs.getInt("id"));
-				e.setTipoResidencia(rs.getString("tiporesidencia"));
-				e.setTipoLogradouro(rs.getString("tipologradouro"));
+				e.setTipoResidencia( ETipoResidencia.valueOf( rs.getString("tiporesidencia") ) );
+				e.setTipoLogradouro( ETipoLogradouro.valueOf( rs.getString("tipologradouro") ) );
 				e.setLogradouro(rs.getString( "logradouro" ));
 				e.setNumero(rs.getString( "numero" ));
 				e.setBairro(rs.getString("bairro"));

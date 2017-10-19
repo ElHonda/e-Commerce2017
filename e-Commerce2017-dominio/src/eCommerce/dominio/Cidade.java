@@ -4,7 +4,7 @@ public class Cidade extends EntidadeDominio{
 
 	private String nome;
 	private Estado estado;
-	private Boolean ativo;
+	private Boolean ativo=true;
 	
 	
 	public Boolean getAtivo() {

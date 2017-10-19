@@ -4,7 +4,7 @@ public class Estado extends EntidadeDominio{
 
 	private String nome;
 	private Pais pais;
-	private Boolean ativo;
+	private Boolean ativo=true;
 	
 	public Boolean getAtivo() {
 		return ativo;

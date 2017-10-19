@@ -14,11 +14,11 @@ public class ValidadorDadosObrigatoriosEndereco implements IStrategy{
 			Endereco e = (Endereco)entidade;
 			StringBuilder sb = new StringBuilder();
 			
-			if( e.getTipoResidencia() == null || e.getTipoResidencia().length() <= 0 ) {
+			if( e.getTipoResidencia() == null || e.getTipoResidencia().toString().length() <= 0 ) {
 				sb.append("Tipo de Residência não informado !").append("<br/>");
 			}
 			
-			if( e.getTipoLogradouro() == null || e.getTipoLogradouro().length() <= 0 ) {
+			if( e.getTipoLogradouro() == null || e.getTipoLogradouro().toString().length() <= 0 ) {
 				sb.append("Tipo de Logradouro não informado !" ).append("<br/>");
 			}
 			

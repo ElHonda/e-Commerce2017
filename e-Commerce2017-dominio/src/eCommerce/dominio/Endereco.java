@@ -1,8 +1,8 @@
 package eCommerce.dominio;
 
 public class Endereco extends EntidadeDominio {
-	private String tipoResidencia;
-	private String tipoLogradouro;
+	private ETipoResidencia tipoResidencia;
+	private ETipoLogradouro tipoLogradouro;
 	private String logradouro;
 	private String numero;
 	private String bairro;
@@ -17,10 +17,10 @@ public class Endereco extends EntidadeDominio {
 	public void setEnderecavel(EntidadeDominio enderecavel) {
 		this.enderecavel = enderecavel;
 	}
-	public String getTipoResidencia() {
+	public ETipoResidencia getTipoResidencia() {
 		return tipoResidencia;
 	}
-	public String getTipoLogradouro() {
+	public ETipoLogradouro getTipoLogradouro() {
 		return tipoLogradouro;
 	}
 	public String getLogradouro() {
@@ -41,10 +41,10 @@ public class Endereco extends EntidadeDominio {
 	public String getObservacoes() {
 		return observacoes;
 	}
-	public void setTipoResidencia(String tipoResidencia) {
+	public void setTipoResidencia(ETipoResidencia tipoResidencia) {
 		this.tipoResidencia = tipoResidencia;
 	}
-	public void setTipoLogradouro(String tipoLogradouro) {
+	public void setTipoLogradouro(ETipoLogradouro tipoLogradouro) {
 		this.tipoLogradouro = tipoLogradouro;
 	}
 	public void setLogradouro(String logradouro) {
