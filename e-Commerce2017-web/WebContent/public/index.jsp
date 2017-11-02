@@ -4,8 +4,7 @@ pageEncoding="UTF-8"%>
 <html>
 <head>
 	<title>Teste</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+	<%@include file="../public/head.html"%>
 </head>
 <body style="padding-top: 50px;background-color: #455058;">
 	<jsp:include page="../public/navbar.jsp"/>

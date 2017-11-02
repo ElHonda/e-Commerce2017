@@ -121,22 +121,6 @@ public class Servlet extends HttpServlet {
 		
 		FormOperacao fo = vhs.get(uri);
 		System.out.println("URI: " + uri );
-		/*
-		if( fo.isJson() ) {
-			// Verifica se foi feita uma requisição JSON
-			BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-			StringBuilder sb = new StringBuilder();
-			String line;
-			
-			while( (line=br.readLine()) != null ) {
-				sb.append(line);
-		
-			}
-			System.out.println(sb.toString());
-			json.StringToJson(sb.toString());
-		}*/
-		
-		
 		System.out.println("Operação..." + ( fo.getOperacao() == null ? "NULA" : fo.getOperacao().toString() ) );
 		System.out.println("URI: " + uri );
 		System.out.println("Tipo de Requisição JSON: " + ( fo.isJson() ? "SIM" : "NÃO" ) );
@@ -149,14 +133,6 @@ public class Servlet extends HttpServlet {
 		
 		entidade =  vh.getEntidade(request);
 
-		/*
-		if( fo.isJson() ) {
-			entidade = vh.getEntidadeJSON(json);
-		}else {
-			//O viewhelper retorna a entidade especifica para a tela que chamou esta servlet
-			entidade =  vh.getEntidade(request);
-		}
-		*/
 		//Obtêm o command para executar a respectiva operação
 		ICommand command = commands.get(fo.getOperacao());
 		Resultado resultado = null;

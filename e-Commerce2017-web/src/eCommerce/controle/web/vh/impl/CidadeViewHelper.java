@@ -35,21 +35,6 @@ public class CidadeViewHelper implements IViewHelper{
 		return buildEntidade(id, nome, estado, ativo);
 	}
 	@Override
-	public EntidadeDominio getEntidadeJSON(JsonBuilder jb){
-		String id        = jb.getValue( "cidade_id"        );
-		String nome      = jb.getValue( "cidade_nome"      );
-		String estado_id = jb.getValue( "cidade_estado_id" );
-		String ativo     = jb.getValue( "cidade_ativo"     );
-
-		Estado estado = null;
-		if( estado_id != null ){
-			estado = new Estado();
-			estado.setId(Integer.parseInt(estado_id));
-		}
-		
-		return buildEntidade(id, nome, estado, ativo);
-	}
-	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, 
 			HttpServletResponse response, EOperacao operacao , Boolean ajaxResponse)
 			throws IOException, ServletException {
@@ -64,30 +49,32 @@ public class CidadeViewHelper implements IViewHelper{
 		case EXCLUIR:
 			break;
 		case CONSULTAR:
-			JsonBuilder jb;
-			JsonBuilder json = new JsonBuilder();
-			Cidade cidade;
-
-   			List<EntidadeDominio> cidades = resultado.getEntidades();
-			Collections.sort( cidades , new Comparator<Object>(){
-				public int compare( Object o1, Object o2 ){
-					Cidade c1 = (Cidade)o1;
-					Cidade c2 = (Cidade)o2;
-					return (c1.getNome()).compareTo(c2.getNome() );
+			if( ajaxResponse ) {
+				JsonBuilder jb;
+				JsonBuilder json = new JsonBuilder();
+				Cidade cidade;
+	
+	   			List<EntidadeDominio> cidades = resultado.getEntidades();
+				Collections.sort( cidades , new Comparator<Object>(){
+					public int compare( Object o1, Object o2 ){
+						Cidade c1 = (Cidade)o1;
+						Cidade c2 = (Cidade)o2;
+						return (c1.getNome()).compareTo(c2.getNome() );
+					}
+				});
+				
+				for( EntidadeDominio c : cidades ) {
+					cidade = (Cidade)c;
+					jb = new JsonBuilder();
+					jb.addKey( "id"   , cidade.getId().toString());
+					jb.addKey( "nome" , cidade.getNome() );
+					json.addListKey( "cidades" , jb.JsonToString() );
 				}
-			});
-			
-			for( EntidadeDominio c : cidades ) {
-				cidade = (Cidade)c;
-				jb = new JsonBuilder();
-				jb.addKey( "id"   , cidade.getId().toString());
-				jb.addKey( "nome" , cidade.getNome() );
-				json.addListKey( "cidades" , jb.JsonToString() );
+		        response.setContentType("application/json");
+		        response.setCharacterEncoding("UTF-8");
+		        PrintWriter writer = response.getWriter();
+		        writer.print( json.JsonToString() );
 			}
-	        response.setContentType("application/json");
-	        response.setCharacterEncoding("UTF-8");
-	        PrintWriter writer = response.getWriter();
-	        writer.print( json.JsonToString() );
 			break;
 		case NOVO:
 			break;

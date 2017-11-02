@@ -35,21 +35,6 @@ public class EstadoViewHelper implements IViewHelper{
 		return buildEntidade(id, nome, pais, ativo);
 	}
 	@Override
-	public EntidadeDominio getEntidadeJSON(JsonBuilder jb){
-		String id      = jb.getValue( "estado_id"      );
-		String nome    = jb.getValue( "estado_nome"    );
-		String pais_id = jb.getValue( "estado_pais_id" );
-		String ativo   = jb.getValue( "estado_ativo"   );
-
-		Pais pais=null;
-		if( pais_id != null ){
-			pais = new Pais();
-			pais.setId(Integer.parseInt(pais_id));
-		}
-		
-		return buildEntidade(id, nome, pais, ativo);
-	}
-	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, 
 			HttpServletResponse response, EOperacao operacao , Boolean ajaxResponse)
 			throws IOException, ServletException {
@@ -64,30 +49,32 @@ public class EstadoViewHelper implements IViewHelper{
 		case EXCLUIR:
 			break;
 		case CONSULTAR:
-			JsonBuilder jb;
-			JsonBuilder json = new JsonBuilder();
-			Estado estado;
-
-   			List<EntidadeDominio> estados = resultado.getEntidades();
-			Collections.sort( estados , new Comparator<Object>(){
-				public int compare( Object o1, Object o2 ){
-					Estado e1 = (Estado)o1;
-					Estado e2 = (Estado)o2;
-					return (e1.getNome()).compareTo(e2.getNome() );
+			if( ajaxResponse ) {
+				JsonBuilder jb;
+				JsonBuilder json = new JsonBuilder();
+				Estado estado;
+	
+	   			List<EntidadeDominio> estados = resultado.getEntidades();
+				Collections.sort( estados , new Comparator<Object>(){
+					public int compare( Object o1, Object o2 ){
+						Estado e1 = (Estado)o1;
+						Estado e2 = (Estado)o2;
+						return (e1.getNome()).compareTo(e2.getNome() );
+					}
+				});
+				
+				for( EntidadeDominio e : estados ) {
+					estado = (Estado)e;
+					jb = new JsonBuilder();
+					jb.addKey( "id"   , estado.getId().toString());
+					jb.addKey( "nome" , estado.getNome() );
+					json.addListKey( "estados" , jb.JsonToString() );
 				}
-			});
-			
-			for( EntidadeDominio e : estados ) {
-				estado = (Estado)e;
-				jb = new JsonBuilder();
-				jb.addKey( "id"   , estado.getId().toString());
-				jb.addKey( "nome" , estado.getNome() );
-				json.addListKey( "estados" , jb.JsonToString() );
+		        response.setContentType("application/json");
+		        response.setCharacterEncoding("UTF-8");
+		        PrintWriter writer = response.getWriter();
+		        writer.print( json.JsonToString() );
 			}
-	        response.setContentType("application/json");
-	        response.setCharacterEncoding("UTF-8");
-	        PrintWriter writer = response.getWriter();
-	        writer.print( json.JsonToString() );
 			break;
 		case NOVO:
 			break;

@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class SqlBuilder {
 	private String strWhere = "";
+	private String strJoin  = "";
 	private String table;
 	// Lista para Primary keys
 	private List<String> pks;
@@ -42,6 +43,18 @@ public class SqlBuilder {
 		this.pks.add("id");
 	}
 	/**
+	 * Adiciona cláusulas para formação de um JOIN em uma query
+	 * @param pStrJoin
+	 * Nova cláusula para a geração da consulta
+	 * @author Ernane 
+	 */
+	public void addJoin(String pStrJoin) {
+		if( this.strJoin.length() > 0 ) {
+			this.strJoin += " ";
+		}
+		this.strJoin += pStrJoin;
+	}
+	/**
 	 * Adiciona cláusulas para formação de um "WHERE" em uma query
 	 * @param pStrwhere
 	 * Nova cláusula para a geração da consulta
@@ -64,7 +77,19 @@ public class SqlBuilder {
 		}
 		
 		return strReturn;
-	}	
+	}
+	/**
+	 * @return Retorna a expressão where formada através da inserção pelo método addWhere
+	 */
+	public String getJoin() {
+		String strReturn = "";
+
+		if( strJoin != null && strJoin.length() > 0 ) {
+			strReturn = strJoin;
+		}
+		
+		return strReturn;
+	}
 	/**
 	 * @return Retorna a expressão where pela chave primaria da tabela
 	 */
@@ -174,11 +199,10 @@ public class SqlBuilder {
 				}
 			}	
 		}
-		strSql.append( " FROM ");
-		strSql.append(this.table);
-		strSql.append( " " );
-		strSql.append( getWhere() );
-		strSql.append(";");
+		strSql.append( " FROM"     ).append( " " );
+		strSql.append( this.table  ).append( " " );
+		strSql.append( getJoin()   ).append( " " );
+		strSql.append( getWhere()  ).append( ";" );
 		//System.out.println(strSql.toString());
 		return strSql.toString();
 	}

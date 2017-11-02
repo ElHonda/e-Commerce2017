@@ -31,10 +31,10 @@
 
 	<% 
 		Livro livro;
-		if( request.getAttribute("resultadoEditar") == null ){
+		if( request.getAttribute("entidadeEnviada") == null ){
 			livro = new Livro();
 		}else{
-			livro = (Livro)request.getAttribute("resultadoEditar");
+			livro = (Livro)request.getAttribute("entidadeEnviada");
 		}
 	%>
 

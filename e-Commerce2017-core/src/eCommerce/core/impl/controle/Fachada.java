@@ -356,6 +356,9 @@ public class Fachada implements IFachada {
 	@Override
 	public Resultado salvar(EntidadeDominio entidade) {
 		resultado = new Resultado();
+		// Salva entidade enviada
+		resultado.setEntidade(entidade);
+		
 		String nmClasse = entidade.getClass().getName();	
 		
 		String msg = executarRegras(entidade, EOperacao.SALVAR );
@@ -384,6 +387,8 @@ public class Fachada implements IFachada {
 	@Override
 	public Resultado alterar(EntidadeDominio entidade) {
 		resultado = new Resultado();
+		// Salva entidade enviada
+		resultado.setEntidade(entidade);
 		String nmClasse = entidade.getClass().getName();	
 		
 		String msg = executarRegras(entidade, EOperacao.ALTERAR );
@@ -398,7 +403,8 @@ public class Fachada implements IFachada {
 			} catch (SQLException e) {
 				e.printStackTrace();
 				resultado.setMsg("Não foi possível realizar o registro!");
-				
+				resultado.addEntidade(entidade);
+
 			}
 		}else{
 			resultado.setMsg(msg);
@@ -412,6 +418,8 @@ public class Fachada implements IFachada {
 	@Override
 	public Resultado excluir(EntidadeDominio entidade) {
 		resultado = new Resultado();
+		// Salva entidade enviada
+		resultado.setEntidade(entidade);
 		String nmClasse = entidade.getClass().getName();	
 		
 		String msg = executarRegras(entidade, EOperacao.EXCLUIR );
@@ -442,6 +450,8 @@ public class Fachada implements IFachada {
 	@Override
 	public Resultado consultar(EntidadeDominio entidade) {
 		resultado = new Resultado();
+		// Salva entidade enviada
+		resultado.setEntidade(entidade);
 		String nmClasse = entidade.getClass().getName();	
 		
 		String msg = executarRegras(entidade, EOperacao.CONSULTAR);
@@ -468,6 +478,8 @@ public class Fachada implements IFachada {
 	@Override
 	public Resultado consultar_id(EntidadeDominio entidade) {
 		resultado = new Resultado();
+		// Salva entidade enviada
+		resultado.setEntidade(entidade);
 		String nmClasse = entidade.getClass().getName();	
 		
 		String msg = executarRegras(entidade, EOperacao.CONSULTAR);

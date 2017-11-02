@@ -14,7 +14,6 @@ import eCommerce.core.IFachada;
 import eCommerce.core.aplicacao.EOperacao;
 import eCommerce.core.aplicacao.Resultado;
 import eCommerce.core.impl.controle.Fachada;
-import eCommerce.core.utils.JsonBuilder;
 import eCommerce.dominio.Autor;
 import eCommerce.dominio.Categoria;
 import eCommerce.dominio.Dimensao;
@@ -93,71 +92,6 @@ public class LivroViewHelper implements IViewHelper{
 		return buildEntidade(id, autor_id, ano, titulo, edicao, editora_id, isbn, numeroPaginas, sinopse, grupopreco_id, ativo , dimensao_id , altura, largura, peso, profundidade , categorias , subcategorias );
 	}
 	@Override
-	public EntidadeDominio getEntidadeJSON(JsonBuilder jb){
-		String id 		       		= jb.getValue( "livro_id" 					 );
-		String autor_id 	   		= jb.getValue( "livro_autor_id" 			 );
-		String ano 			   		= jb.getValue( "livro_ano" 					 );
-		String titulo 		   		= jb.getValue( "livro_titulo" 				 );
-		String edicao	       		= jb.getValue( "livro_edicao" 				 );
-		String editora_id      		= jb.getValue( "livro_editora_id" 			 );
-		String isbn 	       		= jb.getValue( "livro_isbn" 				 );
-		String numeroPaginas   		= jb.getValue( "livro_numeroPaginas" 		 );
-		String sinopse		   		= jb.getValue( "livro_sinopse" 				 );
-		String grupopreco_id   		= jb.getValue( "livro_grupopreco_id" 		 );
-		String dimensao_id      	= jb.getValue( "livro_dimensao_id"			 );
-		String ativo 	       		= jb.getValue( "livro_ativo" 				 );
-		String altura          		= jb.getValue( "livro_dimensao_altura" 		 );
-		String largura         		= jb.getValue( "livro_dimensao_largura" 	 );
-		String peso            		= jb.getValue( "livro_dimensao_peso" 		 );
-		String profundidade    		= jb.getValue( "livro_dimensao_profundidade" );
-		String categoria_id   		= null;
-		String subcategoria_id 		= null;
-		String livrocategoria_id    = null;
-		String livrosubcategoria_id = null;
-		
-		List<LivroCategoria> categorias = new ArrayList<LivroCategoria>();
-		Categoria categoria;
-		LivroCategoria livroCat;
-		for( Integer index = 0 ; ; index++ ) {
-			categoria_id = jb.getValue("livro_categoria_" + index.toString() );
-			if( categoria_id == null || categoria_id.length() <= 0 ) {
-				break;
-			}else{
-				livrocategoria_id = jb.getValue( "livro_categoria_id_" + index.toString() );
-
-				categoria = new Categoria();
-				categoria.setId(Integer.parseInt(categoria_id));
-				livroCat = new LivroCategoria();
-				livroCat.setCategoria(categoria);
-				if( livrocategoria_id != null && livrocategoria_id.length() > 0 )
-					livroCat.setId(Integer.parseInt(livrocategoria_id));
-				categorias.add(livroCat);
-			}
-		}
-
-		List<LivroSubCategoria> subcategorias = new ArrayList<LivroSubCategoria>();
-		SubCategoria subcategoria;
-		LivroSubCategoria livroSubCat;
-		for( Integer index = 0 ; ; index++ ) {
-			subcategoria_id = jb.getValue("livro_subcategoria_" + index.toString() );
-			if( subcategoria_id == null || subcategoria_id.length() <= 0 ) {
-				break;
-			}else{
-				livrosubcategoria_id = jb.getValue( "livro_subcategoria_id_" + index.toString() );
-
-				subcategoria = new SubCategoria();
-				subcategoria.setId(Integer.parseInt(subcategoria_id));
-				livroSubCat = new LivroSubCategoria();
-				livroSubCat.setSubcategoria(subcategoria);
-				if( livrosubcategoria_id != null && livrosubcategoria_id.length() > 0)
-					livroSubCat.setId(Integer.parseInt(livrosubcategoria_id));
-				subcategorias.add(livroSubCat);
-			}
-		}
-		
-		return buildEntidade(id, autor_id, ano, titulo, edicao, editora_id, isbn, numeroPaginas, sinopse, grupopreco_id, ativo, dimensao_id, altura, largura, peso , profundidade  , categorias, subcategorias);
-	}
-	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, 
 			HttpServletResponse response, EOperacao operacao , Boolean ajaxResponse)
 			throws IOException, ServletException {
@@ -166,12 +100,12 @@ public class LivroViewHelper implements IViewHelper{
 		String redirectPage=null;
 		Livro livro;
 		Boolean useDispatch=true;
+		Boolean carregarCombos=false;
 
 		switch (operacao) {
 		case SALVAR:
 			if( resultado.getMsg() == null || resultado.getMsg().length() == 0 ) {
 				redirectPage = "ListaLivro";
-
 				livro = (Livro)resultado.getEntidades().get(0);
 				sb.append( "Livro \"" );
 				sb.append( livro.getId().toString().trim() );
@@ -180,17 +114,13 @@ public class LivroViewHelper implements IViewHelper{
 				sb.append( "\" registrado com sucesso !" );
 				request.getSession().setAttribute("sucessoMsg", sb.toString() );
 			}else{
-				useDispatch = false;
 				redirectPage = "FormLivro.jsp";
+				carregarCombos=true;
+				request.setAttribute( "header" , "NOVO LIVRO" );
+				request.getSession().setAttribute( "errorMsg" , resultado.getMsg()      );
+				request.setAttribute( "entidadeEnviada"       , resultado.getEntidade() );
+			}
 
-				request.getSession().setAttribute("errorMsg", resultado.getMsg() );
-			}
-			
-			if( ajaxResponse ) {
-				
-			}else {
-				
-			}
 			break;
 		case ALTERAR:
 			if( resultado.getMsg() == null || resultado.getMsg().length() == 0 ) {
@@ -205,28 +135,23 @@ public class LivroViewHelper implements IViewHelper{
 				useDispatch = false;
 				request.getSession().setAttribute("sucessoMsg", sb.toString() );
 			}else {
-				useDispatch = false;
 				redirectPage = "EditarLivro.jsp";
-
-				request.getSession().setAttribute("errorMsg", resultado.getMsg());
-				request.setAttribute("resultadoEditar", resultado.getEntidades().get(0));
+				request.setAttribute( "header"               , "EDITAR"                );
+				request.setAttribute( "entidadeEnviada"      , resultado.getEntidade() );
+				request.getSession().setAttribute("errorMsg" , resultado.getMsg()      );
+				carregarCombos = true;
 			}
 			break;
 		case VISUALIZAR:
-				redirectPage = "EditarLivro.jsp";
-				// Na visualização se espera apenas 1 livro.
-				request.setAttribute( "resultadoEditar"	   , resultado.getEntidades().get(0)			  );
-				request.setAttribute( "listaAutor"         , fachada.consultar( new Autor()             ) );
-				request.setAttribute( "listaEditora"       , fachada.consultar( new Editora()           ) );
-				request.setAttribute( "listaGrupo"         , fachada.consultar( new GrupoPrecificacao() ) );
-				request.setAttribute( "listaCategoria"     , fachada.consultar( new Categoria()         ) );
-				request.setAttribute( "listaSubCategoria"  , fachada.consultar( new SubCategoria()      ) );
+			redirectPage = "EditarLivro.jsp";
+			request.setAttribute( "header"          , "EDITAR"                );
+			request.setAttribute( "entidadeEnviada" , resultado.getEntidades().get(0) );
+			carregarCombos = true;
 			break;
 		case EXCLUIR:
 			redirectPage = "ListaLivro";
 
 			if( resultado.getMsg() == null || resultado.getMsg().length() == 0 ) {
-				
 				livro = (Livro)resultado.getEntidades().get(0);
 				sb.append("Livro \"");
 				sb.append( livro.getId().toString().trim() );
@@ -235,30 +160,32 @@ public class LivroViewHelper implements IViewHelper{
 				request.getSession().setAttribute( "alertMsg" , sb.toString() );
 			}else {
 				useDispatch = false;
-				
 				request.getSession().setAttribute( "errorMsg", resultado.getMsg() );
 			}
 			break;
 		case CONSULTAR:
 			redirectPage = "ListaLivro.jsp";
-			request.setAttribute( "resultadoConsultar" , resultado );
-			request.setAttribute( "listaAutor"         , fachada.consultar( new Autor()             ) );
-			request.setAttribute( "listaEditora"       , fachada.consultar( new Editora()           ) );
-			request.setAttribute( "listaGrupo"         , fachada.consultar( new GrupoPrecificacao() ) );
-			request.setAttribute( "listaCategoria"     , fachada.consultar( new Categoria()         ) );
-			request.setAttribute( "listaSubCategoria"  , fachada.consultar( new SubCategoria()      ) );
+			request.setAttribute( "header"             , "PESQUISA"              );
+			request.setAttribute( "entidadeEnviada"    , resultado.getEntidade() );
+			request.setAttribute( "resultadoConsultar" , resultado               );
+			carregarCombos = true;
 			break;
 		case NOVO:
+			request.setAttribute( "header" , "NOVO LIVRO" );
 			redirectPage = "FormLivro.jsp";
-			request.setAttribute( "resultadoConsultar" , resultado );
-			request.setAttribute( "listaAutor"         , fachada.consultar( new Autor()             ) );
-			request.setAttribute( "listaEditora"       , fachada.consultar( new Editora()           ) );
-			request.setAttribute( "listaGrupo"         , fachada.consultar( new GrupoPrecificacao() ) );
-			request.setAttribute( "listaCategoria"     , fachada.consultar( new Categoria()         ) );
-			request.setAttribute( "listaSubCategoria"  , fachada.consultar( new SubCategoria()      ) );
+			carregarCombos = true;
 			break;
 		default:
 			break;
+		}
+		
+		
+		if( carregarCombos ) {
+			request.setAttribute( "listaAutor"         , fachada.consultar( new Autor()             ) );
+			request.setAttribute( "listaEditora"       , fachada.consultar( new Editora()           ) );
+			request.setAttribute( "listaGrupo"         , fachada.consultar( new GrupoPrecificacao() ) );
+			request.setAttribute( "listaCategoria"     , fachada.consultar( new Categoria()         ) );
+			request.setAttribute( "listaSubCategoria"  , fachada.consultar( new SubCategoria()      ) );
 		}
 		
 		if( useDispatch ) {
@@ -307,7 +234,7 @@ public class LivroViewHelper implements IViewHelper{
 			grupopreco.setId(Integer.parseInt(grupopreco_id));
 			livro.setGrupo(grupopreco);
 		}
-		if( ativo != null ) {
+		if( ativo != null && ativo.length() > 0 ) {
 			livro.setAtivo(Boolean.parseBoolean(ativo));
 		}
 		

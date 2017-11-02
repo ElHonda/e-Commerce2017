@@ -11,6 +11,21 @@ public class Resultado extends EntidadeAplicacao {
 
 	private String msg;
 	private List<EntidadeDominio> entidades;
+	private EntidadeDominio entidade;
+	
+	/**
+	 * Método para recuperação do valor enviado
+	 */
+	public EntidadeDominio getEntidade() {
+		return entidade;
+	}
+	/**
+	 * Método para salvar entidade enviada
+	 * @param entidade enviada para operação
+	 */
+	public void setEntidade(EntidadeDominio entidade) {
+		this.entidade = entidade;
+	}
 	/**
 	 * Método de recuperação do campo msg
 	 *

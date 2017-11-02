@@ -178,6 +178,61 @@ public class LivroDAO extends AbstractJdbcDAO {
 						sb.addWhere("not ativo");
 					}
 				}
+				if( livro.getDimensao() != null ) {
+					Boolean joinDimensao=false;
+					if( livro.getDimensao().getAltura() != null && livro.getDimensao().getAltura() > 0 ) {
+						joinDimensao = true;
+						sb.addWhere("tb_dimensao.altura = ?");
+						hsWhere.put( lni , livro.getDimensao().getAltura() );
+						lni++;
+					}
+					if( livro.getDimensao().getLargura() != null && livro.getDimensao().getLargura() > 0 ) {
+						joinDimensao = true;
+						sb.addWhere("tb_dimensao.largura = ?");
+						hsWhere.put( lni , livro.getDimensao().getLargura() );
+						lni++;
+					}
+					if( livro.getDimensao().getPeso() != null && livro.getDimensao().getPeso() > 0 ) {
+						joinDimensao = true;
+						sb.addWhere("tb_dimensao.peso = ?");
+						hsWhere.put( lni , livro.getDimensao().getPeso() );
+						lni++;
+					}
+					if( livro.getDimensao().getProfundidade() != null && livro.getDimensao().getProfundidade() > 0 ) {
+						joinDimensao = true;
+						sb.addWhere( "tb_dimensao.profundidade = ?" );
+						hsWhere.put( lni , livro.getDimensao().getProfundidade() );
+						lni++;
+					}
+					if( joinDimensao ) {
+						sb.addJoin("JOIN tb_dimensao ON tb_dimensao.dimensionavel_id = tb_livro.id "
+								                 + "AND dimensionavel_class = '" + livro.getClass().getName() + "'");
+					}
+				}
+				if( livro != null && livro.getCategorias().size() > 0 ) {
+					StringBuilder sqlIn = new StringBuilder();
+					for( LivroCategoria lc : livro.getCategorias() ) {
+						if( sqlIn.length() > 0 ) {
+							sqlIn.append(",");
+						}
+						sqlIn.append("?");
+						hsWhere.put( lni, lc.getCategoria().getId() );
+						lni++;
+					}
+					sb.addWhere( "tb_livro.id IN ( SELECT livro_id FROM tb_livro_categoria lc WHERE lc.categoria_id IN ("+ sqlIn.toString() + ") )" );
+				}
+				if( livro != null && livro.getSubcategorias().size() > 0 ) {
+					StringBuilder sqlIn = new StringBuilder();
+					for( LivroSubCategoria lsc : livro.getSubcategorias() ) {
+						if( sqlIn.length() > 0 ) {
+							sqlIn.append(",");
+						}
+						sqlIn.append("?");
+						hsWhere.put( lni, lsc.getSubcategoria().getId() );
+						lni++;
+					}
+					sb.addWhere("tb_livro.id IN ( SELECT livro_id FROM tb_livro_subcategoria lsc WHERE lsc.subcategoria_id IN ("+ sqlIn.toString() + ") )" );
+				}
 			}
 	    
 			pst = connection.prepareStatement(sb.getQuery(null));

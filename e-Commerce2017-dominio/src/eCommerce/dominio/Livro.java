@@ -19,6 +19,10 @@ public class Livro extends EntidadeDominio {
 	private List<LivroCategoria> categorias;
 	private List<LivroSubCategoria> subcategorias;
 
+	public Livro() {
+		this.dimensao = new Dimensao();
+	}
+	
 	public Autor getAutor() {
 		return autor;
 	}
