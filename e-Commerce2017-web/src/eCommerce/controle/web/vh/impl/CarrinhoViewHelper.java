@@ -1,6 +1,7 @@
 package eCommerce.controle.web.vh.impl;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,9 @@ import eCommerce.core.IFachada;
 import eCommerce.core.aplicacao.EOperacao;
 import eCommerce.core.aplicacao.Resultado;
 import eCommerce.core.impl.controle.Fachada;
+import eCommerce.core.utils.JsonBuilder;
 import eCommerce.dominio.Autor;
+import eCommerce.dominio.Carrinho;
 import eCommerce.dominio.Categoria;
 import eCommerce.dominio.Dimensao;
 import eCommerce.dominio.Editora;
@@ -25,10 +28,11 @@ import eCommerce.dominio.LivroCategoria;
 import eCommerce.dominio.LivroSubCategoria;
 import eCommerce.dominio.SubCategoria;
 
-public class LivroViewHelper implements IViewHelper{
+public class CarrinhoViewHelper implements IViewHelper{
 	@Override
 	public EntidadeDominio getEntidade(HttpServletRequest request) {
-		String id 		       		= request.getParameter( "livro_id"						);
+		String id 		 			= request.getParameter( "livro_id"         );
+		String quantidade 			= request.getParameter( "livro_quantidade" );
 		String autor_id 	   		= request.getParameter( "livro_autor_id"				);
 		String ano 			   		= request.getParameter( "livro_ano"						);
 		String titulo 		   		= request.getParameter( "livro_titulo" 					);
@@ -89,93 +93,66 @@ public class LivroViewHelper implements IViewHelper{
 			}
 		}
 		
-		return buildEntidade(id, autor_id, ano, titulo, edicao, editora_id, isbn, numeroPaginas, sinopse, grupopreco_id, ativo , dimensao_id , altura, largura, peso, profundidade , categorias , subcategorias );
+		return buildEntidade(id, quantidade, autor_id, ano, titulo, edicao, editora_id, isbn, numeroPaginas, sinopse, grupopreco_id, ativo , dimensao_id , altura, largura, peso, profundidade , categorias , subcategorias );
 	}
 	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, 
 			HttpServletResponse response, EOperacao operacao , Boolean ajaxResponse)
 			throws IOException, ServletException {
+		Carrinho carrinho;
 		IFachada fachada = new Fachada();
-		StringBuilder sb = new StringBuilder();
 		String redirectPage=null;
-		Livro livro;
 		Boolean useDispatch=true;
 		Boolean carregarCombos=false;
 
+		if( request.getSession().getAttribute( "carrinho" ) == null ) {
+			carrinho = new Carrinho();
+		}else {
+			carrinho = (Carrinho)request.getSession().getAttribute( "carrinho" );
+
+		}
+		
 		switch (operacao) {
 		case SALVAR:
-			if( resultado.getMsg() == null || resultado.getMsg().length() == 0 ) {
-				redirectPage = "ListaLivro";
-				livro = (Livro)resultado.getEntidades().get(0);
-				sb.append( "Livro \"" );
-				sb.append( livro.getId().toString().trim() );
-				sb.append( " - " );
-				sb.append( livro.getTitulo().trim() );
-				sb.append( "\" registrado com sucesso !" );
-				request.getSession().setAttribute("sucessoMsg", sb.toString() );
-				useDispatch = false;
-			}else{
-				redirectPage = "FormLivro.jsp";
-				carregarCombos=true;
-				request.setAttribute( "header" , "NOVO LIVRO" );
-				request.getSession().setAttribute( "errorMsg" , resultado.getMsg()      );
-				request.setAttribute( "entidadeEnviada"       , resultado.getEntidade() );
-			}
-
 			break;
 		case ALTERAR:
-			if( resultado.getMsg() == null || resultado.getMsg().length() == 0 ) {
-				redirectPage = "ListaLivro";
-
-				livro = (Livro)resultado.getEntidades().get(0);
-				sb.append( "Livro \"" );
-				sb.append( livro.getId().toString().trim() );
-				sb.append( " - " );
-				sb.append( livro.getTitulo().trim() );
-				sb.append( "\" alterado com sucesso !" );
-				useDispatch = false;
-				request.getSession().setAttribute("sucessoMsg", sb.toString() );
-			}else {
-				redirectPage = "EditarLivro.jsp";
-				request.setAttribute( "header"               , "EDITAR"                );
-				request.setAttribute( "entidadeEnviada"      , resultado.getEntidade() );
-				request.getSession().setAttribute("errorMsg" , resultado.getMsg()      );
-				carregarCombos = true;
-			}
 			break;
 		case VISUALIZAR:
-			redirectPage = "EditarLivro.jsp";
-			request.setAttribute( "header"          , "EDITAR"                );
-			request.setAttribute( "entidadeEnviada" , resultado.getEntidades().get(0) );
-			carregarCombos = true;
-			break;
-		case EXCLUIR:
-			redirectPage = "ListaLivro";
-
-			if( resultado.getMsg() == null || resultado.getMsg().length() == 0 ) {
-				livro = (Livro)resultado.getEntidades().get(0);
-				sb.append("Livro \"");
-				sb.append( livro.getId().toString().trim() );
-				sb.append( " - " );
-				sb.append( "\" excluído com sucesso !" );
-				request.getSession().setAttribute( "alertMsg" , sb.toString() );
-				useDispatch = false;
-			}else {
-				useDispatch = false;
-				request.getSession().setAttribute( "errorMsg", resultado.getMsg() );
+			redirectPage = "FormCarrinho.jsp";
+			if ( carrinho.getLivros().size() <= 0 ) {
+				request.getSession().setAttribute("alertMsg", "Nenhum item inserido até o momento");
 			}
 			break;
+		case EXCLUIR:
+			break;
 		case CONSULTAR:
-			redirectPage = "ListaLivro.jsp";
+			redirectPage = "ListaCarrinho.jsp";
 			request.setAttribute( "header"             , "PESQUISA"              );
 			request.setAttribute( "entidadeEnviada"    , resultado.getEntidade() );
 			request.setAttribute( "resultadoConsultar" , resultado               );
+
 			carregarCombos = true;
 			break;
 		case NOVO:
-			request.setAttribute( "header" , "NOVO LIVRO" );
-			redirectPage = "FormLivro.jsp";
-			carregarCombos = true;
+			
+			Livro livro = (Livro)resultado.getEntidade();
+			Integer quantidade = livro.getQuantidade();
+
+			livro = (Livro)fachada.consultar_id(livro).getEntidades().get(0);
+			livro.setQuantidade(quantidade);
+			carrinho.addLivro(livro);
+
+			request.getSession().setAttribute( "carrinho" , carrinho );
+
+			if( ajaxResponse ) {
+				JsonBuilder json = new JsonBuilder();
+				Integer qtde = carrinho.getLivros().size();
+				json.addKey( "quantidade" , qtde.toString() );
+		        response.setContentType("application/json");
+		        response.setCharacterEncoding("UTF-8");
+		        PrintWriter writer = response.getWriter();
+		        writer.print( json.JsonToString() );
+			}
 			break;
 		default:
 			break;
@@ -190,19 +167,29 @@ public class LivroViewHelper implements IViewHelper{
 			request.setAttribute( "listaSubCategoria"  , fachada.consultar( new SubCategoria()      ) );
 		}
 		
-		if( useDispatch ) {
-			RequestDispatcher dispatch = request.getRequestDispatcher(redirectPage);
-			dispatch.forward(request, response);
-		}else {
-			response.sendRedirect(redirectPage);
+		
+		if( !ajaxResponse ) {
+			if( useDispatch ) {
+				RequestDispatcher dispatch = request.getRequestDispatcher(redirectPage);
+				dispatch.forward(request, response);
+			}else {
+				response.sendRedirect(redirectPage);
+			}
 		}
 		
+		
 	}
-	public Livro buildEntidade(String id, String autor_id, String ano, String titulo, String edicao, String editora_id, String isbn, String numeroPaginas, String sinopse, String grupopreco_id, String ativo, String dimensao_id, String altura, String largura, String peso, String profundidade, List<LivroCategoria> categorias, List<LivroSubCategoria> subcategorias) {
+	public Livro buildEntidade(String id, String quantidade, String autor_id, String ano, String titulo, String edicao, String editora_id, String isbn, String numeroPaginas, String sinopse, String grupopreco_id, String ativo, String dimensao_id, String altura, String largura, String peso, String profundidade, List<LivroCategoria> categorias, List<LivroSubCategoria> subcategorias ) {
 		Livro livro = new Livro();
+
 		if( id != null && id.length() > 0) {
 			livro.setId(Integer.parseInt(id));
 		}
+		
+		if( quantidade != null && quantidade.length() > 0 ) {
+			livro.setQuantidade(Integer.parseInt(quantidade));
+		}
+
 		if( autor_id != null && autor_id.length() > 0 ) {
 			Autor autor = new Autor();
 			autor.setId(Integer.parseInt(autor_id));

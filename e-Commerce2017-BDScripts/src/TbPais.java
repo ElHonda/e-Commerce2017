@@ -3,7 +3,6 @@ public class TbPais implements IScript{
 
 	@Override
 	public String getScript() {
-		// TODO Auto-generated method stub
 		return "CREATE TABLE tb_pais (\r\n" + 
 				"    id integer NOT NULL PRIMARY KEY,\r\n" + 
 				"    nome character varying(40) NOT NULL,\r\n" + 

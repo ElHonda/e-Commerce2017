@@ -3,7 +3,6 @@ public class TbCidade implements IScript{
 
 	@Override
 	public String getScript() {
-		// TODO Auto-generated method stub
 		return "DROP TABLE IF EXISTS tb_cidade;" + 
 				"CREATE TABLE tb_cidade (\r\n" + 
 				"    id integer NOT NULL PRIMARY KEY,\r\n" + 

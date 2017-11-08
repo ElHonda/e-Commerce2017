@@ -3,18 +3,18 @@ package eCommerce.controle.web;
 import eCommerce.controle.web.vh.IViewHelper;
 import eCommerce.core.aplicacao.EOperacao;
 
-public class FormOperacao {
+public class Helper {
 	private EOperacao operacao;
 	private IViewHelper vh;
 	private Boolean json;
 
-	public FormOperacao( IViewHelper vh , EOperacao operacao ) {
+	public Helper( IViewHelper vh , EOperacao operacao ) {
 		this.operacao = operacao;
 		this.vh = vh;
 		this.json = false;
 	}
 	
-	public FormOperacao( IViewHelper vh , EOperacao operacao , Boolean isJson) {
+	public Helper( IViewHelper vh , EOperacao operacao , Boolean isJson) {
 		this.operacao = operacao;
 		this.vh = vh;
 		this.json = isJson;

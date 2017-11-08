@@ -57,7 +57,16 @@ pageEncoding="UTF-8"%>
 					<th><%= livro.getGrupo().getDescricao() %></th>
 					<th><%= livro.getIsbn() %></th>
 					<th><%= livro.getNumeroPaginas().toString() %></th>
-					<th><%= livro.getSinopse() %></th>
+					<th>
+						<%
+							if( livro.getSinopse().length() > 30 ){
+								out.print(livro.getSinopse().substring(0, 27)+"...");	
+							}else{
+								out.print( livro.getSinopse() );
+							}
+								
+						%>
+					</th>
 					<th><%= livro.getAtivo() ? "SIM" : "NÃO" %></th>
 					<th><a href="<%=request.getContextPath()%>/Livro/EditarLivro?livro_id=<%= livro.getId().toString() %>">Editar</a></th>
 					<th><a href="<%=request.getContextPath()%>/Livro/ExcluirLivro?livro_id=<%= livro.getId().toString() %>" onclick="return confirm('Realmente deseja excluir o Livro ?')">Excluir</a></th>

@@ -12,7 +12,7 @@ pageEncoding="UTF-8"%>
         			cliente = (Cliente)request.getAttribute( "current_cliente" );
         		}
         	%>
-        	<% if( cliente.isAdmin() ){ %>
+        	<% if( true || cliente.isAdmin() ){ %>
             	<li>
 	                <a style="padding-top: 9px; padding-bottom: 9px;" href="<%=request.getContextPath()%>/Livro/FormLivro">
 	   					<img src="<%=request.getContextPath()%>/resources/images/img-cad-new.png" width="30" height="30" alt="">
@@ -33,9 +33,9 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="out container collapse" id="form-consulta-avancada" style="">
     <br>
-    <form role="form" action="ListaLivro" method="get">
+    <form role="form" action="ListaCarrinho" method="get">
         <div class="card text-white bg-dark">
-	        <jsp:include page="Fieldset.jsp"></jsp:include>
+	        <jsp:include page="../Livro/Fieldset.jsp"></jsp:include>
 	        <div class="text-center">
 	            <input name="operacao" value="Consultar" class="btn btn-secondary btn-sm" data-disable-with="Buscar" type="submit">
 	        </div>

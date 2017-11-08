@@ -11,6 +11,7 @@ public class Livro extends EntidadeDominio {
 	private String sinopse;
 	private Integer numeroPaginas;
 	private Boolean ativo;
+	private Integer quantidade;
 
 	private GrupoPrecificacao grupo;
 	private Autor autor;
@@ -18,6 +19,7 @@ public class Livro extends EntidadeDominio {
 	private Dimensao dimensao;
 	private List<LivroCategoria> categorias;
 	private List<LivroSubCategoria> subcategorias;
+
 
 	public Livro() {
 		this.dimensao = new Dimensao();
@@ -131,5 +133,13 @@ public class Livro extends EntidadeDominio {
 	}
 	public void setGrupo(GrupoPrecificacao grupo) {
 		this.grupo = grupo;
+	}
+
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
 	}
 }

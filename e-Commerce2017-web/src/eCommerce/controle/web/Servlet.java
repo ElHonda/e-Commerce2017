@@ -16,6 +16,7 @@ import eCommerce.controle.web.command.impl.ExcluirCommand;
 import eCommerce.controle.web.command.impl.SalvarCommand;
 import eCommerce.controle.web.command.impl.VisualizarCommand;
 import eCommerce.controle.web.vh.IViewHelper;
+import eCommerce.controle.web.vh.impl.CarrinhoViewHelper;
 import eCommerce.controle.web.vh.impl.CidadeViewHelper;
 import eCommerce.controle.web.vh.impl.ClienteViewHelper;
 import eCommerce.controle.web.vh.impl.EstadoViewHelper;
@@ -31,7 +32,7 @@ public class Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static Map<EOperacao, ICommand> commands;
-	private static Map<String, FormOperacao> vhs;
+	private static Map<String, Helper> vhs;
 
     /**
      * Default constructor. 
@@ -52,22 +53,27 @@ public class Servlet extends HttpServlet {
     	 * cada viewhelper pela url em que esta servlet é chamada no form
     	 * garantimos que esta servelt atenderá qualquer entidade */
     	
-    	vhs = new HashMap<String, FormOperacao>();
+    	vhs = new HashMap<String, Helper>();
     	/*A chave do mapa é o mapeamento da servlet para cada form que 
     	 * está configurado no web.xml e sendo utilizada no action do html
     	 */
     	
-      	vhs.put("/e-Commerce2017-web/Livro/CriarLivro"   , new FormOperacao(new LivroViewHelper() , EOperacao.SALVAR     ) );
-    	vhs.put("/e-Commerce2017-web/Livro/FormLivro"    , new FormOperacao(new LivroViewHelper() , EOperacao.NOVO       ) );
-    	vhs.put("/e-Commerce2017-web/Livro/ListaLivro"   , new FormOperacao(new LivroViewHelper() , EOperacao.CONSULTAR  ) );
-    	vhs.put("/e-Commerce2017-web/Livro/EditarLivro"  , new FormOperacao(new LivroViewHelper() , EOperacao.VISUALIZAR ) );
-    	vhs.put("/e-Commerce2017-web/Livro/AlterarLivro" , new FormOperacao(new LivroViewHelper() , EOperacao.ALTERAR    ) );
-    	vhs.put("/e-Commerce2017-web/Livro/ExcluirLivro" , new FormOperacao(new LivroViewHelper() , EOperacao.EXCLUIR    ) );
-    	
-    	vhs.put("/e-Commerce2017-web/Cliente/FormCliente" , new FormOperacao( new ClienteViewHelper() , EOperacao.NOVO ) );
+      	vhs.put("/e-Commerce2017-web/Livro/CriarLivro"   , new Helper(new LivroViewHelper() , EOperacao.SALVAR     ) );
+    	vhs.put("/e-Commerce2017-web/Livro/FormLivro"    , new Helper(new LivroViewHelper() , EOperacao.NOVO       ) );
+    	vhs.put("/e-Commerce2017-web/Livro/ListaLivro"   , new Helper(new LivroViewHelper() , EOperacao.CONSULTAR  ) );
+    	vhs.put("/e-Commerce2017-web/Livro/EditarLivro"  , new Helper(new LivroViewHelper() , EOperacao.VISUALIZAR ) );
+    	vhs.put("/e-Commerce2017-web/Livro/AlterarLivro" , new Helper(new LivroViewHelper() , EOperacao.ALTERAR    ) );
+    	vhs.put("/e-Commerce2017-web/Livro/ExcluirLivro" , new Helper(new LivroViewHelper() , EOperacao.EXCLUIR    ) );
+    	// Específico para compras
+    	vhs.put("/e-Commerce2017-web/Carrinho/ListaCarrinho" , new Helper( new CarrinhoViewHelper() , EOperacao.CONSULTAR  ) );
+    	vhs.put("/e-Commerce2017-web/Carrinho/FormCarrinho"  , new Helper( new CarrinhoViewHelper() , EOperacao.VISUALIZAR ) );
+    	vhs.put("/e-Commerce2017-web/Carrinho/AddLivro"      , new Helper( new CarrinhoViewHelper() , EOperacao.NOVO       , true ) );
 
-    	vhs.put("/e-Commerce2017-web/Estado/ConsultaEstado" , new FormOperacao( new EstadoViewHelper() , EOperacao.CONSULTAR , true ) );
-    	vhs.put("/e-Commerce2017-web/Cidade/ConsultaCidade" , new FormOperacao( new CidadeViewHelper() , EOperacao.CONSULTAR , true ) );
+
+    	vhs.put("/e-Commerce2017-web/Cliente/FormCliente"   , new Helper( new ClienteViewHelper() , EOperacao.NOVO ) );
+    	vhs.put("/e-Commerce2017-web/Estado/ConsultaEstado" , new Helper( new EstadoViewHelper() , EOperacao.CONSULTAR , true ) );
+    	vhs.put("/e-Commerce2017-web/Cidade/ConsultaCidade" , new Helper( new CidadeViewHelper() , EOperacao.CONSULTAR , true ) );
+
 
     	/*
     	vhs.put("/e-Commerce2017-web/Cliente/CriarCliente"  , new ClienteViewHelper() );
@@ -119,7 +125,7 @@ public class Servlet extends HttpServlet {
 
 		uri = request.getRequestURI();
 		
-		FormOperacao fo = vhs.get(uri);
+		Helper fo = vhs.get(uri);
 		System.out.println("URI: " + uri );
 		System.out.println("Operação..." + ( fo.getOperacao() == null ? "NULA" : fo.getOperacao().toString() ) );
 		System.out.println("URI: " + uri );
@@ -140,7 +146,10 @@ public class Servlet extends HttpServlet {
 		 * o retorno é uma instância da classe resultado que pode conter mensagens derro 
 		 * ou entidades de retorno
 		 */
-		if( command != null ) {
+		if( command == null ) {
+			resultado = new Resultado();
+			resultado.setEntidade(entidade);
+		}else{
 			resultado = command.execute(entidade);
 		}
 		

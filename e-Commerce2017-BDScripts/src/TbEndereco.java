@@ -3,7 +3,6 @@ public class TbEndereco implements IScript{
 
 	@Override
 	public String getScript() {
-		// TODO Auto-generated method stub
 		return  "CREATE TABLE tb_endereco (\r\n" + 
 				"		id serial primary key,\r\n" + 
 				"		tiporesidencia varchar(15),\r\n" + 

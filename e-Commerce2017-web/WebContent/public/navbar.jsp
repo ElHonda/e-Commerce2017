@@ -1,7 +1,17 @@
+<%@page import="eCommerce.dominio.Carrinho"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
+
+<%
+	Carrinho car;
+	if( request.getSession().getAttribute( "carrinho" ) == null ){
+		car = new Carrinho();
+	}else{
+		car = (Carrinho)request.getSession().getAttribute( "carrinho" );
+	}
+%>
 <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
-	<a class="navbar-brand" href="<%=request.getContextPath()%>/public/index.jsp">Proj. Ernane</a>
+	<a class="navbar-brand" href="<%=request.getContextPath()%>/Carrinho/ListaCarrinho">Proj. Ernane</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
@@ -9,12 +19,12 @@
 		<ul class="navbar-nav">
 			<li class="nav-item
 			<%
-				if( request.getRequestURI().equals(request.getContextPath()+"/public/index.jsp")){
+				if( request.getRequestURI().contains(request.getContextPath()+"/Carrinho/ListaCarrinho")){
 					out.print(" active ");
 				}
 			%>
 			">
-        		<a class="nav-link" href="<%=request.getContextPath()%>/public/index.jsp">Início<span class="sr-only">(current)</span></a>
+        		<a class="nav-link" href="<%=request.getContextPath()%>/Carrinho/ListaCarrinho">Início<span class="sr-only">(current)</span></a>
       		</li>
 
       		<li class="nav-item dropdown
@@ -33,75 +43,59 @@
 				</div>
 			</li>
 		</ul>
-		<ul class="navbar-nav">
+		<ul class="navbar-nav ml-auto">
+	        <li class="nav-item">
+	          <a class="nav-link" id="carrinho_qtde_livros" href="<%=request.getContextPath()%>/Carrinho/FormCarrinho">Carrinho( <%= car.getLivros().size() %> )</a>
+	        </li>
 		    <li class="nav-item dropdown">
 		        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Cadastre-se<span class="caret"></span></a>
-		        <ul class="dropdown-menu dropdown-lr animated flipInX" role="menu">
+		        <ul class="dropdown-menu dropdown-menu-right dropdown-lr animated flipInX" role="menu">
 		            <div class="col-lg-12">
 		                <div class="text-center"><h3><b>Cadastre-se</b></h3></div>
 		                <form id="ajax-register-form" action="" method="post" role="form" autocomplete="off">
 		                    <div class="form-group">
-		                        <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+		                        <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Usuário" value="">
 		                    </div>
 		                    <div class="form-group">
-		                        <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" value="">
+		                        <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="E-mail" value="">
 		                    </div>
 		                    <div class="form-group">
-		                        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+		                        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Senha">
 		                    </div>
 		                    <div class="form-group">
-		                        <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password">
+		                        <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirmação da Senha">
 		                    </div>
+
 		                    <div class="form-group">
-		                        <div class="row">
-		                            <div class="col-xs-6 col-xs-offset-3">
-		                                <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-info" value="Register Now">
-		                            </div>
+					    		<div class="col-sm-12">
+					    			<a href="#" class="btn btn-success btn-sm btn-block" >Registre-se</a>
 		                        </div>
 		                    </div>
-		                    <input type="hidden" class="hide" name="token" id="token" value="7c6f19960d63f53fcd05c3e0cbc434c0">
 		                </form>
 		            </div>
 		        </ul>
 		    </li>
 		    <li class="nav-item dropdown">
 		        <a href="" class="nav-link dropdown-toggle" data-toggle="dropdown">Entre<span class="caret"></span></a>
-		        <ul class="dropdown-menu dropdown-lr animated slideInRight" role="menu">
+		        <ul class="dropdown-menu dropdown-menu-right dropdown-lr animated slideInRight" role="menu">
 		            <div class="col-lg-12">
-		                <div class="text-center"><h3><b>Log In</b></h3></div>
+		                <div class="text-center"><h3><b>Entrar</b></h3></div>
 		                <form id="ajax-login-form" action="http://phpoll.com/login/process" method="post" role="form" autocomplete="off">
 		                    <div class="form-group">
-		                        <label for="username">Username</label>
-		                        <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" autocomplete="off">
+		                        <label for="username">Usuário</label>
+		                        <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Usuário" value="" autocomplete="off">
 		                    </div>
 		
 		                    <div class="form-group">
-		                        <label for="password">Password</label>
-		                        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password" autocomplete="off">
+		                        <label for="password">Senha</label>
+		                        <input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Senha" autocomplete="off">
 		                    </div>
 		
 		                    <div class="form-group">
-		                        <div class="row">
-		                            <div class="col-xs-7">
-		                                <input type="checkbox" tabindex="3" name="remember" id="remember">
-		                                <label for="remember"> Remember Me</label>
-		                            </div>
-		                            <div class="col-xs-5 pull-right">
-		                                <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-success" value="Log In">
-		                            </div>
+					    		<div class="col-sm-12">
+					    			<a href="#" class="btn btn-primary btn-sm btn-block" >Entrar</a>
 		                        </div>
 		                    </div>
-		
-		                    <div class="form-group">
-		                        <div class="row">
-		                            <div class="col-lg-12">
-		                                <div class="text-center">
-		                                    <a href="http://phpoll.com/recover" tabindex="5" class="forgot-password">Forgot Password?</a>
-		                                </div>
-		                            </div>
-		                        </div>
-		                    </div>
-		                    <input type="hidden" class="hide" name="token" id="token" value="a465a2791ae0bae853cf4bf485dbe1b6">
 		                </form>
 		            </div>
 		        </ul>

@@ -248,8 +248,8 @@ public abstract class AbstractJdbcDAO implements IDAO{
 		}
 		return nPst;
 	}
-	public void salvar_pre( EntidadeDominio entidade ) throws SQLException{};
-	public void salvar_pos( EntidadeDominio entidade ) throws SQLException{};
-	public void alterar_pre( EntidadeDominio entidade ) throws SQLException{};
-	public void alterar_pos( EntidadeDominio entidade ) throws SQLException{};
+	protected void salvar_pre( EntidadeDominio entidade ) throws SQLException{};
+	protected void salvar_pos( EntidadeDominio entidade ) throws SQLException{};
+	protected void alterar_pre( EntidadeDominio entidade ) throws SQLException{};
+	protected void alterar_pos( EntidadeDominio entidade ) throws SQLException{};
 }

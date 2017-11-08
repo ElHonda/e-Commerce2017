@@ -12,6 +12,7 @@ import eCommerce.core.IStrategy;
 import eCommerce.core.aplicacao.EOperacao;
 import eCommerce.core.aplicacao.Resultado;
 import eCommerce.core.impl.dao.AutorDAO;
+import eCommerce.core.impl.dao.CarrinhoDAO;
 import eCommerce.core.impl.dao.CategoriaDAO;
 import eCommerce.core.impl.dao.CidadeDAO;
 import eCommerce.core.impl.dao.ClienteDAO;
@@ -29,6 +30,7 @@ import eCommerce.core.impl.negocio.ValidadorDadosObrigatoriosEndereco;
 import eCommerce.core.impl.negocio.ValidadorDadosObrigatoriosLivro;
 import eCommerce.core.impl.negocio.ValidadorDadosObrigatoriosTelefone;
 import eCommerce.dominio.Autor;
+import eCommerce.dominio.Carrinho;
 import eCommerce.dominio.Categoria;
 import eCommerce.dominio.Cidade;
 import eCommerce.dominio.Cliente;
@@ -73,9 +75,10 @@ public class Fachada implements IFachada {
 		daos.put( Pais.class.getName()              , new PaisDAO()              );
 		daos.put( Estado.class.getName()            , new EstadoDAO()            );
 		daos.put( Cidade.class.getName()            , new CidadeDAO()            );
-		daos.put( EnderecoDAO.class.getName()       , new EnderecoDAO()          );
+		daos.put( Endereco.class.getName()          , new EnderecoDAO()          );
 		daos.put( Telefone.class.getName()		    , new TelefoneDAO()          );
 		daos.put( Cliente.class.getName()           , new ClienteDAO()           );
+		daos.put( Carrinho.class.getName()          , new CarrinhoDAO()		     );
 		/* Criando instâncias dos DAOs a serem utilizados*/
 
 		RegrarAutor();
@@ -503,16 +506,6 @@ public class Fachada implements IFachada {
 		return resultado;
 
 	}
-	/*
-	@Override
-	public Resultado visualizar(EntidadeDominio entidade) {
-		resultado = new Resultado();
-		resultado.setEntidades(new ArrayList<EntidadeDominio>(1));
-		resultado.getEntidades().add(entidade);		
-		return resultado;
-
-	}
-   */
 	
 	private String executarRegras(EntidadeDominio entidade, EOperacao operacao){
 		String nmClasse = entidade.getClass().getName();		

@@ -124,7 +124,6 @@ public class EstadoDAO extends AbstractJdbcDAO {
 
 	@Override
 	public EntidadeDominio consultar_id(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

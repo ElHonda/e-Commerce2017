@@ -8,7 +8,6 @@ import eCommerce.dominio.Estado;
 public class Teste {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		EstadoDAO eDAO = new EstadoDAO();
 		JsonBuilder jb, ob;
 		Estado estado = new Estado();
@@ -27,7 +26,6 @@ public class Teste {
 				sb.append(JsonBuilder.JsonToString(jb));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("\"estados\":[ " + sb.toString() + " ]");

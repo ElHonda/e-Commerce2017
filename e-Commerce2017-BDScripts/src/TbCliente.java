@@ -3,7 +3,6 @@ public class TbCliente implements IScript{
 
 	@Override
 	public String getScript() {
-		// TODO Auto-generated method stub
 		return "CREATE TABLE tb_cliente(\r\n" + 
 				"	id SERIAL PRIMARY KEY,\r\n" + 
 				"	email VARCHAR(100) NOT NULL,\r\n" + 

@@ -54,7 +54,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 
 	}
 	@Override
-	public void alterar_pre(EntidadeDominio entidade) throws SQLException{
+	protected void alterar_pre(EntidadeDominio entidade) throws SQLException{
 		Livro livro = (Livro)entidade;
 		Livro livroOld = (Livro)consultar_id(livro);
 		
@@ -74,7 +74,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			}
 		}
 	}
-	public void alterar_pos(EntidadeDominio entidade) throws SQLException{
+	protected void alterar_pos(EntidadeDominio entidade) throws SQLException{
 		Livro livro = (Livro)entidade;
 
 		// Atualiza as dimensões
@@ -209,7 +209,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 								                 + "AND dimensionavel_class = '" + livro.getClass().getName() + "'");
 					}
 				}
-				if( livro != null && livro.getCategorias().size() > 0 ) {
+				if( livro != null && livro.getCategorias() != null && livro.getCategorias().size() > 0 ) {
 					StringBuilder sqlIn = new StringBuilder();
 					for( LivroCategoria lc : livro.getCategorias() ) {
 						if( sqlIn.length() > 0 ) {
@@ -221,7 +221,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 					}
 					sb.addWhere( "tb_livro.id IN ( SELECT livro_id FROM tb_livro_categoria lc WHERE lc.categoria_id IN ("+ sqlIn.toString() + ") )" );
 				}
-				if( livro != null && livro.getSubcategorias().size() > 0 ) {
+				if( livro != null && livro.getSubcategorias() != null && livro.getSubcategorias().size() > 0 ) {
 					StringBuilder sqlIn = new StringBuilder();
 					for( LivroSubCategoria lsc : livro.getSubcategorias() ) {
 						if( sqlIn.length() > 0 ) {
