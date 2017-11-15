@@ -23,6 +23,7 @@ import eCommerce.dominio.GrupoPrecificacao;
 import eCommerce.dominio.Livro;
 import eCommerce.dominio.LivroCategoria;
 import eCommerce.dominio.LivroSubCategoria;
+import eCommerce.dominio.Pais;
 import eCommerce.dominio.SubCategoria;
 
 public class LivroViewHelper implements IViewHelper{
@@ -189,7 +190,8 @@ public class LivroViewHelper implements IViewHelper{
 			request.setAttribute( "listaCategoria"     , fachada.consultar( new Categoria()         ) );
 			request.setAttribute( "listaSubCategoria"  , fachada.consultar( new SubCategoria()      ) );
 		}
-		
+		request.setAttribute( "listaPais" , fachada.consultar( new Pais() ) );
+
 		if( useDispatch ) {
 			RequestDispatcher dispatch = request.getRequestDispatcher(redirectPage);
 			dispatch.forward(request, response);

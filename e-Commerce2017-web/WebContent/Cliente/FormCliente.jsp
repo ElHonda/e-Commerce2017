@@ -140,7 +140,7 @@ pageEncoding="utf-8"%>
 	                    <div class="form-group col-sm-2">
 	                   		<label for="cliente_tipologradouro">Tipo Logradouro</label>
 	                       	<select class="form-control form-control-sm" name="cliente_tipologradouro" id="cliente_tipologradouro">
-	                         		<% 
+	                         	<% 
 									for( ETipoLogradouro eTipo: ETipoLogradouro.values() ){
 								%>
 										<option value="<%= eTipo %>"><%= eTipo %> </option>

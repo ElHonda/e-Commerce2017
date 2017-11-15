@@ -95,265 +95,95 @@ public class Fachada implements IFachada {
 		RegrarCliente();
 	}
 	private void RegrarAutor() {
-		/* Criando instâncias de regras de negócio a serem utilizados*/
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
-
-		/* Criando uma lista para conter as regras de negócio de Categorias
-	
-		 * quando a operação for salvar
-		 */
 		List<IStrategy> rnsSalvarAtor = new ArrayList<IStrategy>();
-		/* Adicionando as regras a serem utilizadas na operação salvar do fornecedor
-		 */
 		rnsSalvarAtor.add(cDtCadastro);
-
-		/* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
-		 * por operação  do fornecedor
-		 */
 		Map<EOperacao, List<IStrategy>> rnsAutor = new HashMap<EOperacao, List<IStrategy>>();
-		/*
-		 * Adiciona a listra de regras na operação salvar no mapa do fornecedor (lista criada na linha 70)
-		 */
-
 		rnsAutor.put(EOperacao.SALVAR, rnsSalvarAtor);	
-		/* Adiciona o mapa(criado na linha 79) com as regras indexadas pelas operações no mapa geral indexado 
-		 * pelo nome da entidade
-		 */
 		rns.put(Categoria.class.getName(), rnsAutor);
 	}
 	private void RegrarCategoria() {
-		/* Criando instâncias de regras de negócio a serem utilizados*/
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
-
-		/* Criando uma lista para conter as regras de negócio de Categorias
-	
-		 * quando a operação for salvar
-		 */
 		List<IStrategy> rnsSalvarCategoria = new ArrayList<IStrategy>();
-		/* Adicionando as regras a serem utilizadas na operação salvar do fornecedor
-		 */
 		rnsSalvarCategoria.add(cDtCadastro);
-
-		/* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
-		 * por operação  do fornecedor
-		 */
 		Map<EOperacao, List<IStrategy>> rnsCategoria = new HashMap<EOperacao, List<IStrategy>>();
-		/*
-		 * Adiciona a listra de regras na operação salvar no mapa do fornecedor (lista criada na linha 70)
-		 */
-
 		rnsCategoria.put(EOperacao.SALVAR, rnsSalvarCategoria);	
-		/* Adiciona o mapa(criado na linha 79) com as regras indexadas pelas operações no mapa geral indexado 
-		 * pelo nome da entidade
-		 */
 		rns.put(Categoria.class.getName(), rnsCategoria);
 	}
 	private void RegrarEditora() {
-		/* Criando instâncias de regras de negócio a serem utilizados*/
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
-
-		/* Criando uma lista para conter as regras de negócio de Categorias
-	
-		 * quando a operação for salvar
-		 */
 		List<IStrategy> rnsSalvarEditora = new ArrayList<IStrategy>();
-		/* Adicionando as regras a serem utilizadas na operação salvar do fornecedor
-		 */
 		rnsSalvarEditora.add(cDtCadastro);
-
-		/* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
-		 * por operação  do fornecedor
-		 */
 		Map<EOperacao, List<IStrategy>> rnsEditora = new HashMap<EOperacao, List<IStrategy>>();
-		/*
-		 * Adiciona a listra de regras na operação salvar no mapa do fornecedor (lista criada na linha 70)
-		 */
-
 		rnsEditora.put(EOperacao.SALVAR, rnsSalvarEditora);	
-		/* Adiciona o mapa(criado na linha 79) com as regras indexadas pelas operações no mapa geral indexado 
-		 * pelo nome da entidade
-		 */
 		rns.put(Categoria.class.getName(), rnsEditora);
 	}
 	private void RegrarGrupoPrecificacao() {
-		/* Criando instâncias de regras de negócio a serem utilizados*/
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
-
-		/* Criando uma lista para conter as regras de negócio de Categorias
-	
-		 * quando a operação for salvar
-		 */
 		List<IStrategy> rnsSalvarGrupoPrecificacao = new ArrayList<IStrategy>();
-		/* Adicionando as regras a serem utilizadas na operação salvar do fornecedor
-		 */
 		rnsSalvarGrupoPrecificacao.add(cDtCadastro);
-
-		/* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
-		 * por operação  do fornecedor
-		 */
 		Map<EOperacao, List<IStrategy>> rnsGrupoPrecificacao = new HashMap<EOperacao, List<IStrategy>>();
-		/*
-		 * Adiciona a listra de regras na operação salvar no mapa do fornecedor (lista criada na linha 70)
-		 */
-
 		rnsGrupoPrecificacao.put(EOperacao.SALVAR, rnsSalvarGrupoPrecificacao);	
-		/* Adiciona o mapa(criado na linha 79) com as regras indexadas pelas operações no mapa geral indexado 
-		 * pelo nome da entidade
-		 */
-		rns.put(Categoria.class.getName(), rnsGrupoPrecificacao);
+		rns.put(GrupoPrecificacao.class.getName(), rnsGrupoPrecificacao);
 	}
 	private void RegrarLivro() {
-		/* Criando instâncias de regras de negócio a serem utilizados*/
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
 		ValidadorDadosObrigatoriosLivro vrDadosObrigatoriosLivro = new ValidadorDadosObrigatoriosLivro();
-		/* Criando uma lista para conter as regras de negócio de Categorias
-	
-		 * quando a operação for salvar
-		 */
 		List<IStrategy> rnsSalvarLivro = new ArrayList<IStrategy>();
 		List<IStrategy> rnsAlterarLivro = new ArrayList<IStrategy>();
-		/* Adicionando as regras a serem utilizadas na operação salvar do fornecedor
-		 */
 		rnsSalvarLivro.add(cDtCadastro);
 		rnsSalvarLivro.add(vrDadosObrigatoriosLivro);
-
 		rnsAlterarLivro.add(vrDadosObrigatoriosLivro);
-		/* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
-		 * por operação  do fornecedor
-		 */
 		Map<EOperacao, List<IStrategy>> rnsLivro = new HashMap<EOperacao, List<IStrategy>>();
-		/*
-		 * Adiciona a listra de regras na operação salvar no mapa do fornecedor (lista criada na linha 70)
-		 */
-
 		rnsLivro.put(EOperacao.SALVAR, rnsSalvarLivro);	
 		rnsLivro.put(EOperacao.ALTERAR, rnsAlterarLivro);
-		/* Adiciona o mapa(criado na linha 79) com as regras indexadas pelas operações no mapa geral indexado 
-		 * pelo nome da entidade
-		 */
 		rns.put(Livro.class.getName(), rnsLivro);
 	}	
 	private void RegrarSubCategoria() {
-		/* Criando instâncias de regras de negócio a serem utilizados*/
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
-
-		/* Criando uma lista para conter as regras de negócio de Categorias
-	
-		 * quando a operação for salvar
-		 */
 		List<IStrategy> rnsSalvarSubCategoria = new ArrayList<IStrategy>();
-		/* Adicionando as regras a serem utilizadas na operação salvar do fornecedor
-		 */
 		rnsSalvarSubCategoria.add(cDtCadastro);
-
-		/* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
-		 * por operação  do fornecedor
-		 */
 		Map<EOperacao, List<IStrategy>> rnsSubCategoria = new HashMap<EOperacao, List<IStrategy>>();
-		/*
-		 * Adiciona a listra de regras na operação salvar no mapa do fornecedor (lista criada na linha 70)
-		 */
-
 		rnsSubCategoria.put(EOperacao.SALVAR, rnsSalvarSubCategoria);	
-		/* Adiciona o mapa(criado na linha 79) com as regras indexadas pelas operações no mapa geral indexado 
-		 * pelo nome da entidade
-		 */
 		rns.put(Categoria.class.getName(), rnsSubCategoria);
 	}
 	private void RegrarEndereco() {
-		/* Criando instâncias de regras de negócio a serem utilizados*/
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
 		ValidadorDadosObrigatoriosEndereco vrDadosObrigatoriosEndereco = new ValidadorDadosObrigatoriosEndereco();
-		/* Criando uma lista para conter as regras de negócio de Categorias
-	
-		 * quando a operação for salvar
-		 */
 		List<IStrategy> rnsSalvarEndereco = new ArrayList<IStrategy>();
 		List<IStrategy> rnsAlterarEndereco = new ArrayList<IStrategy>();
-		/* Adicionando as regras a serem utilizadas na operação salvar do fornecedor
-		 */
 		rnsSalvarEndereco.add(cDtCadastro);
 		rnsSalvarEndereco.add(vrDadosObrigatoriosEndereco);
-		
 		rnsAlterarEndereco.add(vrDadosObrigatoriosEndereco);
-		/* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
-		 * por operação  do fornecedor
-		 */
 		Map<EOperacao, List<IStrategy>> rnsEndereco = new HashMap<EOperacao, List<IStrategy>>();
-		/*
-		 * Adiciona a listra de regras na operação salvar no mapa do fornecedor (lista criada na linha 70)
-		 */
-
 		rnsEndereco.put( EOperacao.SALVAR  , rnsSalvarEndereco  );
 		rnsEndereco.put( EOperacao.ALTERAR , rnsAlterarEndereco );
-		/* Adiciona o mapa(criado na linha 79) com as regras indexadas pelas operações no mapa geral indexado 
-		 * pelo nome da entidade
-		 */
 		rns.put(Endereco.class.getName(), rnsEndereco);
 	}
 	private void RegrarTelefone() {
-		/* Criando instâncias de regras de negócio a serem utilizados*/
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
 		ValidadorDadosObrigatoriosTelefone vrDadosObrigatoriosTelefone = new ValidadorDadosObrigatoriosTelefone();
-
-		/* Criando uma lista para conter as regras de negócio de Categorias
-	
-		 * quando a operação for salvar
-		 */
 		List<IStrategy> rnsSalvarTelefone = new ArrayList<IStrategy>();
 		List<IStrategy> rnsAlterarTelefone = new ArrayList<IStrategy>();
-		/* Adicionando as regras a serem utilizadas na operação salvar do fornecedor
-		 */
 		rnsSalvarTelefone.add(cDtCadastro);
 		rnsSalvarTelefone.add(vrDadosObrigatoriosTelefone);
-
 		rnsAlterarTelefone.add(vrDadosObrigatoriosTelefone);
-		/* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
-		 * por operação  do fornecedor
-		 */
 		Map<EOperacao, List<IStrategy>> rnsTelefone = new HashMap<EOperacao, List<IStrategy>>();
-		/*
-		 * Adiciona a listra de regras na operação salvar no mapa do fornecedor (lista criada na linha 70)
-		 */
-
 		rnsTelefone.put(EOperacao.SALVAR  , rnsSalvarTelefone );	
 		rnsTelefone.put(EOperacao.ALTERAR , rnsAlterarTelefone );
-		/* Adiciona o mapa(criado na linha 79) com as regras indexadas pelas operações no mapa geral indexado 
-		 * pelo nome da entidade
-		 */
 		rns.put(Telefone.class.getName(), rnsTelefone);
 	}
-	
 	private void RegrarCliente() {
-		/* Criando instâncias de regras de negócio a serem utilizados*/
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
 		ValidadorDadosObrigatoriosCliente vrDadosObrigatoriosCliente = new ValidadorDadosObrigatoriosCliente();
-
-		/* Criando uma lista para conter as regras de negócio de Categorias
-	
-		 * quando a operação for salvar
-		 */
 		List<IStrategy> rnsSalvarCliente = new ArrayList<IStrategy>();
 		List<IStrategy> rnsAlterarCliente = new ArrayList<IStrategy>();
-		/* Adicionando as regras a serem utilizadas na operação salvar do fornecedor
-		 */
 		rnsSalvarCliente.add(cDtCadastro);
 		rnsSalvarCliente.add(vrDadosObrigatoriosCliente);
-
 		rnsAlterarCliente.add(vrDadosObrigatoriosCliente);
-		/* Cria o mapa que poderá conter todas as listas de regras de negócio específica 
-		 * por operação  do fornecedor
-		 */
 		Map<EOperacao, List<IStrategy>> rnsCliente = new HashMap<EOperacao, List<IStrategy>>();
-		/*
-		 * Adiciona a listra de regras na operação salvar no mapa do fornecedor (lista criada na linha 70)
-		 */
-
 		rnsCliente.put( EOperacao.SALVAR  , rnsSalvarCliente );	
 		rnsCliente.put( EOperacao.ALTERAR , rnsAlterarCliente );
-		/* Adiciona o mapa(criado na linha 79) com as regras indexadas pelas operações no mapa geral indexado 
-		 * pelo nome da entidade
-		 */
 		rns.put(Cliente.class.getName(), rnsCliente);
 	}
 	@Override

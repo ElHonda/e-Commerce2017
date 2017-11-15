@@ -36,7 +36,15 @@
   </servlet-mapping>
   <servlet-mapping>
   	<servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Carrinho/AlterarLivro</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Servlet</servlet-name>
   	<url-pattern>/Carrinho/FormCarrinho</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Carrinho/RemoverLivro</url-pattern>
   </servlet-mapping>
   <!-- Livros -->
   <servlet-mapping>
@@ -80,4 +88,29 @@
     <servlet-name>Servlet</servlet-name>
   	<url-pattern>/Cliente/EditarCliente/*</url-pattern>
   </servlet-mapping>
+  <!-- Grupo de Preço -->
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/GrupoPreco/FormGrupo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/GrupoPreco/ListaGrupo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/GrupoPreco/CriarGrupo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/GrupoPreco/AlterarGrupo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/GrupoPreco/EditarGrupo</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/GrupoPreco/ExcluirGrupo</url-pattern>
+  </servlet-mapping> 
 </web-app>

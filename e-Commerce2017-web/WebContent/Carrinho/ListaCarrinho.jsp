@@ -27,7 +27,7 @@ pageEncoding="UTF-8"%>
 				for( EntidadeDominio ent : resultado.getEntidades() ){
 					Livro livro = (Livro)ent;
 		%>
-			<div class="col-md-2 column productbox text-white">
+			<div class="col-md-2 column productbox text-white" <%= "data-toggle=\"tooltip\" data-placement=\"bottom\""  %> title="<%= livro.getSinopse() %>">
 				<input type="hidden" name="livro_id" id="livro_id" value="<%= livro.getId() %>">
 			    <img src="<%=request.getContextPath()%>/resources/images/livro.png"class="img-thumbnail">
 			    <div class="producttitle"><%= livro.getTitulo() %></div>
@@ -47,7 +47,10 @@ pageEncoding="UTF-8"%>
 			    	</div>
 			    	<div class="row">
 			    		<div class="col-sm-12">
-			    			<a id="comprar" name="comprar" href="#" class="btn btn-light btn-sm btn-block" >Comprar</a>
+		    				<a id="comprar" name="comprar" href="#" class="btn btn-light btn-sm btn-block" >
+			    				<img src="/e-Commerce2017-web/resources/images/cesta.png" width="40" height="30" alt="" style=""/>
+			    				Comprar
+			    			</a>
 			    		</div>
 			    	</div>
 			    </div>
@@ -57,9 +60,7 @@ pageEncoding="UTF-8"%>
             }
 		%>
  	</div>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+ 	<jsp:include page="../public/modalUtils.jsp"/>
 	<jsp:include page="../public/util.jsp"/>
 </body>
 </html>

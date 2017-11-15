@@ -12,9 +12,9 @@ pageEncoding="UTF-8"%>
         			cliente = (Cliente)request.getAttribute( "current_cliente" );
         		}
         	%>
-        	<% if( cliente.isAdmin() ){ %>
+        	<% if( cliente.isAdmin() || true ){ %>
             	<li>
-	                <a style="padding-top: 9px; padding-bottom: 9px;" href="<%=request.getContextPath()%>/Livro/FormLivro">
+	                <a style="padding-top: 9px; padding-bottom: 9px;" href="<%=request.getContextPath()%>/GrupoPreco/FormGrupo">
 	   					<img src="<%=request.getContextPath()%>/resources/images/img-cad-new.png" width="30" height="30" alt="">
                 	</a>
             	</li>
@@ -33,9 +33,9 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="out container collapse" id="form-consulta-avancada" style="">
     <br>
-    <form role="form" action="ListaCarrinho" method="get">
+    <form role="form" action="ListaGrupo" method="get">
         <div class="card text-white bg-dark">
-	        <jsp:include page="../Livro/Fieldset.jsp"></jsp:include>
+	        <jsp:include page="Fieldset.jsp"></jsp:include>
 	        <div class="text-center">
 	            <input name="operacao" value="Consultar" class="btn btn-secondary btn-sm" data-disable-with="Buscar" type="submit">
 	        </div>

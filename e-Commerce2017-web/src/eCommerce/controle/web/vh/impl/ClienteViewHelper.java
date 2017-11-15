@@ -19,7 +19,7 @@ import eCommerce.dominio.Pais;
 public class ClienteViewHelper implements IViewHelper{
 	@Override
 	public EntidadeDominio getEntidade(HttpServletRequest request) {
-		/*
+		
 		String email           = request.getParameter( "cliente_email" );
 		String senha           = request.getParameter( "cliente_senha" );
 		String senha_confirmar = request.getParameter( "cliente_senha_confirmar" );
@@ -28,12 +28,15 @@ public class ClienteViewHelper implements IViewHelper{
 		String datanasc        = request.getParameter( "cliente_datanasc" );
 		String cpf             = request.getParameter( "cliente_cpf" );
 		String telefone        = request.getParameter( "cliente_telefone" );
+		
 		String cidade          = request.getParameter( "cliente_cidade_id" );
-		String tiporesidencia  = request.getParameter( "" );
-		String tipologradouro  = request.getParameter( "" );
+		String tiporesidencia  = request.getParameter( "cliente_tiporesidencia" );
+		String tipologradouro  = request.getParameter( "cliente_tipologradouro" );
+		String bairro          = request.getParameter( "cliente_bairro" );
+		String cep			   = request.getParameter( "cliente_cep" );
 		String logradouro      = request.getParameter( "" );
 		String numero          = request.getParameter( "" );
-		*/
+		
 		return buildEntidade();
 	}
 

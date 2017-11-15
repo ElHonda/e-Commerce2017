@@ -134,11 +134,9 @@ public class Livro extends EntidadeDominio {
 	public void setGrupo(GrupoPrecificacao grupo) {
 		this.grupo = grupo;
 	}
-
 	public Integer getQuantidade() {
 		return quantidade;
 	}
-
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}

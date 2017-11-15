@@ -20,6 +20,7 @@ import eCommerce.controle.web.vh.impl.CarrinhoViewHelper;
 import eCommerce.controle.web.vh.impl.CidadeViewHelper;
 import eCommerce.controle.web.vh.impl.ClienteViewHelper;
 import eCommerce.controle.web.vh.impl.EstadoViewHelper;
+import eCommerce.controle.web.vh.impl.GrupoPrecoViewHelper;
 import eCommerce.controle.web.vh.impl.LivroViewHelper;
 import eCommerce.core.aplicacao.EOperacao;
 import eCommerce.core.aplicacao.Resultado;
@@ -58,21 +59,31 @@ public class Servlet extends HttpServlet {
     	 * está configurado no web.xml e sendo utilizada no action do html
     	 */
     	
+    	// Define acesso as operações
+    	// LIVROS
       	vhs.put("/e-Commerce2017-web/Livro/CriarLivro"   , new Helper(new LivroViewHelper() , EOperacao.SALVAR     ) );
-    	vhs.put("/e-Commerce2017-web/Livro/FormLivro"    , new Helper(new LivroViewHelper() , EOperacao.NOVO       ) );
+    	vhs.put("/e-Commerce2017-web/Livro/FormLivro"    , new Helper(new LivroViewHelper() , EOperacao.NOVO       , false , false ) );
     	vhs.put("/e-Commerce2017-web/Livro/ListaLivro"   , new Helper(new LivroViewHelper() , EOperacao.CONSULTAR  ) );
     	vhs.put("/e-Commerce2017-web/Livro/EditarLivro"  , new Helper(new LivroViewHelper() , EOperacao.VISUALIZAR ) );
     	vhs.put("/e-Commerce2017-web/Livro/AlterarLivro" , new Helper(new LivroViewHelper() , EOperacao.ALTERAR    ) );
     	vhs.put("/e-Commerce2017-web/Livro/ExcluirLivro" , new Helper(new LivroViewHelper() , EOperacao.EXCLUIR    ) );
+    	// GRUPO DE PREÇO
+      	vhs.put("/e-Commerce2017-web/GrupoPreco/CriarGrupo"   , new Helper(new GrupoPrecoViewHelper() , EOperacao.SALVAR     ) );
+    	vhs.put("/e-Commerce2017-web/GrupoPreco/FormGrupo"    , new Helper(new GrupoPrecoViewHelper() , EOperacao.NOVO       , false , false ) );
+    	vhs.put("/e-Commerce2017-web/GrupoPreco/ListaGrupo"   , new Helper(new GrupoPrecoViewHelper() , EOperacao.CONSULTAR  ) );
+    	vhs.put("/e-Commerce2017-web/GrupoPreco/EditarGrupo"  , new Helper(new GrupoPrecoViewHelper() , EOperacao.VISUALIZAR ) );
+    	vhs.put("/e-Commerce2017-web/GrupoPreco/AlterarGrupo" , new Helper(new GrupoPrecoViewHelper() , EOperacao.ALTERAR    ) );
+    	vhs.put("/e-Commerce2017-web/GrupoPreco/ExcluirGrupo" , new Helper(new GrupoPrecoViewHelper() , EOperacao.EXCLUIR    ) );
     	// Específico para compras
     	vhs.put("/e-Commerce2017-web/Carrinho/ListaCarrinho" , new Helper( new CarrinhoViewHelper() , EOperacao.CONSULTAR  ) );
     	vhs.put("/e-Commerce2017-web/Carrinho/FormCarrinho"  , new Helper( new CarrinhoViewHelper() , EOperacao.VISUALIZAR ) );
-    	vhs.put("/e-Commerce2017-web/Carrinho/AddLivro"      , new Helper( new CarrinhoViewHelper() , EOperacao.NOVO       , true ) );
-
-
-    	vhs.put("/e-Commerce2017-web/Cliente/FormCliente"   , new Helper( new ClienteViewHelper() , EOperacao.NOVO ) );
-    	vhs.put("/e-Commerce2017-web/Estado/ConsultaEstado" , new Helper( new EstadoViewHelper() , EOperacao.CONSULTAR , true ) );
-    	vhs.put("/e-Commerce2017-web/Cidade/ConsultaCidade" , new Helper( new CidadeViewHelper() , EOperacao.CONSULTAR , true ) );
+    	vhs.put("/e-Commerce2017-web/Carrinho/AddLivro"      , new Helper( new CarrinhoViewHelper() , EOperacao.NOVO       , true , false ) );
+    	vhs.put("/e-Commerce2017-web/Carrinho/AlterarLivro"  , new Helper( new CarrinhoViewHelper() , EOperacao.ALTERAR    , true , false ) );
+    	vhs.put("/e-Commerce2017-web/Carrinho/RemoverLivro"  , new Helper( new CarrinhoViewHelper() , EOperacao.EXCLUIR    , true , false ) );
+    	
+    	vhs.put("/e-Commerce2017-web/Cliente/FormCliente"   , new Helper( new ClienteViewHelper() , EOperacao.NOVO      , false , false ) );
+    	vhs.put("/e-Commerce2017-web/Estado/ConsultaEstado" , new Helper( new EstadoViewHelper()  , EOperacao.CONSULTAR , true  , true  ) );
+    	vhs.put("/e-Commerce2017-web/Cidade/ConsultaCidade" , new Helper( new CidadeViewHelper()  , EOperacao.CONSULTAR , true  , true  ) );
 
 
     	/*
@@ -146,11 +157,11 @@ public class Servlet extends HttpServlet {
 		 * o retorno é uma instância da classe resultado que pode conter mensagens derro 
 		 * ou entidades de retorno
 		 */
-		if( command == null ) {
+		if( fo.getUseCommand() ) {
+			resultado = command.execute(entidade);
+		}else{
 			resultado = new Resultado();
 			resultado.setEntidade(entidade);
-		}else{
-			resultado = command.execute(entidade);
 		}
 		
 		/*
@@ -159,8 +170,5 @@ public class Servlet extends HttpServlet {
 		 */
 		vh.setView(resultado, request, response, fo.getOperacao(), fo.isJson() );
 	
-	}
-	public static void toTestando() {
-		
 	}
 }

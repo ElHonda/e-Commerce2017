@@ -26,13 +26,14 @@ import eCommerce.dominio.GrupoPrecificacao;
 import eCommerce.dominio.Livro;
 import eCommerce.dominio.LivroCategoria;
 import eCommerce.dominio.LivroSubCategoria;
+import eCommerce.dominio.Pais;
 import eCommerce.dominio.SubCategoria;
 
 public class CarrinhoViewHelper implements IViewHelper{
 	@Override
 	public EntidadeDominio getEntidade(HttpServletRequest request) {
-		String id 		 			= request.getParameter( "livro_id"         );
-		String quantidade 			= request.getParameter( "livro_quantidade" );
+		String id 		 			= request.getParameter( "livro_id"                      );
+		String quantidade 			= request.getParameter( "livro_quantidade"              );
 		String autor_id 	   		= request.getParameter( "livro_autor_id"				);
 		String ano 			   		= request.getParameter( "livro_ano"						);
 		String titulo 		   		= request.getParameter( "livro_titulo" 					);
@@ -103,7 +104,9 @@ public class CarrinhoViewHelper implements IViewHelper{
 		IFachada fachada = new Fachada();
 		String redirectPage=null;
 		Boolean useDispatch=true;
-		Boolean carregarCombos=false;
+		Boolean carregarCombos=true;
+		Livro livro;
+		String internalOp = request.getParameter("operacao");
 
 		if( request.getSession().getAttribute( "carrinho" ) == null ) {
 			carrinho = new Carrinho();
@@ -116,6 +119,21 @@ public class CarrinhoViewHelper implements IViewHelper{
 		case SALVAR:
 			break;
 		case ALTERAR:
+
+			if( internalOp.equals( "ULIVRO" ) ) {
+				livro = (Livro)resultado.getEntidade();
+				carrinho.getLivros().get(carrinho.getLivros().indexOf(livro)).setQuantidade(livro.getQuantidade());;
+	
+				if( ajaxResponse ) {
+					JsonBuilder json = new JsonBuilder();
+					Integer qtde = carrinho.getLivros().size();
+					json.addKey( "quantidade" , qtde.toString() );
+			        response.setContentType("application/json");
+			        response.setCharacterEncoding("UTF-8");
+			        PrintWriter writer = response.getWriter();
+			        writer.print( json.JsonToString() );
+				}
+			}
 			break;
 		case VISUALIZAR:
 			redirectPage = "FormCarrinho.jsp";
@@ -124,25 +142,37 @@ public class CarrinhoViewHelper implements IViewHelper{
 			}
 			break;
 		case EXCLUIR:
+			if( internalOp.equals( "DLIVRO" ) ) {
+				livro = (Livro)resultado.getEntidade();
+
+				carrinho.getLivros().remove(carrinho.getLivros().indexOf(livro));
+	
+				if( ajaxResponse ) {
+					JsonBuilder json = new JsonBuilder();
+					Integer qtde = carrinho.getLivros().size();
+					json.addKey( "quantidade" , qtde.toString() );
+			        response.setContentType("application/json");
+			        response.setCharacterEncoding("UTF-8");
+			        PrintWriter writer = response.getWriter();
+			        writer.print( json.JsonToString() );
+				}
+			}
+
 			break;
 		case CONSULTAR:
 			redirectPage = "ListaCarrinho.jsp";
 			request.setAttribute( "header"             , "PESQUISA"              );
 			request.setAttribute( "entidadeEnviada"    , resultado.getEntidade() );
 			request.setAttribute( "resultadoConsultar" , resultado               );
-
-			carregarCombos = true;
+			resultado.getEntidades().removeAll( carrinho.getLivros() );				
 			break;
 		case NOVO:
-			
-			Livro livro = (Livro)resultado.getEntidade();
+			livro = (Livro)resultado.getEntidade();
 			Integer quantidade = livro.getQuantidade();
 
 			livro = (Livro)fachada.consultar_id(livro).getEntidades().get(0);
 			livro.setQuantidade(quantidade);
 			carrinho.addLivro(livro);
-
-			request.getSession().setAttribute( "carrinho" , carrinho );
 
 			if( ajaxResponse ) {
 				JsonBuilder json = new JsonBuilder();
@@ -165,9 +195,11 @@ public class CarrinhoViewHelper implements IViewHelper{
 			request.setAttribute( "listaGrupo"         , fachada.consultar( new GrupoPrecificacao() ) );
 			request.setAttribute( "listaCategoria"     , fachada.consultar( new Categoria()         ) );
 			request.setAttribute( "listaSubCategoria"  , fachada.consultar( new SubCategoria()      ) );
+			request.setAttribute( "listaPais"          , fachada.consultar( new Pais() 				) );
 		}
 		
-		
+		request.getSession().setAttribute( "carrinho" , carrinho );
+
 		if( !ajaxResponse ) {
 			if( useDispatch ) {
 				RequestDispatcher dispatch = request.getRequestDispatcher(redirectPage);
@@ -176,8 +208,7 @@ public class CarrinhoViewHelper implements IViewHelper{
 				response.sendRedirect(redirectPage);
 			}
 		}
-		
-		
+
 	}
 	public Livro buildEntidade(String id, String quantidade, String autor_id, String ano, String titulo, String edicao, String editora_id, String isbn, String numeroPaginas, String sinopse, String grupopreco_id, String ativo, String dimensao_id, String altura, String largura, String peso, String profundidade, List<LivroCategoria> categorias, List<LivroSubCategoria> subcategorias ) {
 		Livro livro = new Livro();
