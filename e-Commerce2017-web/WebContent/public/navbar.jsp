@@ -33,7 +33,16 @@
 						out.print(" active ");
 					}else if( request.getRequestURI().contains(request.getContextPath()+"/GrupoPreco/") ){
 						out.print( " active " );
+					}else if( request.getRequestURI().contains(request.getContextPath()+"/Autor/") ){
+						out.print( " active " );
+					}else if( request.getRequestURI().contains(request.getContextPath()+"/Editora/") ){
+						out.print( " active " );
+					}else if( request.getRequestURI().contains(request.getContextPath()+"/Categoria/") ){
+						out.print( " active " );
+					}else if( request.getRequestURI().contains(request.getContextPath()+"/Subcategoria/") ){
+						out.print( " active " );
 					}
+      		
       		
 				%>
       		">
@@ -42,7 +51,11 @@
         		</a>
 				<div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
           			<a class="dropdown-item bg-dark text-white" href="<%=request.getContextPath()%>/Livro/ListaLivro">Livros</a>
-          			<a class="dropdown-item bg-dark text-white" href="<%=request.getContextPath()%>/GrupoPreco/ListaGrupo">Grupo de Preço</a>
+          			<a class="dropdown-item bg-dark text-white" href="<%=request.getContextPath()%>/Autor/ListaAutor">Autores</a>
+          			<a class="dropdown-item bg-dark text-white" href="<%=request.getContextPath()%>/Editora/ListaEditora">Editoras</a>
+          			<a class="dropdown-item bg-dark text-white" href="<%=request.getContextPath()%>/Categoria/ListaCategoria">Categorias</a>
+          			<a class="dropdown-item bg-dark text-white" href="<%=request.getContextPath()%>/Subcategoria/ListaSubcategoria">Subcategorias</a>
+          			<a class="dropdown-item bg-dark text-white" href="<%=request.getContextPath()%>/GrupoPreco/ListaGrupo">Grupos de Preço</a>
 				</div>
 			</li>
 		</ul>

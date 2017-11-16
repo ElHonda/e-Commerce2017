@@ -12,6 +12,9 @@ public class Livro extends EntidadeDominio {
 	private Integer numeroPaginas;
 	private Boolean ativo;
 	private Integer quantidade;
+	private Integer qtdeEstoque;
+	private Double precoCompra;
+	private Double precoVenda;
 
 	private GrupoPrecificacao grupo;
 	private Autor autor;
@@ -139,5 +142,29 @@ public class Livro extends EntidadeDominio {
 	}
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
+	}
+
+	public Integer getQtdeEstoque() {
+		return qtdeEstoque;
+	}
+
+	public Double getPrecoCompra() {
+		return precoCompra;
+	}
+
+	public Double getPrecoVenda() {
+		return precoVenda;
+	}
+
+	public void setQtdeEstoque(Integer qtdeEstoque) {
+		this.qtdeEstoque = qtdeEstoque;
+	}
+
+	public void setPrecoCompra(Double precoCompra) {
+		this.precoCompra = precoCompra;
+	}
+
+	public void setPrecoVenda(Double precoVenda) {
+		this.precoVenda = precoVenda;
 	}
 }

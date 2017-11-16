@@ -9,10 +9,10 @@ public class TbCategoria implements IScript{
 				+ "descricao character varying(30),\n"
 				+ "dtcadastro date\n"
 				+ ");"
-				+ "INSERT INTO tb_categoria VALUES (1, 'Romance', '2017-10-11');\r\n"
-				+ "INSERT INTO tb_categoria VALUES (2, 'Ficção', '2017-10-11');\r\n"
-				+ "INSERT INTO tb_categoria VALUES (3, 'Comédia', '2017-10-11');\r\n"
-				+ "INSERT INTO tb_categoria VALUES (4, 'Academicos', '2017-10-11');";
+				+ "INSERT INTO tb_categoria ( descricao , dtcadastro ) VALUES ( 'Romance', '2017-10-11');\r\n"
+				+ "INSERT INTO tb_categoria ( descricao , dtcadastro ) VALUES ( 'Ficção', '2017-10-11');\r\n"
+				+ "INSERT INTO tb_categoria ( descricao , dtcadastro ) VALUES ( 'Comédia', '2017-10-11');\r\n"
+				+ "INSERT INTO tb_categoria ( descricao , dtcadastro ) VALUES ( 'Academicos', '2017-10-11');";
 		System.out.println(str);
 		return str;
 	}

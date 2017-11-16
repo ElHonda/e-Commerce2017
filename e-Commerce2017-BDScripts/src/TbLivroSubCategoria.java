@@ -10,11 +10,11 @@ public class TbLivroSubCategoria implements IScript{
 				+ "subcategoria_id integer references tb_subcategoria on update cascade on delete restrict,\n"
 				+ "dtcadastro date\n"
 				+ ");"
-				+ "INSERT INTO tb_livro_subcategoria VALUES (5, 2, 2, NULL);\r\n"
-				+ "INSERT INTO tb_livro_subcategoria VALUES (1, 1, 1, NULL);\r\n"
-				+ "INSERT INTO tb_livro_subcategoria VALUES (11, 4, 1, NULL);\r\n"
-				+ "INSERT INTO tb_livro_subcategoria VALUES (6, 3, 1, NULL);\r\n"
-				+ "INSERT INTO tb_livro_subcategoria VALUES (12, 5, 4, NULL);\r\n";
+				+ "INSERT INTO tb_livro_subcategoria ( livro_id, subcategoria_id, dtcadastro ) VALUES ( 2, 2, now());\r\n"
+				+ "INSERT INTO tb_livro_subcategoria ( livro_id, subcategoria_id, dtcadastro ) VALUES ( 1, 1, now());\r\n"
+				+ "INSERT INTO tb_livro_subcategoria ( livro_id, subcategoria_id, dtcadastro ) VALUES ( 4, 1, now());\r\n"
+				+ "INSERT INTO tb_livro_subcategoria ( livro_id, subcategoria_id, dtcadastro ) VALUES ( 3, 1, now());\r\n"
+				+ "INSERT INTO tb_livro_subcategoria ( livro_id, subcategoria_id, dtcadastro ) VALUES ( 5, 4, now());\r\n";
 		System.out.println(str);
 		return str;
 	}

@@ -49,6 +49,8 @@ public class LivroViewHelper implements IViewHelper{
 		String subcategoria_id 		= null;
 		String livrocategoria_id    = null;
 		String livrosubcategoria_id = null;
+		
+		String operacao = request.getParameter("operacao");
 
 		List<LivroCategoria> categorias = new ArrayList<LivroCategoria>();
 		Categoria categoria;
@@ -90,7 +92,7 @@ public class LivroViewHelper implements IViewHelper{
 			}
 		}
 		
-		return buildEntidade(id, autor_id, ano, titulo, edicao, editora_id, isbn, numeroPaginas, sinopse, grupopreco_id, ativo , dimensao_id , altura, largura, peso, profundidade , categorias , subcategorias );
+		return buildEntidade(id, autor_id, ano, titulo, edicao, editora_id, isbn, numeroPaginas, sinopse, grupopreco_id, ativo , dimensao_id , altura, largura, peso, profundidade , categorias , subcategorias , operacao );
 	}
 	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, 
@@ -200,77 +202,90 @@ public class LivroViewHelper implements IViewHelper{
 		}
 		
 	}
-	public Livro buildEntidade(String id, String autor_id, String ano, String titulo, String edicao, String editora_id, String isbn, String numeroPaginas, String sinopse, String grupopreco_id, String ativo, String dimensao_id, String altura, String largura, String peso, String profundidade, List<LivroCategoria> categorias, List<LivroSubCategoria> subcategorias) {
+	public Livro buildEntidade(String id, String autor_id, String ano, String titulo, String edicao, String editora_id, String isbn, String numeroPaginas, String sinopse, String grupopreco_id, String ativo, String dimensao_id, String altura, String largura, String peso, String profundidade, List<LivroCategoria> categorias, List<LivroSubCategoria> subcategorias, String operacao) {
 		Livro livro = new Livro();
 		if( id != null && id.length() > 0) {
 			livro.setId(Integer.parseInt(id));
 		}
-		if( autor_id != null && autor_id.length() > 0 ) {
-			Autor autor = new Autor();
-			autor.setId(Integer.parseInt(autor_id));
-			livro.setAutor(autor);
-		}
-		if( ano != null && ano.length() > 0 ) {
-			livro.setAno(Integer.parseInt(ano));
-		}
-		if( titulo != null ) {
-			livro.setTitulo(titulo);
-		}
-		if( edicao != null ) {
-			livro.setEdicao(edicao);
-		}
-		if( editora_id != null && editora_id.length() > 0 ) {
-			Editora editora = new Editora();
-			editora.setId(Integer.parseInt(editora_id));
-			livro.setEditora(editora);
-		}
-		if( isbn != null ) {
-			livro.setIsbn(isbn);
-		}
-		if( numeroPaginas != null && numeroPaginas.length() > 0 ) {
-			livro.setNumeroPaginas(Integer.parseInt(numeroPaginas));
-		}
-		if( sinopse != null ) {
-			livro.setSinopse(sinopse);
-		}
-		if( grupopreco_id != null && grupopreco_id.length() > 0 ) {
-			GrupoPrecificacao grupopreco = new GrupoPrecificacao();
-			grupopreco.setId(Integer.parseInt(grupopreco_id));
-			livro.setGrupo(grupopreco);
-		}
-		if( ativo != null && ativo.length() > 0 ) {
-			livro.setAtivo(Boolean.parseBoolean(ativo));
-		}
 		
-		// Faz looping nas categorias e subcategorias para atribuir o livro
-		for( LivroCategoria lc : categorias ) {
-			lc.setLivro(livro);
+		if( operacao == null || operacao.length() <= 0) {
+			if( autor_id != null && autor_id.length() > 0 ) {
+				Autor autor = new Autor();
+				autor.setId(Integer.parseInt(autor_id));
+				livro.setAutor(autor);
+			}
+			if( ano != null && ano.length() > 0 ) {
+				livro.setAno(Integer.parseInt(ano));
+			}
+			if( titulo != null ) {
+				livro.setTitulo(titulo);
+			}
+			if( edicao != null ) {
+				livro.setEdicao(edicao);
+			}
+			if( editora_id != null && editora_id.length() > 0 ) {
+				Editora editora = new Editora();
+				editora.setId(Integer.parseInt(editora_id));
+				livro.setEditora(editora);
+			}
+			if( isbn != null ) {
+				livro.setIsbn(isbn);
+			}
+			if( numeroPaginas != null && numeroPaginas.length() > 0 ) {
+				livro.setNumeroPaginas(Integer.parseInt(numeroPaginas));
+			}
+			if( sinopse != null ) {
+				livro.setSinopse(sinopse);
+			}
+			if( grupopreco_id != null && grupopreco_id.length() > 0 ) {
+				GrupoPrecificacao grupopreco = new GrupoPrecificacao();
+				grupopreco.setId(Integer.parseInt(grupopreco_id));
+				livro.setGrupo(grupopreco);
+			}
+			if( ativo != null && ativo.length() > 0 ) {
+				livro.setAtivo(Boolean.parseBoolean(ativo));
+			}
+			
+			// Faz looping nas categorias e subcategorias para atribuir o livro
+			for( LivroCategoria lc : categorias ) {
+				lc.setLivro(livro);
+			}
+			for( LivroSubCategoria lsc : subcategorias ) {
+				lsc.setLivro(livro);
+			}
+			
+			livro.setDimensao(new Dimensao());
+			if( dimensao_id != null && dimensao_id.length() > 0 ) {
+				livro.getDimensao().setId(Integer.parseInt(dimensao_id));
+			}
+			if( altura != null && altura.length() > 0 ) {
+				livro.getDimensao().setAltura(Double.parseDouble(altura));
+			}
+			if( largura != null && largura.length() > 0 ) {
+				livro.getDimensao().setLargura(Double.parseDouble(largura));
+			}
+		    if( peso != null && peso.length() > 0 ) {
+		    	livro.getDimensao().setPeso(Double.parseDouble(peso));
+		    }
+			if( profundidade != null && profundidade.length() > 0 ) {
+				livro.getDimensao().setProfundidade(Double.parseDouble(profundidade));
+			}
+			//if( livro.getDimensao() != null )
+			//	livro.getDimensao().setDimensionavel(livro);
+			livro.setCategorias(categorias);
+			livro.setSubcategorias(subcategorias);
+		}else{
+			if( operacao.equals("INATIVAR") || operacao.equals("ATIVAR") ){
+				IFachada fachada = new Fachada();
+				livro = (Livro)fachada.consultar_id(livro).getEntidades().get(0);
+				if( operacao.equals("ATIVAR") ) {
+					livro.setAtivo(true);	
+				}else {
+					livro.setAtivo(false);
+				}
+				
+			}
 		}
-		for( LivroSubCategoria lsc : subcategorias ) {
-			lsc.setLivro(livro);
-		}
-		
-		livro.setDimensao(new Dimensao());
-		if( dimensao_id != null && dimensao_id.length() > 0 ) {
-			livro.getDimensao().setId(Integer.parseInt(dimensao_id));
-		}
-		if( altura != null && altura.length() > 0 ) {
-			livro.getDimensao().setAltura(Double.parseDouble(altura));
-		}
-		if( largura != null && largura.length() > 0 ) {
-			livro.getDimensao().setLargura(Double.parseDouble(largura));
-		}
-	    if( peso != null && peso.length() > 0 ) {
-	    	livro.getDimensao().setPeso(Double.parseDouble(peso));
-	    }
-		if( profundidade != null && profundidade.length() > 0 ) {
-			livro.getDimensao().setProfundidade(Double.parseDouble(profundidade));
-		}
-		//if( livro.getDimensao() != null )
-		//	livro.getDimensao().setDimensionavel(livro);
-		livro.setCategorias(categorias);
-		livro.setSubcategorias(subcategorias);
-		
 		return livro;
 	}
 

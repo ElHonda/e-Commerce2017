@@ -70,7 +70,17 @@
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
   	<url-pattern>/Livro/ExcluirLivro</url-pattern>
-  </servlet-mapping>  
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Livro/AtivarLivro</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Livro/InativarLivro</url-pattern>
+  </servlet-mapping>
+   <!-- END Livros -->
+  
     <!-- Clientes -->
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
@@ -112,5 +122,105 @@
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
   	<url-pattern>/GrupoPreco/ExcluirGrupo</url-pattern>
-  </servlet-mapping> 
+  </servlet-mapping>
+  <!-- Autor -->
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/Autor/FormAutor</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/Autor/ListaAutor</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Autor/CriarAutor</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Autor/AlterarAutor</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Autor/EditarAutor</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Autor/ExcluirAutor</url-pattern>
+  </servlet-mapping>
+  <!-- Editora -->
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/Editora/FormEditora</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/Editora/ListaEditora</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Editora/CriarEditora</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Editora/AlterarEditora</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Editora/EditarEditora</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Editora/ExcluirEditora</url-pattern>
+  </servlet-mapping>
+  <!-- Categoria -->
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/Categoria/FormCategoria</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/Categoria/ListaCategoria</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Categoria/CriarCategoria</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Categoria/AlterarCategoria</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Categoria/EditarCategoria</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Categoria/ExcluirCategoria</url-pattern>
+  </servlet-mapping>
+  <!-- Subcategoria -->
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/Subcategoria/FormSubcategoria</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/Subcategoria/ListaSubcategoria</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Subcategoria/CriarSubcategoria</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Subcategoria/AlterarSubcategoria</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Subcategoria/EditarSubcategoria</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Subcategoria/ExcluirSubcategoria</url-pattern>
+  </servlet-mapping>
 </web-app>

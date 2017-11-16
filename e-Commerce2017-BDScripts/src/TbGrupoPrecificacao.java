@@ -9,7 +9,8 @@ public class TbGrupoPrecificacao implements IScript{
 				+ " margemlucro numeric(7,2),\n"
 				+ " dtcadastro date\n"
 				+ ");"
-				+ "INSERT INTO tb_grupopreco ( id , descricao , margemlucro , dtcadastro ) VALUES ( 1,'Primeiro grupo','15.00', now() )" ;
+				+ "INSERT INTO tb_grupopreco ( descricao , margemlucro , dtcadastro ) VALUES ( 'Nacional' ,'15.00' , now() );"
+	            + "INSERT INTO tb_grupopreco ( descricao , margemlucro , dtcadastro ) VALUES ( 'Nacional' ,'30.00' , now() );" ;
 		System.out.println(str);
 		return str;
 	}

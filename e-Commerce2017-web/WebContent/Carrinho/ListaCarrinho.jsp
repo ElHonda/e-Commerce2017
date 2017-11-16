@@ -11,7 +11,7 @@ pageEncoding="UTF-8"%>
 	<%@include file="../public/head.html"%>
 	<link rel="stylesheet" href="itemCarrinho.css">
 </head>
-<body style="padding-top: 50px;background-color: #455058;">
+<body style="padding-top: 50px;background-color: #455058;padding-bottom: 60px;">
 	<jsp:include page="../public/navbar.jsp"/>
 	<jsp:include page="../public/bodybar.jspf"/>
 	<jsp:include page="../public/messages.jsp"/>

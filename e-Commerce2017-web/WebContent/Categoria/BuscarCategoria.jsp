@@ -14,7 +14,7 @@ pageEncoding="UTF-8"%>
         	%>
         	<% if( cliente.isAdmin() ){ %>
             	<li>
-	                <a style="padding-top: 9px; padding-bottom: 9px;" href="<%=request.getContextPath()%>/GrupoPreco/FormGrupo">
+	                <a style="padding-top: 9px; padding-bottom: 9px;" href="<%=request.getContextPath()%>/Categoria/FormCategoria">
 	   					<img src="<%=request.getContextPath()%>/resources/images/img-cad-new.png" width="30" height="30" alt="">
                 	</a>
             	</li>
@@ -33,7 +33,7 @@ pageEncoding="UTF-8"%>
 </div>
 <div class="out container collapse" id="form-consulta-avancada" style="">
     <br>
-    <form role="form" action="ListaGrupo" method="get">
+    <form role="form" action="ListaCategoria" method="get">
         <div class="card text-white bg-dark">
 	        <jsp:include page="Fieldset.jsp"></jsp:include>
 	        <div class="text-center">

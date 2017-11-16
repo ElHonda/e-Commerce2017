@@ -100,7 +100,7 @@ public class Fachada implements IFachada {
 		rnsSalvarAtor.add(cDtCadastro);
 		Map<EOperacao, List<IStrategy>> rnsAutor = new HashMap<EOperacao, List<IStrategy>>();
 		rnsAutor.put(EOperacao.SALVAR, rnsSalvarAtor);	
-		rns.put(Categoria.class.getName(), rnsAutor);
+		rns.put(Autor.class.getName(), rnsAutor);
 	}
 	private void RegrarCategoria() {
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
@@ -116,7 +116,7 @@ public class Fachada implements IFachada {
 		rnsSalvarEditora.add(cDtCadastro);
 		Map<EOperacao, List<IStrategy>> rnsEditora = new HashMap<EOperacao, List<IStrategy>>();
 		rnsEditora.put(EOperacao.SALVAR, rnsSalvarEditora);	
-		rns.put(Categoria.class.getName(), rnsEditora);
+		rns.put(Editora.class.getName(), rnsEditora);
 	}
 	private void RegrarGrupoPrecificacao() {
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
@@ -145,7 +145,7 @@ public class Fachada implements IFachada {
 		rnsSalvarSubCategoria.add(cDtCadastro);
 		Map<EOperacao, List<IStrategy>> rnsSubCategoria = new HashMap<EOperacao, List<IStrategy>>();
 		rnsSubCategoria.put(EOperacao.SALVAR, rnsSalvarSubCategoria);	
-		rns.put(Categoria.class.getName(), rnsSubCategoria);
+		rns.put(SubCategoria.class.getName(), rnsSubCategoria);
 	}
 	private void RegrarEndereco() {
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();

@@ -40,6 +40,9 @@ public class LivroDAO extends AbstractJdbcDAO {
 		addColunas( "sinopse"	    );
 		addColunas( "grupopreco_id" );
 		addColunas( "ativo"         );
+	    addColunas( "qtde_estoque"  );
+	    addColunas( "preco_compra"  );
+	    addColunas( "preco_venda"   );
 	}
 	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
 		Livro livro = (Livro)entidade;
@@ -254,7 +257,9 @@ public class LivroDAO extends AbstractJdbcDAO {
 				l.setSinopse(rs.getString("sinopse"));
 				l.setNumeroPaginas(rs.getInt("numeropaginas"));
 				l.setAtivo(rs.getBoolean("ativo"));
-				
+				l.setQtdeEstoque(rs.getInt("qtde_estoque" ));
+				l.setPrecoCompra(rs.getDouble("preco_compra"));
+				l.setPrecoVenda(rs.getDouble("preco_venda"));
 				// Faz a Busca do Autor
 				Autor autor = new Autor();
 				AutorDAO aDAO = new AutorDAO(this.connection);
@@ -345,6 +350,10 @@ public class LivroDAO extends AbstractJdbcDAO {
 				l.setIsbn(rs.getString("isbn"));
 				l.setSinopse(rs.getString("sinopse"));
 				l.setNumeroPaginas(rs.getInt("numeropaginas"));
+				l.setAtivo(rs.getBoolean("ativo"));
+				l.setQtdeEstoque(rs.getInt("qtde_estoque" ));
+				l.setPrecoCompra(rs.getDouble("preco_compra"));
+				l.setPrecoVenda(rs.getDouble("preco_venda"));
 				
 				// Faz a Busca do Autor
 				Autor autor = new Autor();
@@ -422,6 +431,12 @@ public class LivroDAO extends AbstractJdbcDAO {
 			pst.setInt( nPst , l.getGrupo().getId() );
 			nPst++;
 			pst.setBoolean(nPst, (l.getAtivo()==null)?true:l.getAtivo() );
+			nPst++;
+			pst.setInt(nPst ,  l.getQtdeEstoque() );
+			nPst++;
+			pst.setDouble(nPst ,  l.getPrecoCompra() );
+			nPst++;
+			pst.setDouble(nPst ,  l.getPrecoVenda() );
 			nPst++;
 			
 		} catch (SQLException e) {

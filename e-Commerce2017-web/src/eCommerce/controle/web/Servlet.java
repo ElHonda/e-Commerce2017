@@ -16,12 +16,16 @@ import eCommerce.controle.web.command.impl.ExcluirCommand;
 import eCommerce.controle.web.command.impl.SalvarCommand;
 import eCommerce.controle.web.command.impl.VisualizarCommand;
 import eCommerce.controle.web.vh.IViewHelper;
+import eCommerce.controle.web.vh.impl.AutorViewHelper;
 import eCommerce.controle.web.vh.impl.CarrinhoViewHelper;
+import eCommerce.controle.web.vh.impl.CategoriaViewHelper;
 import eCommerce.controle.web.vh.impl.CidadeViewHelper;
 import eCommerce.controle.web.vh.impl.ClienteViewHelper;
+import eCommerce.controle.web.vh.impl.EditoraViewHelper;
 import eCommerce.controle.web.vh.impl.EstadoViewHelper;
 import eCommerce.controle.web.vh.impl.GrupoPrecoViewHelper;
 import eCommerce.controle.web.vh.impl.LivroViewHelper;
+import eCommerce.controle.web.vh.impl.SubcategoriaViewHelper;
 import eCommerce.core.aplicacao.EOperacao;
 import eCommerce.core.aplicacao.Resultado;
 import eCommerce.dominio.EntidadeDominio;
@@ -61,12 +65,21 @@ public class Servlet extends HttpServlet {
     	
     	// Define acesso as operações
     	// LIVROS
-      	vhs.put("/e-Commerce2017-web/Livro/CriarLivro"   , new Helper(new LivroViewHelper() , EOperacao.SALVAR     ) );
-    	vhs.put("/e-Commerce2017-web/Livro/FormLivro"    , new Helper(new LivroViewHelper() , EOperacao.NOVO       , false , false ) );
-    	vhs.put("/e-Commerce2017-web/Livro/ListaLivro"   , new Helper(new LivroViewHelper() , EOperacao.CONSULTAR  ) );
-    	vhs.put("/e-Commerce2017-web/Livro/EditarLivro"  , new Helper(new LivroViewHelper() , EOperacao.VISUALIZAR ) );
-    	vhs.put("/e-Commerce2017-web/Livro/AlterarLivro" , new Helper(new LivroViewHelper() , EOperacao.ALTERAR    ) );
-    	vhs.put("/e-Commerce2017-web/Livro/ExcluirLivro" , new Helper(new LivroViewHelper() , EOperacao.EXCLUIR    ) );
+      	vhs.put("/e-Commerce2017-web/Livro/CriarLivro"    , new Helper(new LivroViewHelper() , EOperacao.SALVAR     ) );
+    	vhs.put("/e-Commerce2017-web/Livro/FormLivro"     , new Helper(new LivroViewHelper() , EOperacao.NOVO       , false , false ) );
+    	vhs.put("/e-Commerce2017-web/Livro/ListaLivro"    , new Helper(new LivroViewHelper() , EOperacao.CONSULTAR  ) );
+    	vhs.put("/e-Commerce2017-web/Livro/EditarLivro"   , new Helper(new LivroViewHelper() , EOperacao.VISUALIZAR ) );
+    	vhs.put("/e-Commerce2017-web/Livro/AlterarLivro"  , new Helper(new LivroViewHelper() , EOperacao.ALTERAR    ) );
+    	vhs.put("/e-Commerce2017-web/Livro/InativarLivro" , new Helper(new LivroViewHelper() , EOperacao.ALTERAR    ) );
+    	vhs.put("/e-Commerce2017-web/Livro/AtivarLivro"   , new Helper(new LivroViewHelper() , EOperacao.ALTERAR    ) );
+    	vhs.put("/e-Commerce2017-web/Livro/ExcluirLivro"  , new Helper(new LivroViewHelper() , EOperacao.EXCLUIR    ) );
+    	// AUTOR
+      	vhs.put("/e-Commerce2017-web/Autor/CriarAutor"   , new Helper(new AutorViewHelper() , EOperacao.SALVAR     ) );
+    	vhs.put("/e-Commerce2017-web/Autor/FormAutor"    , new Helper(new AutorViewHelper() , EOperacao.NOVO       , false , false ) );
+    	vhs.put("/e-Commerce2017-web/Autor/ListaAutor"   , new Helper(new AutorViewHelper() , EOperacao.CONSULTAR  ) );
+    	vhs.put("/e-Commerce2017-web/Autor/EditarAutor"  , new Helper(new AutorViewHelper() , EOperacao.VISUALIZAR ) );
+    	vhs.put("/e-Commerce2017-web/Autor/AlterarAutor" , new Helper(new AutorViewHelper() , EOperacao.ALTERAR    ) );
+    	vhs.put("/e-Commerce2017-web/Autor/ExcluirAutor" , new Helper(new AutorViewHelper() , EOperacao.EXCLUIR    ) );
     	// GRUPO DE PREÇO
       	vhs.put("/e-Commerce2017-web/GrupoPreco/CriarGrupo"   , new Helper(new GrupoPrecoViewHelper() , EOperacao.SALVAR     ) );
     	vhs.put("/e-Commerce2017-web/GrupoPreco/FormGrupo"    , new Helper(new GrupoPrecoViewHelper() , EOperacao.NOVO       , false , false ) );
@@ -74,6 +87,27 @@ public class Servlet extends HttpServlet {
     	vhs.put("/e-Commerce2017-web/GrupoPreco/EditarGrupo"  , new Helper(new GrupoPrecoViewHelper() , EOperacao.VISUALIZAR ) );
     	vhs.put("/e-Commerce2017-web/GrupoPreco/AlterarGrupo" , new Helper(new GrupoPrecoViewHelper() , EOperacao.ALTERAR    ) );
     	vhs.put("/e-Commerce2017-web/GrupoPreco/ExcluirGrupo" , new Helper(new GrupoPrecoViewHelper() , EOperacao.EXCLUIR    ) );
+    	// Editora
+      	vhs.put("/e-Commerce2017-web/Editora/CriarEditora"   , new Helper(new EditoraViewHelper() , EOperacao.SALVAR     ) );
+    	vhs.put("/e-Commerce2017-web/Editora/FormEditora"    , new Helper(new EditoraViewHelper() , EOperacao.NOVO       , false , false ) );
+    	vhs.put("/e-Commerce2017-web/Editora/ListaEditora"   , new Helper(new EditoraViewHelper() , EOperacao.CONSULTAR  ) );
+    	vhs.put("/e-Commerce2017-web/Editora/EditarEditora"  , new Helper(new EditoraViewHelper() , EOperacao.VISUALIZAR ) );
+    	vhs.put("/e-Commerce2017-web/Editora/AlterarEditora" , new Helper(new EditoraViewHelper() , EOperacao.ALTERAR    ) );
+    	vhs.put("/e-Commerce2017-web/Editora/ExcluirEditora" , new Helper(new EditoraViewHelper() , EOperacao.EXCLUIR    ) );
+    	// Categoria
+      	vhs.put("/e-Commerce2017-web/Categoria/CriarCategoria"   , new Helper(new CategoriaViewHelper() , EOperacao.SALVAR     ) );
+    	vhs.put("/e-Commerce2017-web/Categoria/FormCategoria"    , new Helper(new CategoriaViewHelper() , EOperacao.NOVO       , false , false ) );
+    	vhs.put("/e-Commerce2017-web/Categoria/ListaCategoria"   , new Helper(new CategoriaViewHelper() , EOperacao.CONSULTAR  ) );
+    	vhs.put("/e-Commerce2017-web/Categoria/EditarCategoria"  , new Helper(new CategoriaViewHelper() , EOperacao.VISUALIZAR ) );
+    	vhs.put("/e-Commerce2017-web/Categoria/AlterarCategoria" , new Helper(new CategoriaViewHelper() , EOperacao.ALTERAR    ) );
+    	vhs.put("/e-Commerce2017-web/Categoria/ExcluirCategoria" , new Helper(new CategoriaViewHelper() , EOperacao.EXCLUIR    ) );
+    	// Subcategoria
+      	vhs.put("/e-Commerce2017-web/Subcategoria/CriarSubcategoria"   , new Helper(new SubcategoriaViewHelper() , EOperacao.SALVAR     ) );
+    	vhs.put("/e-Commerce2017-web/Subcategoria/FormSubcategoria"    , new Helper(new SubcategoriaViewHelper() , EOperacao.NOVO       , false , false ) );
+    	vhs.put("/e-Commerce2017-web/Subcategoria/ListaSubcategoria"   , new Helper(new SubcategoriaViewHelper() , EOperacao.CONSULTAR  ) );
+    	vhs.put("/e-Commerce2017-web/Subcategoria/EditarSubcategoria"  , new Helper(new SubcategoriaViewHelper() , EOperacao.VISUALIZAR ) );
+    	vhs.put("/e-Commerce2017-web/Subcategoria/AlterarSubcategoria" , new Helper(new SubcategoriaViewHelper() , EOperacao.ALTERAR    ) );
+    	vhs.put("/e-Commerce2017-web/Subcategoria/ExcluirSubcategoria" , new Helper(new SubcategoriaViewHelper() , EOperacao.EXCLUIR    ) );
     	// Específico para compras
     	vhs.put("/e-Commerce2017-web/Carrinho/ListaCarrinho" , new Helper( new CarrinhoViewHelper() , EOperacao.CONSULTAR  ) );
     	vhs.put("/e-Commerce2017-web/Carrinho/FormCarrinho"  , new Helper( new CarrinhoViewHelper() , EOperacao.VISUALIZAR ) );

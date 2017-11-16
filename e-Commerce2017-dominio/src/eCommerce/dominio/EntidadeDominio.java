@@ -22,8 +22,14 @@ public class EntidadeDominio implements IEntidade{
 		this.dtCadastro = dtCadastro;
 	}
 	public String getDtCadastroFormatada(String format) {
+		String retorno = "";
 		SimpleDateFormat formatter = new SimpleDateFormat( format );
-	    return formatter.format( this.dtCadastro );
+		
+		if( this.dtCadastro != null ) {
+			retorno = formatter.format( this.dtCadastro );
+		}
+
+	    return retorno;
 	}
 	public boolean equals(Object obj) {
 		if( obj instanceof EntidadeDominio )
