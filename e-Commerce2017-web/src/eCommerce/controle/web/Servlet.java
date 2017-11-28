@@ -28,7 +28,11 @@ import eCommerce.controle.web.vh.impl.LivroViewHelper;
 import eCommerce.controle.web.vh.impl.SubcategoriaViewHelper;
 import eCommerce.core.aplicacao.EOperacao;
 import eCommerce.core.aplicacao.Resultado;
+import eCommerce.dominio.Cidade;
+import eCommerce.dominio.Cliente;
+import eCommerce.dominio.Endereco;
 import eCommerce.dominio.EntidadeDominio;
+import eCommerce.dominio.Estado;
 
 /**
  * Servlet implementation class Servlet
@@ -120,13 +124,14 @@ public class Servlet extends HttpServlet {
     	vhs.put("/e-Commerce2017-web/Cidade/ConsultaCidade" , new Helper( new CidadeViewHelper()  , EOperacao.CONSULTAR , true  , true  ) );
 
 
+    	vhs.put("/e-Commerce2017-web/Cliente/RegistrarCliente" , new Helper( new ClienteViewHelper() , EOperacao.SALVAR ));
     	/*
     	vhs.put("/e-Commerce2017-web/Cliente/CriarCliente"  , new ClienteViewHelper() );
     	vhs.put("/e-Commerce2017-web/Cliente/EditarCliente" , new ClienteViewHelper() );
     	vhs.put("/e-Commerce2017-web/Cliente/ListaCliente"  , new ClienteViewHelper() );
     	*/
     }
-    
+
     /** 
      * Descrição do Método
      * @param req
@@ -145,7 +150,6 @@ public class Servlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		doProcessRequest(request, response);
 	}
 	
@@ -153,16 +157,34 @@ public class Servlet extends HttpServlet {
 	protected void doProcessRequest(HttpServletRequest request, 
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+
+		ICommand command = null;
+		Resultado resultado = null;
 		
+		Cliente cli = new Cliente();
+		if( request.getSession().getAttribute("current_cliente") != null ) {
+			cli = (Cliente)request.getSession().getAttribute("current_cliente");
+		}
+		
+		if( ( cli.getId() == null || cli.getId() <= 0 ) && cli.getEnderecos().size() > 0 ) {
+			Endereco end = cli.getEnderecos().get(0);
+			// Se cidade tem ID, é certeza que é valido, pois é carregado através de uma combo
+			if( end.getCidade() != null && end.getCidade().getId() > 0 ) {
+				command = commands.get(EOperacao.CONSULTAR);
+				end.setCidade( (Cidade)command.execute(end.getCidade()).getEntidades().get(0) );
+				Cidade cid = new Cidade();
+				cid.setEstado(end.getCidade().getEstado());
+				Estado est = new Estado();
+				est.setPais(cid.getEstado().getPais());
+				request.setAttribute( "listaCidade", command.execute(cid) );
+				request.setAttribute( "listaEstado", command.execute(est) );
+			}
+		}
+		
+		System.out.println("======================================================================");
 		System.out.println("Servlet.doProcessRequest()");
-		System.out.println("Entrou na servlet..." 	   );
+		System.out.println("Entrou na servlet......."  );
 		
-		// Zera as strings de exibição de mensagem
-		request.getSession().setAttribute("errorMsg"   , "" );
-		request.getSession().setAttribute("alertMsg"   , "" );
-		request.getSession().setAttribute("infoMsg"    , "" );
-		request.getSession().setAttribute("sucessoMsg" , "" );
-		request.getSession().setAttribute("configMsg"  , "" );
 		String uri = null;
 		//JsonBuilder json = new JsonBuilder();
 		EntidadeDominio entidade;
@@ -171,22 +193,22 @@ public class Servlet extends HttpServlet {
 		uri = request.getRequestURI();
 		
 		Helper fo = vhs.get(uri);
-		System.out.println("URI: " + uri );
-		System.out.println("Operação..." + ( fo.getOperacao() == null ? "NULA" : fo.getOperacao().toString() ) );
-		System.out.println("URI: " + uri );
+		System.out.println("Operação...............: " + ( fo.getOperacao() == null ? "NULA" : fo.getOperacao().toString() ) );
+		System.out.println("URI....................: " + uri );
 		System.out.println("Tipo de Requisição JSON: " + ( fo.isJson() ? "SIM" : "NÃO" ) );
 		
 		//Obtêm um viewhelper indexado pela uri que invocou esta servlet
 		IViewHelper vh = fo.getVh();
 
-		System.out.println( "View Helper: " + vh.getClass().getName() );
+		System.out.println("View Helper............: " + vh.getClass().getName() );
+	    System.out.println("----------------------------------------------------------------------");
 		
 		
 		entidade =  vh.getEntidade(request);
 
 		//Obtêm o command para executar a respectiva operação
-		ICommand command = commands.get(fo.getOperacao());
-		Resultado resultado = null;
+		command = commands.get(fo.getOperacao());
+		resultado = null;
 		/*Executa o command que chamará a fachada para executar a operação requisitada
 		 * o retorno é uma instância da classe resultado que pode conter mensagens derro 
 		 * ou entidades de retorno

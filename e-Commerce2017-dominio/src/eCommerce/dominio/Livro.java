@@ -1,5 +1,7 @@
 package eCommerce.dominio;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +15,8 @@ public class Livro extends EntidadeDominio {
 	private Boolean ativo;
 	private Integer quantidade;
 	private Integer qtdeEstoque;
-	private Double precoCompra;
-	private Double precoVenda;
+	private BigDecimal precoCompra = new BigDecimal("0").setScale( 2 , RoundingMode.HALF_EVEN );
+	private BigDecimal precoVenda  = new BigDecimal("0").setScale( 2 , RoundingMode.HALF_EVEN );
 
 	private GrupoPrecificacao grupo;
 	private Autor autor;
@@ -23,11 +25,9 @@ public class Livro extends EntidadeDominio {
 	private List<LivroCategoria> categorias;
 	private List<LivroSubCategoria> subcategorias;
 
-
 	public Livro() {
 		this.dimensao = new Dimensao();
 	}
-	
 	public Autor getAutor() {
 		return autor;
 	}
@@ -73,7 +73,6 @@ public class Livro extends EntidadeDominio {
 	public List<LivroSubCategoria> getSubcategorias() {
 		return subcategorias;
 	}
-	
 	public void setSubcategorias(List<LivroSubCategoria> subcategorias) {
 		this.subcategorias = subcategorias;
 	}
@@ -148,11 +147,11 @@ public class Livro extends EntidadeDominio {
 		return qtdeEstoque;
 	}
 
-	public Double getPrecoCompra() {
+	public BigDecimal getPrecoCompra() {
 		return precoCompra;
 	}
 
-	public Double getPrecoVenda() {
+	public BigDecimal getPrecoVenda() {
 		return precoVenda;
 	}
 
@@ -160,11 +159,11 @@ public class Livro extends EntidadeDominio {
 		this.qtdeEstoque = qtdeEstoque;
 	}
 
-	public void setPrecoCompra(Double precoCompra) {
+	public void setPrecoCompra(BigDecimal precoCompra) {
 		this.precoCompra = precoCompra;
 	}
 
-	public void setPrecoVenda(Double precoVenda) {
+	public void setPrecoVenda(BigDecimal precoVenda) {
 		this.precoVenda = precoVenda;
 	}
 }

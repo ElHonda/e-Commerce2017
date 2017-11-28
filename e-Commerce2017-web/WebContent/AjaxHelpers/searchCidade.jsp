@@ -2,10 +2,12 @@
 pageEncoding="utf-8"%>
 <script>
 	$(document).ready(function(){
-	    $("#cliente_estado").change(function(){
+	    $("select[id^='cliente_endereco_estado_id_']").change(function(){
+	    	var elemento = $(this)[0];
+			var i = parseInt( elemento.name.substring( elemento.name.lastIndexOf( "_" ) + 1 , elemento.name.length ) );
             var estadoId = $(this).val();
             if( estadoId == null || estadoId == "" ){
-            	$("#cliente_cidade").empty().append($('<option>', {
+            	$( "#cliente_endereco_cidade_id_" + i ).empty().append($('<option>', {
             	    value: "",
             	    text: "Selecione o Estado"
             	}));
@@ -17,9 +19,9 @@ pageEncoding="utf-8"%>
 		        	dataType: "text",
 		        	success:  function(data,status){
 		        		var json = eval( '(' + data + ')' );
-		        		$('#cliente_cidade').empty();
+		        		$( "#cliente_endereco_cidade_id_" + i ).empty();
 			            for( var j in json.cidades ){
-			            	$("#cliente_cidade").append($('<option>', {
+			            	$( "#cliente_endereco_cidade_id_" + i ).append($('<option>', {
 			            	    value: json.cidades[j].id,
 			            	    text: json.cidades[j].nome
 			            	}));

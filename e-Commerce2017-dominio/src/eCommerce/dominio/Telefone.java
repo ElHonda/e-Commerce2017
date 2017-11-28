@@ -1,7 +1,7 @@
 package eCommerce.dominio;
 
 public class Telefone extends EntidadeDominio{
-	private String tipo;
+	private ETipoTelefone tipo;
 	private String ddd;
 	private String numero;
 	private EntidadeDominio telefonavel;
@@ -12,7 +12,7 @@ public class Telefone extends EntidadeDominio{
 	public void setTelefonavel(EntidadeDominio telefonavel) {
 		this.telefonavel = telefonavel;
 	}
-	public String getTipo() {
+	public ETipoTelefone getTipo() {
 		return tipo;
 	}
 	public String getDdd() {
@@ -21,7 +21,7 @@ public class Telefone extends EntidadeDominio{
 	public String getNumero() {
 		return numero;
 	}
-	public void setTipo(String tipo) {
+	public void setTipo(ETipoTelefone tipo) {
 		this.tipo = tipo;
 	}
 	public void setDdd(String ddd) {

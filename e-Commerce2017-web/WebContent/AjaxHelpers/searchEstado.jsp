@@ -2,14 +2,16 @@
 pageEncoding="utf-8"%>
 <script>
 	$(document).ready(function(){
-	    $("#cliente_pais").change(function(){
+	    $("select[id^='cliente_endereco_pais_id_']").change(function(){
+	    	var elemento = $(this)[0];
+			var i = parseInt( elemento.name.substring( elemento.name.lastIndexOf( "_" ) + 1 , elemento.name.length ) );
             var paisId = $(this).val();
             if( paisId == null || paisId == "" ){
-            	$("#cliente_estado").empty().append($('<option>', {
+            	$("#cliente_endereco_estado_id_" + i ).empty().append($('<option>', {
             	    value: "",
             	    text: "Selecione o País"
             	}));
-            	$("#cliente_estado").trigger("change");
+            	$( "#cliente_endereco_estado_id_" + i ).trigger("change");
             }else{
 		        $.ajax( {
 		        	type: "POST",
@@ -18,14 +20,14 @@ pageEncoding="utf-8"%>
 		        	dataType: "text",
 		        	success:  function(data,status){
 		        		var json = eval( '(' + data + ')' );
-		        		$('#cliente_estado').empty();
+		        		$( "#cliente_endereco_estado_id_" + i ).empty();
 			            for( var j in json.estados ){
-			            	$("#cliente_estado").append($('<option>', {
+			            	$( "#cliente_endereco_estado_id_" + i ).append($('<option>', {
 			            	    value: json.estados[j].id,
 			            	    text: json.estados[j].nome
 			            	}));
 			            }
-			        	$("#cliente_estado").trigger("change");
+			        	$( "#cliente_endereco_estado_id_" + i ).trigger("change");
 			        },
 		               
 	                //If there was no resonse from the server

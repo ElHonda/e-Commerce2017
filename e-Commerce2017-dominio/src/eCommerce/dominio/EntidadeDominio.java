@@ -32,8 +32,11 @@ public class EntidadeDominio implements IEntidade{
 	    return retorno;
 	}
 	public boolean equals(Object obj) {
-		if( obj instanceof EntidadeDominio )
-			return ((EntidadeDominio) obj).getId() == this.getId();
+		if( obj instanceof EntidadeDominio ) {
+			Integer id1 = Integer.valueOf( ((EntidadeDominio) obj).getId() );
+			Integer id2 = Integer.valueOf( this.getId() );
+			return id1.equals(id2);
+		}
 		return false;
 	}
 

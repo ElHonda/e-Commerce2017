@@ -9,8 +9,8 @@
 		<p>
 			<%
 	  			String mensagem = request.getSession().getAttribute("errorMsg").toString();
+     		    request.getSession().setAttribute("errorMsg", "");
 	     		out.print(mensagem);
-	     		request.getSession().setAttribute("errorMsg", "");
 	 		 %>
 		</p>
 	</div>
@@ -28,8 +28,8 @@
 		<p>
 			<%
 	  			String mensagem = request.getSession().getAttribute("alertMsg").toString();
+     		    request.getSession().setAttribute("alertMsg", "");
 	     		out.print(mensagem);
-	     		request.getSession().setAttribute("alertMsg", "");
 	 		 %>
 		</p>
 	</div>
@@ -45,8 +45,8 @@
 		<p>
 			<%
 	  			String mensagem = request.getSession().getAttribute("infoMsg").toString();
+     			request.getSession().setAttribute("infoMsg", "");
 	     		out.print(mensagem);
-	     		request.getSession().setAttribute("infoMsg", "");
 	 		 %>
 		</p>
 	</div>
@@ -62,8 +62,8 @@
 		<p>
 			<%
 	  			String mensagem = request.getSession().getAttribute("sucessoMsg").toString();
+ 				request.getSession().setAttribute("sucessoMsg", "");
 	     		out.print(mensagem);
-	     		request.getSession().setAttribute("sucessoMsg", "");
 	 		 %>
 		</p>
 	</div>
@@ -79,8 +79,8 @@
 		<p>
 			<%
 	  			String mensagem = request.getSession().getAttribute("configMsg").toString();
+				request.getSession().setAttribute("configMsg", "");
 	     		out.print(mensagem);
-	     		request.getSession().setAttribute("configMsg", "");
 	 		 %>
 		</p>
 	</div>

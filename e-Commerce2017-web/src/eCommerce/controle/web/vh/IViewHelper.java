@@ -15,7 +15,11 @@ import eCommerce.dominio.EntidadeDominio;
 public interface IViewHelper {
 
 	public EntidadeDominio getEntidade(HttpServletRequest request);
-	public void setView(Resultado resultado, 
-			HttpServletRequest request, HttpServletResponse response, EOperacao operacao, Boolean ajaxResponse )throws IOException, ServletException;
+	public void setView( Resultado resultado
+			           , HttpServletRequest request
+			           , HttpServletResponse response
+			           , EOperacao operacao
+			           , Boolean ajaxResponse
+			           )throws IOException, ServletException;
 	
 }

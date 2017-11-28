@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import eCommerce.core.utils.SqlBuilder;
+import eCommerce.dominio.ETipoTelefone;
 import eCommerce.dominio.EntidadeDominio;
 import eCommerce.dominio.Telefone;
 
@@ -73,7 +74,7 @@ public class TelefoneDAO extends AbstractJdbcDAO{
 				t.setId(rs.getInt("id"));
 				t.setNumero(rs.getString("numero"));
 				t.setDdd(rs.getString("ddd"));
-				t.setTipo(rs.getString("tipo"));
+				t.setTipo(ETipoTelefone.valueOf(rs.getString("tipo")));
 				
 				// Se busca foi feita pelo vinculo do objeto,
 				// subentende-se que não é necessária a busca do objeto.
@@ -106,7 +107,7 @@ public class TelefoneDAO extends AbstractJdbcDAO{
 	public Integer setPreparedStatement(EntidadeDominio entidade, PreparedStatement pst, Integer nPst) {
 		Telefone telefone = (Telefone)entidade;
 		try {
-			pst.setString(nPst, telefone.getTipo());
+			pst.setString(nPst, telefone.getTipo().toString());
 			nPst++;
 			pst.setString(nPst, telefone.getDdd());
 			nPst++;
@@ -127,8 +128,8 @@ public class TelefoneDAO extends AbstractJdbcDAO{
 		addColunas( "tipo"   			);
 		addColunas( "ddd"    			);
 		addColunas( "numero" 			);
-		addColunas( "enderecavel_id"    );
-		addColunas( "enderecavel_class" );
+		addColunas( "telefonavel_id"    );
+		addColunas( "telefonavel_class" );
 	}
 
 	@Override
@@ -161,7 +162,7 @@ public class TelefoneDAO extends AbstractJdbcDAO{
 				t.setId(rs.getInt("id"));
 				t.setNumero(rs.getString("numero"));
 				t.setDdd(rs.getString("ddd"));
-				t.setTipo(rs.getString("tipo"));
+				t.setTipo(ETipoTelefone.valueOf(rs.getString("tipo")));
 				
 				// Se busca foi feita pelo vinculo do objeto,
 				// subentende-se que não é necessária a busca do objeto.

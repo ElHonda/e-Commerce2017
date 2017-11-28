@@ -17,9 +17,6 @@ public class ComplementarDtCadastro implements IStrategy {
 		}else{
 			return "Entidade: "+extracted(entidade).getClass().getCanonicalName()+" nula!";
 		}
-		
-		
-		
 		return null;
 	}
 

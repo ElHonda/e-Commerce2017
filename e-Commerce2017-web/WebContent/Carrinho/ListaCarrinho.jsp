@@ -34,7 +34,7 @@ pageEncoding="UTF-8"%>
 			    <div class="producttitle"><%= livro.getAutor().getNome() + " " + livro.getAutor().getSobrenome() %></div>
 			    <div class="productprice">
 			    	<div class="row">
-			    		<div class="pricetext col-sm-6">R$ 8.95</div>
+			    		<div class="pricetext col-sm-6">R$ <%= livro.getPrecoVenda() %></div>
 						<div class="input-group number-spinner col-sm-6">
 							<span class="input-group-btn">
 								<button class="btn btn-danger btn-sm" <%= "data-dir=\"dwn\"" %>>-</button>

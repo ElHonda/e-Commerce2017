@@ -1,5 +1,6 @@
 package eCommerce.dominio;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,14 +13,28 @@ public class Cliente extends EntidadeDominio{
 	private Boolean ativo;
 	private String email;
 	private String senha;
+	private String senha_confirmar;
 	private ESexo sexo;
 	private String nome;
 	private Double ranking;
 	private Date dataNasc;
 	private String cpf;
-	private Telefone telefone;
+	private List<Telefone> telefones;
 	private List<Endereco> enderecos;
 	
+	public Cliente(){
+		this.ranking = 0d;
+		this.ativo = true;
+		this.telefones = new ArrayList<Telefone>();
+		this.enderecos = new ArrayList<Endereco>();
+	}
+	
+	public void addTelefone( Telefone telefone ) {
+		if( telefones == null ){
+			telefones = new ArrayList<Telefone>();
+		}
+		telefones.add(telefone);
+	}
 	public void addEndereco( Endereco endereco ) {
 		if( enderecos == null )
 			enderecos = new ArrayList<Endereco>();
@@ -58,8 +73,8 @@ public class Cliente extends EntidadeDominio{
 	public String getCpf() {
 		return cpf;
 	}
-	public Telefone getTelefone() {
-		return telefone;
+	public List<Telefone> getTelefones() {
+		return telefones;
 	}
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
@@ -82,13 +97,29 @@ public class Cliente extends EntidadeDominio{
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
 	}
 	public boolean isAdmin() {
 		return admin;
 	}
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+	public String getSenha_confirmar() {
+		return senha_confirmar;
+	}
+	public void setSenha_confirmar(String senha_confirmar) {
+		this.senha_confirmar = senha_confirmar;
+	}
+	public String getDataNascFormatada(String format) {
+		String retorno = "";
+		SimpleDateFormat formatter = new SimpleDateFormat( format );
+		
+		if( this.dataNasc != null ) {
+			retorno = formatter.format( this.dataNasc );
+		}
+
+	    return retorno;
 	}
 }

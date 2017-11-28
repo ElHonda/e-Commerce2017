@@ -1,8 +1,19 @@
+<%@page import="eCommerce.dominio.Cliente"%>
 <%@page import="eCommerce.dominio.Carrinho"%>
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
 
 <%
+
+	Cliente cliente;
+	if( request.getSession().getAttribute( "current_cliente" ) == null ){
+		cliente = new Cliente();
+	}else{
+		cliente = (Cliente)request.getSession().getAttribute( "current_cliente" );
+	}
+
+	request.getSession().setAttribute( "pageRedirect" , request.getContextPath() + request.getServletPath() );
+
 	Carrinho car;
 	if( request.getSession().getAttribute( "carrinho" ) == null ){
 		car = new Carrinho();
@@ -65,8 +76,21 @@
 				  <img src="<%=request.getContextPath()%>/resources/images/carrinho.png" width="30" height="30" alt=""><span class="carItens" id="carrinho_qtde_livros"><%= car.getLivros().size() %></span>
 				</a>
 	        </li>
-		    <jsp:include page="../Cliente/Registrar.jsp"/>
-		    <jsp:include page="../Cliente/Login.jsp"/>
+	        <%
+	        	if( cliente.getId() == null || cliente.getId() <= 0 ){
+	        %>
+		    	<jsp:include page="../Cliente/Registrar.jsp"/>
+		    	<jsp:include page="../Cliente/Login.jsp"/>
+		    <%
+		        }else{
+		    %>
+		    	<li class="nav-item navbar-text"><%= cliente.getNome() %></li>
+		    	<li class="nav-item">
+        			<a class="nav-link" href="<%=request.getContextPath()%>/Cliente/ListaCarrinho">Sair</a>
+		    	</li>
+		    <%
+		    	}
+		    %>
 		</ul>
 	</div>
 </nav>

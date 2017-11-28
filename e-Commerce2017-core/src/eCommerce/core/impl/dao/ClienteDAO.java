@@ -11,25 +11,70 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import eCommerce.core.IFachada;
-import eCommerce.core.impl.controle.Fachada;
 import eCommerce.core.utils.SqlBuilder;
 import eCommerce.dominio.Cliente;
 import eCommerce.dominio.ESexo;
 import eCommerce.dominio.Endereco;
 import eCommerce.dominio.EntidadeDominio;
+import eCommerce.dominio.Telefone;
 
 public class ClienteDAO extends AbstractJdbcDAO {
 	private List<String> colunas;
 	 
 	public ClienteDAO(Connection conexao) {
-		super( conexao, "tb_fornecedor" );
+		super( conexao, "tb_cliente" );
 	}
 	
 	public ClienteDAO() {
-		super( "tb_fornecedor" );
+		super( "tb_cliente" );
+	}
+	
+	@Override
+	public void initColumns() {
+		addColunas( 0 , "email"        );
+		addColunas( 1 , "senha"        );
+		addColunas( 2 , "nome"         );
+		addColunas( 3 , "sexo"         );
+		addColunas( 4 , "dtnascimento" );
+		addColunas( 5 , "cpf"          );
+		addColunas( 6 , "ranking"      );
+		addColunas( 7 , "ativo"        );
+		addColunas( 8 , "admin"        );
 	}
 
+	@Override
+	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
+		Cliente cliente = (Cliente)entidade;
+		EnderecoDAO eDAO = new EnderecoDAO(this.connection);
+		TelefoneDAO tDAO = new TelefoneDAO(this.connection);
+		// Faz a gravação dos Endereços
+		for( Endereco end : cliente.getEnderecos() ) {
+			end.setEnderecavel(cliente);
+			end.setDtCadastro(cliente.getDtCadastro());
+			eDAO.salvar(end);
+		}
+		
+		for( Telefone tel : cliente.getTelefones() ) {
+			tel.setTelefonavel(cliente);
+			tel.setDtCadastro(cliente.getDtCadastro());
+			tDAO.salvar(tel);
+		}
+	}
+	
+	@Override
+	public void excluir_pre( EntidadeDominio entidade ) throws SQLException{
+		Cliente cliente = (Cliente)consultar_id(entidade);
+		EnderecoDAO eDAO = new EnderecoDAO(this.connection);
+		TelefoneDAO tDAO = new TelefoneDAO(this.connection);
+
+		for( Endereco ent : cliente.getEnderecos() ) {
+			eDAO.excluir(ent);
+		}
+		for( Telefone tel : cliente.getTelefones() ) {
+			tDAO.excluir(tel);
+		}
+	}
+	
 	@Override
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) {
 		PreparedStatement pst = null;
@@ -153,8 +198,6 @@ public class ClienteDAO extends AbstractJdbcDAO {
 			nPst++;
 			pst.setString(nPst, cliente.getSexo().toString() );
 			nPst++;
-			pst.setString(nPst, cliente.getEmail() );
-			nPst++;
 			time = new Timestamp(cliente.getDataNasc().getTime());
 			pst.setTimestamp(nPst, time);
 			nPst++;
@@ -164,33 +207,12 @@ public class ClienteDAO extends AbstractJdbcDAO {
 			nPst++;
 			pst.setBoolean(nPst, cliente.getAtivo() );
 			nPst++;
+			pst.setBoolean(nPst, cliente.isAdmin() );
+			nPst++;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return nPst;
-	}
-
-	@Override
-	public void salvar_pos(EntidadeDominio entidade) throws SQLException {
-		IFachada fachada = new Fachada();
-		Cliente cliente = (Cliente)entidade;
-		for( Endereco ent : cliente.getEnderecos() ) {
-			fachada.salvar(ent);
-		}
-		
-		fachada.salvar(cliente.getTelefone());
-	}
-
-	@Override
-	public void initColumns() {
-		addColunas( 0 , "email"        );
-		addColunas( 1 , "senha"        );
-		addColunas( 2 , "nome"         );
-		addColunas( 3 , "sexo"         );
-		addColunas( 4 , "dtnascimento" );
-		addColunas( 5 , "cpf"          );
-		addColunas( 6 , "ranking"      );
-		addColunas( 7 , "ativo"        );
 	}
 
 	@Override

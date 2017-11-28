@@ -1,6 +1,7 @@
 package eCommerce.controle.web.vh.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,6 +46,8 @@ public class LivroViewHelper implements IViewHelper{
 		String largura         		= request.getParameter( "livro_dimensao_largura" 		);
 		String peso            		= request.getParameter( "livro_dimensao_peso"			);
 		String profundidade    		= request.getParameter( "livro_dimensao_profundidade"	);
+		String precocompra			= request.getParameter( "livro_precocompra"             );
+		String qtdestoque			= request.getParameter( "livro_qtdestoque"				);
 		String categoria_id    		= null;
 		String subcategoria_id 		= null;
 		String livrocategoria_id    = null;
@@ -92,7 +95,7 @@ public class LivroViewHelper implements IViewHelper{
 			}
 		}
 		
-		return buildEntidade(id, autor_id, ano, titulo, edicao, editora_id, isbn, numeroPaginas, sinopse, grupopreco_id, ativo , dimensao_id , altura, largura, peso, profundidade , categorias , subcategorias , operacao );
+		return buildEntidade(id, autor_id, ano, titulo, edicao, editora_id, isbn, numeroPaginas, sinopse, grupopreco_id, ativo , dimensao_id , altura, largura, peso, profundidade , categorias , subcategorias , operacao , precocompra, qtdestoque );
 	}
 	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, 
@@ -202,13 +205,13 @@ public class LivroViewHelper implements IViewHelper{
 		}
 		
 	}
-	public Livro buildEntidade(String id, String autor_id, String ano, String titulo, String edicao, String editora_id, String isbn, String numeroPaginas, String sinopse, String grupopreco_id, String ativo, String dimensao_id, String altura, String largura, String peso, String profundidade, List<LivroCategoria> categorias, List<LivroSubCategoria> subcategorias, String operacao) {
+	public Livro buildEntidade(String id, String autor_id, String ano, String titulo, String edicao, String editora_id, String isbn, String numeroPaginas, String sinopse, String grupopreco_id, String ativo, String dimensao_id, String altura, String largura, String peso, String profundidade, List<LivroCategoria> categorias, List<LivroSubCategoria> subcategorias, String operacao, String precocompra, String qtdestoque ) {
 		Livro livro = new Livro();
 		if( id != null && id.length() > 0) {
 			livro.setId(Integer.parseInt(id));
 		}
 		
-		if( operacao == null || operacao.length() <= 0) {
+		if( operacao == null || ( !operacao.equals("INATIVAR") && !operacao.equals("ATIVAR") ) ) {
 			if( autor_id != null && autor_id.length() > 0 ) {
 				Autor autor = new Autor();
 				autor.setId(Integer.parseInt(autor_id));
@@ -245,7 +248,12 @@ public class LivroViewHelper implements IViewHelper{
 			if( ativo != null && ativo.length() > 0 ) {
 				livro.setAtivo(Boolean.parseBoolean(ativo));
 			}
-			
+			if( precocompra != null && precocompra.length() > 0 ) {
+				livro.setPrecoCompra( new BigDecimal(precocompra));
+			}
+			if( qtdestoque != null && qtdestoque.length() > 0 ) {
+				livro.setQtdeEstoque(Integer.parseInt(qtdestoque));
+			}
 			// Faz looping nas categorias e subcategorias para atribuir o livro
 			for( LivroCategoria lc : categorias ) {
 				lc.setLivro(livro);
@@ -253,7 +261,6 @@ public class LivroViewHelper implements IViewHelper{
 			for( LivroSubCategoria lsc : subcategorias ) {
 				lsc.setLivro(livro);
 			}
-			
 			livro.setDimensao(new Dimensao());
 			if( dimensao_id != null && dimensao_id.length() > 0 ) {
 				livro.getDimensao().setId(Integer.parseInt(dimensao_id));
@@ -275,16 +282,14 @@ public class LivroViewHelper implements IViewHelper{
 			livro.setCategorias(categorias);
 			livro.setSubcategorias(subcategorias);
 		}else{
-			if( operacao.equals("INATIVAR") || operacao.equals("ATIVAR") ){
-				IFachada fachada = new Fachada();
-				livro = (Livro)fachada.consultar_id(livro).getEntidades().get(0);
-				if( operacao.equals("ATIVAR") ) {
-					livro.setAtivo(true);	
-				}else {
-					livro.setAtivo(false);
-				}
-				
+			IFachada fachada = new Fachada();
+			livro = (Livro)fachada.consultar_id(livro).getEntidades().get(0);
+			if( operacao.equals("ATIVAR") ) {
+				livro.setAtivo(true);	
+			}else {
+				livro.setAtivo(false);
 			}
+			
 		}
 		return livro;
 	}

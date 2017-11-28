@@ -6,10 +6,10 @@ pageEncoding="UTF-8"%>
         <ul class="nav navbar-nav">
         	<%
         		Cliente cliente;
-        		if( request.getAttribute( "current_cliente" ) == null ){
+        		if( request.getSession().getAttribute( "current_cliente" ) == null ){
         			cliente = new Cliente();
         		}else{
-        			cliente = (Cliente)request.getAttribute( "current_cliente" );
+        			cliente = (Cliente)request.getSession().getAttribute( "current_cliente" );
         		}
         	%>
         	<% if( cliente.isAdmin() ){ %>

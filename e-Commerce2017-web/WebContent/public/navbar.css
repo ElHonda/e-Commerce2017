@@ -1,6 +1,14 @@
 /* General sizing */
 ul.dropdown-lr.register {
-  width: 500px;
+	width: 700px;
+}
+
+.nopadding {
+	padding-left: 5px !important;
+	margin: 0px !important;
+	padding-right: 5px !important;
+	padding-bottom: 0px !important;
+	padding-top: 5px !important;
 }
 ul.dropdown-lr.login{
 	width: 300px;

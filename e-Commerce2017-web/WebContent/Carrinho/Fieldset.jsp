@@ -50,7 +50,7 @@
 		    		</div>
 				</div>
 				<div class="col-md-4">
-			    	<div>PREÇO: R$ 8.95</div>
+			    	<div>PREÇO: R$ <%= livro.getPrecoVenda().doubleValue() %></div>
 				</div>
 			</div>
 		</div>

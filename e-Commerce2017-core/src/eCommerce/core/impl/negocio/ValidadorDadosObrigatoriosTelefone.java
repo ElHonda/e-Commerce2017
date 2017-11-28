@@ -14,8 +14,8 @@ public class ValidadorDadosObrigatoriosTelefone implements IStrategy{
 			Telefone t = (Telefone)entidade;
 			StringBuilder sb = new StringBuilder();
 			
-			if( t.getTipo() == null || t.getTipo().length() <= 0 ) {
-				sb.append("Tipo de Telefone não preenchido !" ).append("<br/>");
+			if( t.getTipo() == null || t.getTipo().toString().length() <= 0 ) {
+				sb.append("Tipo de Telefone não informado !" ).append("<br/>");
 			}
 			if( t.getDdd() == null || t.getDdd().length() <= 0 ) {
 				sb.append("DDD não preenchido !" ).append("<br/>");

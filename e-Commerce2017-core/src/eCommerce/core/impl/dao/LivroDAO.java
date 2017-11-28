@@ -57,6 +57,12 @@ public class LivroDAO extends AbstractJdbcDAO {
 
 	}
 	@Override
+	public void excluir_pre( EntidadeDominio entidade ) throws SQLException{
+		Livro livro = (Livro)consultar_id(entidade);
+		DimensaoDAO dDAO = new DimensaoDAO(this.connection);
+		dDAO.excluir(livro.getDimensao());
+	}
+	@Override
 	protected void alterar_pre(EntidadeDominio entidade) throws SQLException{
 		Livro livro = (Livro)entidade;
 		Livro livroOld = (Livro)consultar_id(livro);
@@ -174,6 +180,21 @@ public class LivroDAO extends AbstractJdbcDAO {
 					hsWhere.put( lni , livro.getGrupo().getId() );
 					lni++;
 				}
+				if( livro.getQtdeEstoque() != null && livro.getQtdeEstoque() > 0 ) {
+					sb.addWhere( "qtde_estoque = ?" );
+					hsWhere.put( lni, livro.getQtdeEstoque() );
+					lni++;
+				}
+				if( livro.getPrecoCompra() != null && livro.getPrecoCompra().doubleValue() > 0 ) {
+					sb.addWhere( "preco_compra = ?" );
+					hsWhere.put( lni, livro.getPrecoCompra() );
+					lni++;
+				}
+				if( livro.getPrecoVenda() != null && livro.getPrecoVenda().doubleValue() > 0 ) {
+					sb.addWhere( "preco_venda = ?" );
+					hsWhere.put( lni, livro.getPrecoVenda() );
+					lni++;
+				}
 				if( livro.getAtivo() != null ) {
 					if( livro.getAtivo() ) {
 						sb.addWhere("ativo");
@@ -258,8 +279,8 @@ public class LivroDAO extends AbstractJdbcDAO {
 				l.setNumeroPaginas(rs.getInt("numeropaginas"));
 				l.setAtivo(rs.getBoolean("ativo"));
 				l.setQtdeEstoque(rs.getInt("qtde_estoque" ));
-				l.setPrecoCompra(rs.getDouble("preco_compra"));
-				l.setPrecoVenda(rs.getDouble("preco_venda"));
+				l.setPrecoCompra(rs.getBigDecimal("preco_compra"));
+				l.setPrecoVenda(rs.getBigDecimal("preco_venda"));
 				// Faz a Busca do Autor
 				Autor autor = new Autor();
 				AutorDAO aDAO = new AutorDAO(this.connection);
@@ -352,8 +373,8 @@ public class LivroDAO extends AbstractJdbcDAO {
 				l.setNumeroPaginas(rs.getInt("numeropaginas"));
 				l.setAtivo(rs.getBoolean("ativo"));
 				l.setQtdeEstoque(rs.getInt("qtde_estoque" ));
-				l.setPrecoCompra(rs.getDouble("preco_compra"));
-				l.setPrecoVenda(rs.getDouble("preco_venda"));
+				l.setPrecoCompra(rs.getBigDecimal("preco_compra"));
+				l.setPrecoVenda(rs.getBigDecimal("preco_venda"));
 				
 				// Faz a Busca do Autor
 				Autor autor = new Autor();
@@ -434,9 +455,9 @@ public class LivroDAO extends AbstractJdbcDAO {
 			nPst++;
 			pst.setInt(nPst ,  l.getQtdeEstoque() );
 			nPst++;
-			pst.setDouble(nPst ,  l.getPrecoCompra() );
+			pst.setBigDecimal(nPst ,  l.getPrecoCompra() );
 			nPst++;
-			pst.setDouble(nPst ,  l.getPrecoVenda() );
+			pst.setBigDecimal(nPst ,  l.getPrecoVenda() );
 			nPst++;
 			
 		} catch (SQLException e) {

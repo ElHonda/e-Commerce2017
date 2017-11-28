@@ -79,25 +79,7 @@
     <servlet-name>Servlet</servlet-name>
   	<url-pattern>/Livro/InativarLivro</url-pattern>
   </servlet-mapping>
-   <!-- END Livros -->
-  
-    <!-- Clientes -->
-  <servlet-mapping>
-    <servlet-name>Servlet</servlet-name>
-    <url-pattern>/Cliente/FormCliente</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>Servlet</servlet-name>
-    <url-pattern>/Cliente/ListaCliente</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>Servlet</servlet-name>
-  	<url-pattern>/Cliente/CriarCliente</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>Servlet</servlet-name>
-  	<url-pattern>/Cliente/EditarCliente/*</url-pattern>
-  </servlet-mapping>
+  <!-- END Livros -->
   <!-- Grupo de Preço -->
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
@@ -123,6 +105,7 @@
     <servlet-name>Servlet</servlet-name>
   	<url-pattern>/GrupoPreco/ExcluirGrupo</url-pattern>
   </servlet-mapping>
+  <!-- END Grupo de Preço -->
   <!-- Autor -->
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
@@ -148,6 +131,7 @@
     <servlet-name>Servlet</servlet-name>
   	<url-pattern>/Autor/ExcluirAutor</url-pattern>
   </servlet-mapping>
+  <!-- END Autor -->
   <!-- Editora -->
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
@@ -173,6 +157,7 @@
     <servlet-name>Servlet</servlet-name>
   	<url-pattern>/Editora/ExcluirEditora</url-pattern>
   </servlet-mapping>
+  <!-- END Editora -->
   <!-- Categoria -->
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
@@ -198,6 +183,7 @@
     <servlet-name>Servlet</servlet-name>
   	<url-pattern>/Categoria/ExcluirCategoria</url-pattern>
   </servlet-mapping>
+  <!-- END Categoria -->
   <!-- Subcategoria -->
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
@@ -222,5 +208,11 @@
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
   	<url-pattern>/Subcategoria/ExcluirSubcategoria</url-pattern>
+  </servlet-mapping>
+  <!-- END Subcategoria -->
+  <!-- Clientes -->
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+  	<url-pattern>/Cliente/RegistrarCliente</url-pattern>
   </servlet-mapping>
 </web-app>

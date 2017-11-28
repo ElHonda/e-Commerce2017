@@ -90,10 +90,12 @@ public abstract class AbstractJdbcDAO implements IDAO{
 		SqlBuilder sb = new SqlBuilder( this.table, this.colunas, this.pks );
 
 		try {
+			excluir_pre(entidade);
 			connection.setAutoCommit(false);
 			pst = connection.prepareStatement(sb.getSqlDelete());
 			pst.setObject(nPst, entidade.getId() );
 			pst.executeUpdate();
+			excluir_pos(entidade);
 			connection.commit();
 		} catch (SQLException e) {
 			try {
@@ -252,4 +254,6 @@ public abstract class AbstractJdbcDAO implements IDAO{
 	protected void salvar_pos( EntidadeDominio entidade ) throws SQLException{};
 	protected void alterar_pre( EntidadeDominio entidade ) throws SQLException{};
 	protected void alterar_pos( EntidadeDominio entidade ) throws SQLException{};
+	protected void excluir_pre( EntidadeDominio entidade ) throws SQLException{};
+	protected void excluir_pos( EntidadeDominio entidade ) throws SQLException{};
 }

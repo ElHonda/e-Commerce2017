@@ -114,19 +114,30 @@
                 %>
             </select>
         </div>
-        <div class="form-group col-sm-2">
+        <div class="form-group col-sm-3">
             <label for="livro_isbn">ISBN</label>
             <input class="form-control form-control-sm" type="text" id="livro_isbn" name="livro_isbn" value="<%= livro.getIsbn() == null ? "" : livro.getIsbn() %>"/>
         </div>
-        <div class="form-group col-sm-2">
+        <div class="form-group col-sm-3">
             <label for="livro_numeropaginas">Número de Páginas</label>
             <input class="form-control form-control-sm" type="text" id="livro_numeropaginas" name="livro_numeropaginas" value="<%= livro.getNumeroPaginas() == null ? "" : livro.getNumeroPaginas() %>"/>
         </div>
-        <div class="form-group col-sm-2">
+	</div>
+    <div class="row">
+        <div class="form-group col-sm-3">
+            <label for="livro_precocompra">Preço Compra</label>
+            <input class="form-control form-control-sm" type="number" min="0" step="0.01" id="livro_precocompra" name="livro_precocompra" value="<%= livro.getPrecoCompra() == null ? "0.00" : livro.getPrecoCompra() %>"/>
+        </div>
+        <div class="form-group col-sm-3">
+            <label for="livro_qtdestoque">Estoque</label>
+            <input class="form-control form-control-sm" type="number" min="0" step="1" id="livro_qtdestoque" name="livro_qtdestoque" value="<%= livro.getQtdeEstoque() == null ? "0" : livro.getQtdeEstoque() %>"/>
+        </div>
+        <div class="form-group col-sm-6">
             <label for="livro_sinopse">Sinopse</label>
             <input class="form-control form-control-sm" type="text" id="livro_sinopse" name="livro_sinopse" value="<%= livro.getSinopse() == null ? "" : livro.getSinopse() %>"/>
         </div>
 	</div>
+   	<div class="card-header text-center">Dimensões</div>
     <div class="row">
         <input type="hidden" name="livro_dimensao_id" id="livro_dimensao_id" value="<%= livro.getDimensao().getId() == null ? "" : livro.getDimensao().getId() %>">
         <div class="form-group col-sm-3">
